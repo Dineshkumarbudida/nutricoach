@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NutriCoach deterministic nutrition calculation demo using synthetic inputs only.">
+  <meta name="color-scheme" content="light">
+  <title>NutriCoach — Public Calculation Demo</title>
+  <style>
+    :root {
+      --ink: #162119;
+      --muted: #5f6d63;
+      --brand: #1f6a42;
+      --brand-dark: #154c2f;
+      --surface: #ffffff;
+      --surface-soft: #f3f7f1;
+      --border: #d5dfd4;
+      --success-bg: #e1f3e7;
+      --success-ink: #175431;
+      --warning-bg: #fff0bd;
+      --warning-ink: #664d00;
+      --danger-bg: #fde7e7;
+      --danger-ink: #7e2626;
+      --shadow: 0 24px 60px rgba(33, 73, 45, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 90% 0%, rgba(170, 220, 158, 0.48), transparent 30rem),
+        radial-gradient(circle at 0% 35%, rgba(218, 237, 204, 0.55), transparent 25rem),
+        #eef4ec;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    a { color: var(--brand-dark); }
+
+    button,
+    input,
+    select { font: inherit; }
+
+    button,
+    select { cursor: pointer; }
+
+    .shell {
+      width: min(1160px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 5rem;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 0.75rem;
+      color: #fff;
+      background: var(--brand);
+      box-shadow: 0 8px 20px rgba(31, 106, 66, 0.25);
+    }
+
+    .privacy-pill,
+    .badge,
+    .status {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 850;
+      letter-spacing: 0.035em;
+      text-transform: uppercase;
+    }
+
+    .privacy-pill {
+      padding: 0.55rem 0.8rem;
+      color: var(--success-ink);
+      background: var(--success-bg);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+      gap: 2rem;
+      align-items: end;
+      margin-bottom: 2rem;
+    }
+
+    .eyebrow,
+    .step {
+      margin: 0 0 0.6rem;
+      color: var(--brand);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+    }
+
+    h1 { font-size: clamp(2.8rem, 7vw, 5.8rem); }
+    h2 { font-size: clamp(1.55rem, 3vw, 2.2rem); }
+    h3 { font-size: 1.05rem; }
+
+    .lead {
+      max-width: 70ch;
+      margin: 1.25rem 0 0;
+      color: #425047;
+      font-size: 1.05rem;
+      line-height: 1.72;
+    }
+
+    .hero-note {
+      padding: 1.25rem;
+      border: 1px solid rgba(213, 223, 212, 0.9);
+      border-radius: 1.2rem;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-note strong {
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-note p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .panel {
+      margin-top: 1.4rem;
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .badge {
+      padding: 0.55rem 0.75rem;
+      color: #5c4614;
+      background: #f8e9ad;
+      white-space: nowrap;
+    }
+
+    .badge-success {
+      color: var(--success-ink);
+      background: var(--success-bg);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    label {
+      display: grid;
+      gap: 0.45rem;
+      color: #2d3930;
+      font-size: 0.88rem;
+      font-weight: 780;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-width: 0;
+      padding: 0.76rem 0.82rem;
+      border: 1px solid #b9c7b9;
+      border-radius: 0.72rem;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    input:focus-visible,
+    select:focus-visible,
+    button:focus-visible,
+    summary:focus-visible,
+    a:focus-visible {
+      outline: 3px solid rgba(31, 106, 66, 0.28);
+      outline-offset: 2px;
+    }
+
+    fieldset {
+      margin: 1.5rem 0 0;
+      padding: 0;
+      border: 0;
+    }
+
+    legend {
+      padding: 0;
+      font-weight: 900;
+    }
+
+    .hint {
+      margin: 0.45rem 0 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .nutrient-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .nutrient-row {
+      display: grid;
+      grid-template-columns: minmax(155px, 1fr) minmax(170px, 0.85fr) minmax(180px, 0.85fr) 90px;
+      gap: 0.8rem;
+      align-items: end;
+      padding: 0.9rem;
+      border: 1px solid #dfe6dd;
+      border-radius: 0.95rem;
+      background: var(--surface-soft);
+    }
+
+    .nutrient-name {
+      align-self: center;
+      font-weight: 900;
+    }
+
+    .unit {
+      display: grid;
+      align-items: center;
+      height: 2.75rem;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.4rem;
+    }
+
+    button {
+      padding: 0.82rem 1.1rem;
+      border: 0;
+      border-radius: 0.78rem;
+      color: #fff;
+      background: var(--brand);
+      font-weight: 850;
+    }
+
+    button:hover { background: var(--brand-dark); }
+
+    button.secondary {
+      color: var(--brand-dark);
+      background: #e4eee2;
+    }
+
+    button.secondary:hover { background: #d4e5d1; }
+
+    .alert {
+      margin-top: 1.2rem;
+      padding: 1rem 1.1rem;
+      border-radius: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .alert-error {
+      color: var(--danger-ink);
+      background: var(--danger-bg);
+    }
+
+    .alert-warning {
+      color: var(--warning-ink);
+      background: var(--warning-bg);
+    }
+
+    .hidden { display: none !important; }
+
+    .empty-state {
+      margin: 0;
+      padding: 2.4rem 1rem;
+      border: 1px dashed #b9c7b9;
+      border-radius: 1rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .result-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .result-summary div {
+      display: grid;
+      gap: 0.35rem;
+      padding: 1rem;
+      border-radius: 0.95rem;
+      background: var(--surface-soft);
+    }
+
+    .result-summary span {
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .result-summary strong { font-size: 1.06rem; }
+
+    .table-wrapper { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 0.9rem 0.72rem;
+      border-bottom: 1px solid #e0e7df;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    thead th {
+      color: #536058;
+      font-size: 0.74rem;
+      letter-spacing: 0.045em;
+      text-transform: uppercase;
+    }
+
+    .status {
+      padding: 0.34rem 0.54rem;
+      white-space: nowrap;
+    }
+
+    .complete {
+      color: var(--success-ink);
+      background: var(--success-bg);
+    }
+
+    .bounded {
+      color: var(--warning-ink);
+      background: var(--warning-bg);
+    }
+
+    .unbounded {
+      color: var(--danger-ink);
+      background: var(--danger-bg);
+    }
+
+    .warning-list { margin-bottom: 0; }
+
+    details {
+      margin-top: 1.2rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.9rem;
+    }
+
+    summary {
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .assumptions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .assumptions div {
+      padding: 0.9rem;
+      border-radius: 0.8rem;
+      background: var(--surface-soft);
+    }
+
+    .assumptions strong {
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .assumptions p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .scope-card {
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.95rem;
+      background: var(--surface-soft);
+    }
+
+    .scope-card ul {
+      margin: 0.8rem 0 0;
+      padding-left: 1.15rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding: 1rem 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .form-grid,
+      .scope-grid { grid-template-columns: 1fr; }
+
+      .nutrient-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .result-summary,
+      .assumptions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 1rem, 1160px); }
+      .topbar,
+      .section-heading { align-items: flex-start; }
+      .topbar { flex-direction: column; }
+      .section-heading { display: grid; }
+      .panel { border-radius: 1rem; }
+      .nutrient-row,
+      .result-summary,
+      .assumptions { grid-template-columns: 1fr; }
+      .unit { height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="topbar" aria-label="Primary">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">N</span>
+        NutriCoach
+      </a>
+      <span class="privacy-pill">Runs only in your browser</span>
+    </nav>
+
+    <main id="top">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Public foundation demo</p>
+          <h1>Transparent nutrition arithmetic.</h1>
+          <p class="lead">
+            Scale a versioned food snapshot to a portion while preserving measured, estimated,
+            below-limit, missing, and not-applicable nutrient states. This public demo uses only
+            values you enter and does not provide nutrition advice.
+          </p>
+        </div>
+        <aside class="hero-note">
+          <strong>No account. No tracking. No server.</strong>
+          <p>
+            Calculations happen locally in this page. Nothing is uploaded, stored, or sent to an AI
+            service. Refreshing the page clears the inputs.
+          </p>
+        </aside>
+      </header>
+
+      <section class="panel" aria-labelledby="input-heading">
+        <div class="section-heading">
+          <div>
+            <p class="step">Step 1</p>
+            <h2 id="input-heading">Enter a synthetic food snapshot</h2>
+          </div>
+          <span class="badge">Synthetic inputs only</span>
+        </div>
+
+        <form id="calculator-form" novalidate>
+          <div class="form-grid">
+            <label>
+              Display name
+              <input id="display-name" value="Synthetic demonstration food" required>
+            </label>
+            <label>
+              Reference mass (g)
+              <input id="reference-mass" type="number" min="0.000001" step="any" value="100" required>
+            </label>
+            <label>
+              Portion mass (g)
+              <input id="portion-mass" type="number" min="0.000001" step="any" value="250" required>
+            </label>
+          </div>
+
+          <fieldset>
+            <legend>Nutrients on the reference-mass basis</legend>
+            <p class="hint">
+              A measured zero is different from a missing value. Choose the observation state first,
+              then enter the corresponding amount or reporting limit.
+            </p>
+            <div id="nutrient-list" class="nutrient-list"></div>
+          </fieldset>
+
+          <div class="actions">
+            <button type="submit">Calculate portion</button>
+            <button id="load-example" class="secondary" type="button">Load incomplete example</button>
+            <button id="reset-form" class="secondary" type="button">Reset</button>
+          </div>
+        </form>
+
+        <div id="error-box" class="alert alert-error hidden" role="alert" aria-live="assertive"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="result-heading">
+        <div class="section-heading">
+          <div>
+            <p class="step">Step 2</p>
+            <h2 id="result-heading">Inspect the deterministic result</h2>
+          </div>
+          <span id="result-badge" class="badge badge-success hidden">Calculated locally</span>
+        </div>
+
+        <p id="empty-state" class="empty-state">
+          Submit the synthetic snapshot to see scaled totals, completeness states, and warnings.
+        </p>
+
+        <div id="result-content" class="hidden" aria-live="polite">
+          <div class="result-summary">
+            <div><span>Calculation</span><strong>Food portion</strong></div>
+            <div><span>Contract</span><strong>browser-demo/1.0.0</strong></div>
+            <div><span>Basis mass</span><strong id="basis-mass">—</strong></div>
+            <div><span>Warnings</span><strong id="warning-count">0</strong></div>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Nutrient</th>
+                  <th scope="col">Known subtotal</th>
+                  <th scope="col">Completeness</th>
+                  <th scope="col">Additional upper bound</th>
+                  <th scope="col">Interpretation</th>
+                </tr>
+              </thead>
+              <tbody id="result-body"></tbody>
+            </table>
+          </div>
+
+          <div id="warning-box" class="alert alert-warning hidden">
+            <strong>Uncertainty warnings</strong>
+            <ul id="warning-list" class="warning-list"></ul>
+          </div>
+
+          <details>
+            <summary>Calculation assumptions and provenance</summary>
+            <div class="assumptions">
+              <div>
+                <strong>Scaling</strong>
+                <p>Linear mass scaling from the declared reference basis.</p>
+              </div>
+              <div>
+                <strong>Rounding</strong>
+                <p>Values are calculated before display formatting to four decimal places.</p>
+              </div>
+              <div>
+                <strong>Source</strong>
+                <p>User-entered synthetic data; no food database is bundled into this demo.</p>
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="scope-heading">
+        <p class="step">Current scope</p>
+        <h2 id="scope-heading">What this public demo is—and is not</h2>
+        <div class="scope-grid">
+          <article class="scope-card">
+            <h3>It demonstrates</h3>
+            <ul>
+              <li>Deterministic portion scaling.</li>
+              <li>True zero versus missing-data semantics.</li>
+              <li>Bounded and unbounded uncertainty.</li>
+              <li>Transparent assumptions and warnings.</li>
+              <li>A fully client-side, no-account experience.</li>
+            </ul>
+          </article>
+          <article class="scope-card">
+            <h3>It does not yet include</h3>
+            <ul>
+              <li>A production food or recipe database.</li>
+              <li>User profiles, diaries, targets, or recommendations.</li>
+              <li>Application accounts or multi-user authorization.</li>
+              <li>Medical guidance or individualized nutrition advice.</li>
+              <li>Server-side decimal arithmetic from the Java backend.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>NutriCoach foundation demo · Apache-2.0 source</span>
+      <a href="https://github.com/Dineshkumarbudida/nutricoach" target="_blank" rel="noreferrer">View source on GitHub</a>
+    </footer>
+  </div>
+
+  <script>
+    'use strict';
+
+    const nutrients = [
+      { code: 'ENERGY', label: 'Energy', unit: 'kcal', defaultValue: '100' },
+      { code: 'PROTEIN', label: 'Protein', unit: 'g', defaultValue: '10' },
+      { code: 'CARBOHYDRATE', label: 'Carbohydrate', unit: 'g', defaultValue: '20' },
+      { code: 'FAT', label: 'Total fat', unit: 'g', defaultValue: '2' },
+      { code: 'FIBER', label: 'Dietary fiber', unit: 'g', defaultValue: '' }
+    ];
+
+    const statuses = [
+      ['MEASURED', 'Measured'],
+      ['ESTIMATED', 'Estimated'],
+      ['BELOW_REPORTING_LIMIT', 'Below reporting limit'],
+      ['MISSING', 'Missing'],
+      ['NOT_APPLICABLE', 'Not applicable']
+    ];
+
+    const nutrientList = document.getElementById('nutrient-list');
+    const form = document.getElementById('calculator-form');
+    const errorBox = document.getElementById('error-box');
+    const emptyState = document.getElementById('empty-state');
+    const resultContent = document.getElementById('result-content');
+    const resultBadge = document.getElementById('result-badge');
+    const resultBody = document.getElementById('result-body');
+    const warningBox = document.getElementById('warning-box');
+    const warningList = document.getElementById('warning-list');
+
+    function renderInputs() {
+      nutrientList.innerHTML = nutrients.map((nutrient) => {
+        const status = nutrient.defaultValue === '' ? 'MISSING' : 'MEASURED';
+        const options = statuses.map(([value, label]) =>
+          `<option value="${value}"${value === status ? ' selected' : ''}>${label}</option>`
+        ).join('');
+
+        return `
+          <div class="nutrient-row" data-code="${nutrient.code}" data-unit="${nutrient.unit}">
+            <div class="nutrient-name">${nutrient.label}</div>
+            <label>
+              Observation state
+              <select class="status-select">${options}</select>
+            </label>
+            <label class="numeric-label">
+              <span class="numeric-title">Amount</span>
+              <input class="numeric-input" type="number" min="0" step="any" value="${nutrient.defaultValue}">
+            </label>
+            <div class="unit">${nutrient.unit}</div>
+          </div>`;
+      }).join('');
+
+      nutrientList.querySelectorAll('.nutrient-row').forEach(updateRowMode);
+    }
+
+    function updateRowMode(row) {
+      const status = row.querySelector('.status-select').value;
+      const input = row.querySelector('.numeric-input');
+      const title = row.querySelector('.numeric-title');
+      const requiresAmount = status === 'MEASURED' || status === 'ESTIMATED';
+      const requiresLimit = status === 'BELOW_REPORTING_LIMIT';
+
+      input.disabled = !(requiresAmount || requiresLimit);
+      input.required = requiresAmount || requiresLimit;
+      title.textContent = requiresLimit ? 'Reporting limit' : 'Amount';
+
+      if (!input.disabled && input.value === '') {
+        input.value = requiresLimit ? '0.5' : '0';
+      }
+      if (input.disabled) input.value = '';
+    }
+
+    function positiveNumber(value, field) {
+      const parsed = Number(value);
+      if (!Number.isFinite(parsed) || parsed <= 0) {
+        throw new Error(`${field} must be a positive number.`);
+      }
+      return parsed;
+    }
+
+    function nonNegativeNumber(value, field) {
+      const parsed = Number(value);
+      if (!Number.isFinite(parsed) || parsed < 0) {
+        throw new Error(`${field} must be zero or a positive number.`);
+      }
+      return parsed;
+    }
+
+    function formatNumber(value) {
+      return new Intl.NumberFormat(undefined, { maximumFractionDigits: 4 }).format(value);
+    }
+
+    function calculate(event) {
+      event.preventDefault();
+      errorBox.classList.add('hidden');
+      errorBox.textContent = '';
+
+      try {
+        const referenceMass = positiveNumber(document.getElementById('reference-mass').value, 'Reference mass');
+        const portionMass = positiveNumber(document.getElementById('portion-mass').value, 'Portion mass');
+        const factor = portionMass / referenceMass;
+        const results = [];
+        const warnings = [];
+
+        nutrientList.querySelectorAll('.nutrient-row').forEach((row) => {
+          const code = row.dataset.code;
+          const label = row.querySelector('.nutrient-name').textContent;
+          const unit = row.dataset.unit;
+          const status = row.querySelector('.status-select').value;
+          const raw = row.querySelector('.numeric-input').value;
+          let knownAmount = 0;
+          let completeness = 'COMPLETE';
+          let additionalUpperBound = 0;
+          let interpretation = 'A numeric observation was supplied.';
+
+          if (status === 'MEASURED' || status === 'ESTIMATED') {
+            const amount = nonNegativeNumber(raw, `${label} amount`);
+            knownAmount = amount * factor;
+            if (status === 'ESTIMATED') {
+              warnings.push(`${label} includes an estimated source value.`);
+              interpretation = 'The known subtotal uses an estimated source value.';
+            }
+          } else if (status === 'BELOW_REPORTING_LIMIT') {
+            const limit = positiveNumber(raw, `${label} reporting limit`);
+            completeness = 'BOUNDED_INCOMPLETE';
+            additionalUpperBound = limit * factor;
+            interpretation = 'The actual contribution is below the displayed upper bound.';
+            warnings.push(`${label} is below a declared reporting limit.`);
+          } else {
+            completeness = 'UNBOUNDED_INCOMPLETE';
+            additionalUpperBound = null;
+            if (status === 'MISSING') {
+              interpretation = 'The known subtotal excludes missing source data.';
+              warnings.push(`${label} is incomplete because source data are missing.`);
+            } else {
+              interpretation = 'The source marked this value not applicable; it was not treated as zero.';
+              warnings.push(`${label} contains a not-applicable source value.`);
+            }
+          }
+
+          results.push({ code, label, unit, knownAmount, completeness, additionalUpperBound, interpretation });
+        });
+
+        document.getElementById('basis-mass').textContent = `${formatNumber(portionMass)} g`;
+        document.getElementById('warning-count').textContent = String(warnings.length);
+        resultBody.innerHTML = results.map((result) => {
+          const statusClass = result.completeness === 'COMPLETE'
+            ? 'complete'
+            : result.completeness === 'BOUNDED_INCOMPLETE'
+              ? 'bounded'
+              : 'unbounded';
+          const upper = result.additionalUpperBound === null
+            ? 'No defensible bound'
+            : result.completeness === 'COMPLETE'
+              ? '0'
+              : `< ${formatNumber(result.additionalUpperBound)} ${result.unit}`;
+
+          return `
+            <tr>
+              <th scope="row">${result.label}</th>
+              <td>${formatNumber(result.knownAmount)} ${result.unit}</td>
+              <td><span class="status ${statusClass}">${result.completeness.replaceAll('_', ' ')}</span></td>
+              <td>${upper}</td>
+              <td>${result.interpretation}</td>
+            </tr>`;
+        }).join('');
+
+        warningList.innerHTML = warnings.map((warning) => `<li>${warning}</li>`).join('');
+        warningBox.classList.toggle('hidden', warnings.length === 0);
+        emptyState.classList.add('hidden');
+        resultContent.classList.remove('hidden');
+        resultBadge.classList.remove('hidden');
+        document.getElementById('result-heading').scrollIntoView({ block: 'start', behavior: 'smooth' });
+      } catch (error) {
+        errorBox.textContent = error instanceof Error ? error.message : 'An unknown calculation error occurred.';
+        errorBox.classList.remove('hidden');
+      }
+    }
+
+    function loadExample() {
+      document.getElementById('display-name').value = 'Synthetic incomplete food';
+      document.getElementById('reference-mass').value = '100';
+      document.getElementById('portion-mass').value = '250';
+      const values = {
+        ENERGY: ['MEASURED', '100'],
+        PROTEIN: ['ESTIMATED', '10'],
+        CARBOHYDRATE: ['MEASURED', '20'],
+        FAT: ['BELOW_REPORTING_LIMIT', '2'],
+        FIBER: ['MISSING', '']
+      };
+
+      nutrientList.querySelectorAll('.nutrient-row').forEach((row) => {
+        const [status, value] = values[row.dataset.code];
+        row.querySelector('.status-select').value = status;
+        updateRowMode(row);
+        row.querySelector('.numeric-input').value = value;
+      });
+    }
+
+    function resetForm() {
+      document.getElementById('display-name').value = 'Synthetic demonstration food';
+      document.getElementById('reference-mass').value = '100';
+      document.getElementById('portion-mass').value = '250';
+      renderInputs();
+      errorBox.classList.add('hidden');
+      emptyState.classList.remove('hidden');
+      resultContent.classList.add('hidden');
+      resultBadge.classList.add('hidden');
+    }
+
+    nutrientList.addEventListener('change', (event) => {
+      if (event.target.classList.contains('status-select')) {
+        updateRowMode(event.target.closest('.nutrient-row'));
+      }
+    });
+
+    form.addEventListener('submit', calculate);
+    document.getElementById('load-example').addEventListener('click', loadExample);
+    document.getElementById('reset-form').addEventListener('click', resetForm);
+
+    renderInputs();
+  </script>
+</body>
+</html>
