@@ -1,0 +1,198 @@
+name: Validate and promote English planner
+
+on:
+  push:
+    branches:
+      - feature/evidence-based-english-planner
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: promote-english-planner
+  cancel-in-progress: true
+
+jobs:
+  validate-and-promote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      FEATURE_BRANCH: feature/evidence-based-english-planner
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Check out feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/evidence-based-english-planner
+          fetch-depth: 0
+
+      - name: Apply deterministic Java serial-safety repair
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('backend/src/main/java/org/nutricoach/targets/domain/TargetValidationException.java')
+          text = path.read_text(encoding='utf-8')
+          if 'serialVersionUID' not in text:
+              if 'import java.io.Serial;' not in text:
+                  text = re.sub(
+                      r'^(package\s+[^;]+;\s*)',
+                      r'\1\nimport java.io.Serial;\n',
+                      text,
+                      count=1,
+                      flags=re.MULTILINE,
+                  )
+              text, replacements = re.subn(
+                  r'(public\s+(?:final\s+)?class\s+TargetValidationException[^\{]*\{)',
+                  r'\1\n    @Serial\n    private static final long serialVersionUID = 1L;',
+                  text,
+                  count=1,
+              )
+              if replacements != 1:
+                  raise SystemExit('Could not locate TargetValidationException class declaration')
+              path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Verify repository and generated catalog
+        run: ./scripts/verify.sh
+
+      - name: Run Java calculation and target contracts
+        run: ./backend/scripts/run-core-tests.sh
+
+      - name: Test catalog and evidence tooling
+        run: python3 -m unittest scripts.tests.test_build_fdc_catalog scripts.tests.test_evidence_watch -v
+
+      - name: Test browser planner contracts
+        run: |
+          node --check public-demo/app.js
+          node --test public-demo/tests/*.test.mjs
+
+      - name: Verify Spring backend
+        run: mvn -B -ntp -f backend/pom.xml verify
+
+      - name: Verify React build
+        working-directory: web
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
+      - name: Run containerized target endpoint smoke test
+        env:
+          COMPOSE_PROJECT_NAME: nutricoach-promote-${{ github.run_id }}
+        run: |
+          set -Eeuo pipefail
+          cleanup() {
+            docker compose down -v --remove-orphans >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+          ./scripts/init-deployment.sh local
+          ./scripts/deploy.sh local
+          curl --fail --silent --show-error http://127.0.0.1:8080/api/v1/targets/estimate-adult \
+            --request POST \
+            --header 'Content-Type: application/json' \
+            --data '{
+              "ageYears": 30,
+              "heightCentimeters": 180,
+              "weightKilograms": 80,
+              "equationSet": "MALE",
+              "activityLevel": "ACTIVE",
+              "goal": "MUSCLE_GAIN",
+              "resistanceTraining": true,
+              "trainingDaysPerWeek": 4,
+              "goalAdjustmentPercentOverride": null
+            }' > /tmp/target-result.json
+          python3 - <<'PY'
+          import json
+          from decimal import Decimal
+          result = json.load(open('/tmp/target-result.json', encoding='utf-8'))
+          assert result['methodVersion'] == 'adult-targets/1.0.0'
+          assert Decimal(str(result['maintenanceEnergyKilocalories'])) == Decimal('3126.3')
+          assert Decimal(str(result['planningEnergyKilocalories'])) == Decimal('3282.6')
+          assert Decimal(str(result['proteinGrams'])) == Decimal('128.0')
+          assert result['goalAdjustmentClassification'] == 'PRODUCT_HEURISTIC'
+          PY
+
+      - name: Commit serial-safety repair when needed
+        id: repair
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add backend/src/main/java/org/nutricoach/targets/domain/TargetValidationException.java
+          if git diff --cached --quiet; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+          else
+            git commit -m 'fix: make target validation exception serial-safe'
+            git push origin "HEAD:${FEATURE_BRANCH}"
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
+          echo "head_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update pull request
+        id: pull
+        run: |
+          set -Eeuo pipefail
+          pr_number=$(gh api \
+            "repos/${GITHUB_REPOSITORY}/pulls?state=open&head=${GITHUB_REPOSITORY_OWNER}:${FEATURE_BRANCH}&base=main" \
+            --jq '.[0].number // empty')
+          if [[ -z "$pr_number" ]]; then
+            pr_number=$(gh api --method POST "repos/${GITHUB_REPOSITORY}/pulls" \
+              -f title='Evidence-linked English meal planner' \
+              -f head="${FEATURE_BRANCH}" \
+              -f base='main' \
+              -f body='Adds a saved adult target profile, versioned evidence-linked target calculations, exact-match USDA FoodData Central catalog import, English food display policy, micronutrient completeness, gap-closing suggestions, daily PubMed surveillance, and deterministic planner tests. The validation workflow runs repository, Java, Python, browser, Maven, React, Docker, catalog, and target endpoint checks before merge.' \
+              --jq '.number')
+          fi
+          echo "number=$pr_number" >> "$GITHUB_OUTPUT"
+
+      - name: Merge validated feature branch to main
+        id: merge
+        run: |
+          set -Eeuo pipefail
+          pr_number='${{ steps.pull.outputs.number }}'
+          head_sha='${{ steps.repair.outputs.head_sha }}'
+          for attempt in {1..20}; do
+            mergeable=$(gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr_number}" --jq '.mergeable')
+            [[ "$mergeable" != 'null' ]] && break
+            sleep 3
+          done
+          response=$(gh api --method PUT "repos/${GITHUB_REPOSITORY}/pulls/${pr_number}/merge" \
+            -f merge_method='merge' \
+            -f sha="$head_sha" \
+            -f commit_title='Merge evidence-linked English meal planner' \
+            -f commit_message='Validated on the feature branch with Java, Python, browser, Maven, React, Docker, catalog, and target endpoint checks.')
+          merged=$(jq -r '.merged' <<< "$response")
+          merge_sha=$(jq -r '.sha' <<< "$response")
+          message=$(jq -r '.message' <<< "$response")
+          [[ "$merged" == 'true' ]] || { echo "$message" >&2; exit 1; }
+          echo "sha=$merge_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Verify production proxy at merged revision
+        run: |
+          set -Eeuo pipefail
+          merge_sha='${{ steps.merge.outputs.sha }}'
+          pinned="https://rawcdn.githack.com/${GITHUB_REPOSITORY}/${merge_sha}/public-demo/index.html"
+          latest="https://raw.githack.com/${GITHUB_REPOSITORY}/main/public-demo/index.html"
+          verify_url() {
+            local url=$1
+            for attempt in {1..20}; do
+              if curl --fail --silent --show-error "$url" | grep -q 'Plan meals from foods available today'; then
+                return 0
+              fi
+              sleep 6
+            done
+            return 1
+          }
+          verify_url "$pinned"
+          verify_url "$latest"
+          {
+            echo '## Promotion completed'
+            echo
+            echo "- Pull request: #${{ steps.pull.outputs.number }}"
+            echo "- Merge commit: \`${merge_sha}\`"
+            echo "- Pinned production URL: ${pinned}"
+            echo "- Latest production URL: ${latest}"
+          } >> "$GITHUB_STEP_SUMMARY"
