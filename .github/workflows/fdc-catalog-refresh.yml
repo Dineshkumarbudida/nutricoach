@@ -1,0 +1,69 @@
+name: Refresh verified FDC catalog
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'feature/evidence-based-english-planner'
+    paths:
+      - 'data/catalog/english-foods.json'
+      - 'scripts/build_fdc_catalog.py'
+      - 'scripts/tests/test_build_fdc_catalog.py'
+      - '.github/workflows/fdc-catalog-refresh.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fdc-catalog-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Run importer tests
+        run: python3 -m unittest scripts.tests.test_build_fdc_catalog -v
+
+      - name: Build catalog from official USDA archive
+        id: import
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/build_fdc_catalog.py
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Validate generated JSON
+        if: always()
+        run: |
+          python3 -m json.tool public-demo/data/food-catalog.json >/dev/null
+          python3 -m json.tool data/catalog/fdc-import-report.json >/dev/null
+
+      - name: Commit generated catalog and import report
+        if: always()
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public-demo/data/food-catalog.json data/catalog/fdc-import-report.json
+          if git diff --cached --quiet; then
+            echo 'Generated catalog is already current.'
+          else
+            git commit -m 'data: refresh verified USDA food catalog'
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - name: Enforce complete catalog
+        if: always()
+        shell: bash
+        run: |
+          test '${{ steps.import.outputs.status }}' = '0'

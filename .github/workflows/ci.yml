@@ -17,8 +17,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - name: Run dependency-free calculation contract tests
+      - name: Run dependency-free calculation and target contract tests
         run: ./backend/scripts/run-core-tests.sh
+      - name: Run catalog and evidence tool tests
+        run: python3 -m unittest scripts.tests.test_build_fdc_catalog scripts.tests.test_evidence_watch -v
       - name: Verify repository structure
         run: ./scripts/verify.sh
 
@@ -42,6 +44,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22.12.0'
+      - name: Test browser planner core
+        run: node --test public-demo/tests/*.test.mjs
       - name: Install dependencies
         working-directory: web
         run: npm install --no-audit --no-fund

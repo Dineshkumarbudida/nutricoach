@@ -1,0 +1,47 @@
+name: Daily nutrition evidence watch
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 2 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  pubmed-surveillance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test evidence watcher
+        run: python3 -m unittest scripts.tests.test_evidence_watch -v
+
+      - name: Search newly indexed PubMed literature
+        run: python3 scripts/evidence_watch.py --days 7 --output evidence-watch.json
+
+      - name: Write review summary
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          data = json.load(open('evidence-watch.json', encoding='utf-8'))
+          print('# NutriCoach evidence inbox')
+          print()
+          print('This workflow is surveillance only. It never changes target or recommendation rules.')
+          print()
+          for topic in data['topics']:
+              print(f"## {topic['topic']}")
+              print(f"Returned records: {topic['returnedCount']} (PubMed reported {topic['reportedCount']})")
+              for paper in topic['papers'][:10]:
+                  print(f"- PMID {paper['pmid']}: {paper['title']}")
+              print()
+          PY
+
+      - name: Upload evidence inbox
+        uses: actions/upload-artifact@v4
+        with:
+          name: nutrition-evidence-watch-${{ github.run_id }}
+          path: evidence-watch.json
+          if-no-files-found: error
+          retention-days: 90
