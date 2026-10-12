@@ -1,0 +1,379 @@
+openapi: 3.1.0
+info:
+  title: NutriCoach Foundation API
+  version: 0.1.0
+  summary: Deterministic nutrition calculation contract
+  description: |
+    Foundation API for NutriCoach. All nutrition facts in examples are synthetic
+    test fixtures. The API does not bundle a production food database.
+servers:
+  - url: http://localhost:8080
+    description: Direct local backend
+  - url: http://localhost:8081
+    description: Docker Compose web proxy
+security: []
+tags:
+  - name: Metadata
+  - name: Calculations
+paths:
+  /api/v1/meta:
+    get:
+      tags: [Metadata]
+      operationId: getMetadata
+      summary: Describe the foundation API
+      responses:
+        '200':
+          description: API metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /api/v1/calculations/food-portions:
+    post:
+      tags: [Calculations]
+      operationId: calculateFoodPortion
+      summary: Scale a versioned food snapshot to a portion mass
+      description: |
+        Performs deterministic linear mass scaling. Missing, not-applicable,
+        estimated, measured, and below-reporting-limit observations retain their
+        distinct semantics.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoodPortionCalculationRequest'
+            examples:
+              syntheticFixture:
+                summary: Synthetic test input, not a food fact
+                value:
+                  food:
+                    foodId: synthetic-food
+                    version: '1'
+                    displayName: Synthetic fixture
+                    referenceMassGrams: 100
+                    nutrients:
+                      ENERGY: { status: MEASURED, amount: 100, reportingLimit: null }
+                      PROTEIN: { status: MEASURED, amount: 10, reportingLimit: null }
+                      CARBOHYDRATE: { status: MEASURED, amount: 20, reportingLimit: null }
+                      FAT: { status: MEASURED, amount: 2, reportingLimit: null }
+                      FIBER: { status: MISSING, amount: null, reportingLimit: null }
+                    source:
+                      sourceCode: synthetic-test
+                      sourceVersion: '1'
+                      sourceRecordId: fixture-1
+                      licenseExpression: TEST-ONLY
+                  portionMassGrams: 250
+      responses:
+        '200':
+          description: Deterministic portion calculation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionCalculationResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /api/v1/calculations/recipes:
+    post:
+      tags: [Calculations]
+      operationId: calculateRecipe
+      summary: Aggregate recipe ingredients and apply cooked-batch yield
+      description: |
+        Returns batch, per-100-g, and selected-portion calculations. The service
+        does not guess unspecified retention factors, discarded liquid, residue,
+        bones, shells, or other cooking losses.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCalculationRequest'
+      responses:
+        '200':
+          description: Deterministic recipe calculation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeCalculationResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  responses:
+    BadRequest:
+      description: Invalid or internally inconsistent calculation input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+  schemas:
+    NutrientCode:
+      type: string
+      enum: [ENERGY, PROTEIN, CARBOHYDRATE, FAT, FIBER]
+    ObservationStatus:
+      type: string
+      enum: [MEASURED, ESTIMATED, BELOW_REPORTING_LIMIT, MISSING, NOT_APPLICABLE]
+    Completeness:
+      type: string
+      enum: [COMPLETE, BOUNDED_INCOMPLETE, UNBOUNDED_INCOMPLETE]
+    NutrientUnit:
+      type: string
+      enum: [KILOCALORIE, GRAM, MILLIGRAM, MICROGRAM]
+    SourceReference:
+      type: object
+      additionalProperties: false
+      required: [sourceCode, sourceVersion, sourceRecordId, licenseExpression]
+      properties:
+        sourceCode:
+          type: string
+          minLength: 1
+        sourceVersion:
+          type: string
+          minLength: 1
+        sourceRecordId:
+          type: string
+          minLength: 1
+        licenseExpression:
+          type: string
+          minLength: 1
+    NutrientObservation:
+      type: object
+      additionalProperties: false
+      required: [status]
+      properties:
+        status:
+          $ref: '#/components/schemas/ObservationStatus'
+        amount:
+          type: [number, 'null']
+          minimum: 0
+        reportingLimit:
+          type: [number, 'null']
+          exclusiveMinimum: 0
+      allOf:
+        - if:
+            properties:
+              status:
+                enum: [MEASURED, ESTIMATED]
+          then:
+            required: [amount]
+            properties:
+              reportingLimit:
+                type: 'null'
+        - if:
+            properties:
+              status:
+                const: BELOW_REPORTING_LIMIT
+          then:
+            required: [reportingLimit]
+            properties:
+              amount:
+                type: 'null'
+        - if:
+            properties:
+              status:
+                enum: [MISSING, NOT_APPLICABLE]
+          then:
+            properties:
+              amount:
+                type: 'null'
+              reportingLimit:
+                type: 'null'
+    FoodSnapshot:
+      type: object
+      additionalProperties: false
+      required:
+        - foodId
+        - version
+        - displayName
+        - referenceMassGrams
+        - nutrients
+        - source
+      properties:
+        foodId:
+          type: string
+          minLength: 1
+        version:
+          type: string
+          minLength: 1
+        displayName:
+          type: string
+          minLength: 1
+        referenceMassGrams:
+          type: number
+          exclusiveMinimum: 0
+        nutrients:
+          type: object
+          description: Object keyed by NutrientCode. Omitted keys are treated as missing.
+          propertyNames:
+            $ref: '#/components/schemas/NutrientCode'
+          additionalProperties:
+            $ref: '#/components/schemas/NutrientObservation'
+        source:
+          $ref: '#/components/schemas/SourceReference'
+    FoodPortionCalculationRequest:
+      type: object
+      additionalProperties: false
+      required: [food, portionMassGrams]
+      properties:
+        food:
+          $ref: '#/components/schemas/FoodSnapshot'
+        portionMassGrams:
+          type: number
+          exclusiveMinimum: 0
+    RecipeIngredient:
+      type: object
+      additionalProperties: false
+      required: [food, massGrams]
+      properties:
+        food:
+          $ref: '#/components/schemas/FoodSnapshot'
+        massGrams:
+          type: number
+          exclusiveMinimum: 0
+        note:
+          type: [string, 'null']
+    RecipeCalculationRequest:
+      type: object
+      additionalProperties: false
+      required: [ingredients, cookedBatchMassGrams, portionMassGrams]
+      properties:
+        ingredients:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/RecipeIngredient'
+        cookedBatchMassGrams:
+          type: number
+          exclusiveMinimum: 0
+        portionMassGrams:
+          type: number
+          exclusiveMinimum: 0
+    NutrientTotal:
+      type: object
+      additionalProperties: false
+      required:
+        - nutrient
+        - unit
+        - knownAmount
+        - completeness
+        - measuredComponentCount
+        - estimatedComponentCount
+        - belowLimitComponentCount
+        - missingComponentCount
+        - notApplicableComponentCount
+      properties:
+        nutrient:
+          $ref: '#/components/schemas/NutrientCode'
+        unit:
+          $ref: '#/components/schemas/NutrientUnit'
+        knownAmount:
+          type: number
+          minimum: 0
+          description: Known subtotal from measured and estimated observations.
+        completeness:
+          $ref: '#/components/schemas/Completeness'
+        additionalUpperBound:
+          type: [number, 'null']
+          minimum: 0
+          description: Possible amount above knownAmount for a bounded-incomplete total.
+        measuredComponentCount:
+          type: integer
+          minimum: 0
+        estimatedComponentCount:
+          type: integer
+          minimum: 0
+        belowLimitComponentCount:
+          type: integer
+          minimum: 0
+        missingComponentCount:
+          type: integer
+          minimum: 0
+        notApplicableComponentCount:
+          type: integer
+          minimum: 0
+    CalculationWarning:
+      type: object
+      additionalProperties: false
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        nutrient:
+          oneOf:
+            - $ref: '#/components/schemas/NutrientCode'
+            - type: 'null'
+        message:
+          type: string
+    NutritionCalculationResult:
+      type: object
+      additionalProperties: false
+      required: [calculationType, calculationContractVersion, basisMassGrams, totals, sources, warnings, assumptions]
+      properties:
+        calculationType:
+          type: string
+        calculationContractVersion:
+          type: string
+          description: Version of the deterministic arithmetic and completeness contract.
+        basisMassGrams:
+          type: number
+          exclusiveMinimum: 0
+        totals:
+          type: object
+          propertyNames:
+            $ref: '#/components/schemas/NutrientCode'
+          additionalProperties:
+            $ref: '#/components/schemas/NutrientTotal'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceReference'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/CalculationWarning'
+        assumptions:
+          type: object
+          additionalProperties:
+            type: string
+    RecipeCalculationResult:
+      type: object
+      additionalProperties: false
+      required: [cookedBatchMassGrams, portionMassGrams, batch, per100Grams, portion]
+      properties:
+        cookedBatchMassGrams:
+          type: number
+          exclusiveMinimum: 0
+        portionMassGrams:
+          type: number
+          exclusiveMinimum: 0
+        batch:
+          $ref: '#/components/schemas/NutritionCalculationResult'
+        per100Grams:
+          $ref: '#/components/schemas/NutritionCalculationResult'
+        portion:
+          $ref: '#/components/schemas/NutritionCalculationResult'
+    FieldError:
+      type: object
+      additionalProperties: false
+      required: [field, message]
+      properties:
+        field:
+          type: string
+        message:
+          type: string
+    ApiError:
+      type: object
+      additionalProperties: false
+      required: [timestamp, code, message, fieldErrors]
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        code:
+          type: string
+        message:
+          type: string
+        fieldErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldError'

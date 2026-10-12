@@ -1,0 +1,63 @@
+name: nutricoach
+
+services:
+  database:
+    image: postgres:18.6-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-nutricoach}
+      POSTGRES_USER: ${POSTGRES_USER:-nutricoach}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-this-before-non-local-use}
+    volumes:
+      - nutricoach-postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    networks:
+      - nutricoach-internal
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: jdbc:postgresql://database:5432/${POSTGRES_DB:-nutricoach}
+      DATABASE_USER: ${POSTGRES_USER:-nutricoach}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-change-this-before-non-local-use}
+      DATABASE_POOL_SIZE: ${DATABASE_POOL_SIZE:-10}
+      SERVER_PORT: 8080
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:8080/actuator/health | grep -q '\"status\":\"UP\"'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    networks:
+      - nutricoach-internal
+
+  web:
+    build:
+      context: ./web
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${WEB_PORT:-8081}:8081"
+    networks:
+      - nutricoach-internal
+
+volumes:
+  nutricoach-postgres:
+
+networks:
+  nutricoach-internal:
+    driver: bridge
