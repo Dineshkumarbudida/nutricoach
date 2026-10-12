@@ -6,6 +6,7 @@ import org.nutricoach.nutrition.api.dto.RecipeCalculationRequest;
 import org.nutricoach.nutrition.application.NutritionCalculationService;
 import org.nutricoach.nutrition.domain.NutritionCalculationResult;
 import org.nutricoach.nutrition.domain.RecipeCalculationResult;
+import org.nutricoach.targets.application.DailyTargetService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +33,7 @@ public class NutritionCalculationController {
                 "milestone", "foundation",
                 "authoritativeCalculations", "deterministic-code",
                 "calculationContractVersion", NutritionCalculationService.CONTRACT_VERSION,
+                "targetMethodVersion", DailyTargetService.METHOD_VERSION,
                 "productionNutritionDataBundled", false,
                 "coreNutrients", List.of("ENERGY", "PROTEIN", "CARBOHYDRATE", "FAT", "FIBER")
         );

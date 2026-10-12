@@ -15,6 +15,7 @@ security: []
 tags:
   - name: Metadata
   - name: Calculations
+  - name: Targets
 paths:
   /api/v1/meta:
     get:
@@ -98,6 +99,32 @@ paths:
                 $ref: '#/components/schemas/RecipeCalculationResult'
         '400':
           $ref: '#/components/responses/BadRequest'
+  /api/v1/targets/estimate-adult:
+    post:
+      tags: [Targets]
+      operationId: estimateAdultTargets
+      summary: Estimate adult daily planning targets from a saved profile
+      description: |
+        Applies the versioned 2023 DRI adult Estimated Energy Requirement
+        equations, documented protein rules, fiber guidance, macro ranges, and
+        adult micronutrient reference values. The output is an estimate for
+        generally healthy, non-pregnant adults aged 19 years or older, not a
+        clinical measurement or medical prescription.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdultTargetEstimateRequest'
+      responses:
+        '200':
+          description: Versioned daily target estimate with evidence and warnings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyTargetEstimate'
+        '400':
+          $ref: '#/components/responses/BadRequest'
 components:
   responses:
     BadRequest:
@@ -107,6 +134,128 @@ components:
           schema:
             $ref: '#/components/schemas/ApiError'
   schemas:
+    EnergyEquationSet:
+      type: string
+      enum: [MALE, FEMALE]
+    ActivityLevel:
+      type: string
+      enum: [INACTIVE, LOW_ACTIVE, ACTIVE, VERY_ACTIVE]
+    Goal:
+      type: string
+      enum: [GENERAL_HEALTH, WEIGHT_MAINTENANCE, FAT_LOSS, MUSCLE_GAIN, BODY_RECOMPOSITION]
+    AdultTargetEstimateRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - ageYears
+        - heightCentimeters
+        - weightKilograms
+        - equationSet
+        - activityLevel
+        - goal
+        - resistanceTraining
+        - trainingDaysPerWeek
+      properties:
+        ageYears:
+          type: integer
+          minimum: 19
+          maximum: 120
+        heightCentimeters:
+          type: number
+          exclusiveMinimum: 0
+          maximum: 300
+        weightKilograms:
+          type: number
+          exclusiveMinimum: 0
+          maximum: 500
+        equationSet:
+          $ref: '#/components/schemas/EnergyEquationSet'
+        activityLevel:
+          $ref: '#/components/schemas/ActivityLevel'
+        goal:
+          $ref: '#/components/schemas/Goal'
+        resistanceTraining:
+          type: boolean
+        trainingDaysPerWeek:
+          type: integer
+          minimum: 0
+          maximum: 7
+        goalAdjustmentPercentOverride:
+          type: [number, 'null']
+          minimum: -15
+          maximum: 10
+    EvidenceReference:
+      type: object
+      additionalProperties: false
+      required: [id, title, sourceType, url, applicability, lastReviewed]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        sourceType: { type: string }
+        url: { type: string, format: uri }
+        applicability: { type: string }
+        lastReviewed: { type: string }
+    NutrientTarget:
+      type: object
+      additionalProperties: false
+      required: [code, displayName, amount, unit, referenceType, sourceId]
+      properties:
+        code: { type: string }
+        displayName: { type: string }
+        amount: { type: number, minimum: 0 }
+        unit: { type: string }
+        referenceType: { type: string, enum: [RDA, AI] }
+        upperOrReductionThreshold: { type: [number, 'null'], minimum: 0 }
+        sourceId: { type: string }
+    DailyTargetEstimate:
+      type: object
+      additionalProperties: false
+      required:
+        - methodVersion
+        - population
+        - maintenanceEnergyKilocalories
+        - planningEnergyKilocalories
+        - goalAdjustmentPercent
+        - goalAdjustmentClassification
+        - proteinGrams
+        - proteinFactorGramsPerKilogram
+        - fiberGrams
+        - carbohydrateMinimumGrams
+        - carbohydrateMaximumGrams
+        - fatMinimumGrams
+        - fatMaximumGrams
+        - micronutrients
+        - evidence
+        - warnings
+        - assumptions
+      properties:
+        methodVersion: { type: string }
+        population: { type: string }
+        maintenanceEnergyKilocalories: { type: number }
+        planningEnergyKilocalories: { type: number }
+        goalAdjustmentPercent: { type: number }
+        goalAdjustmentClassification: { type: string, enum: [NONE, PRODUCT_HEURISTIC] }
+        proteinGrams: { type: number }
+        proteinFactorGramsPerKilogram: { type: number }
+        fiberGrams: { type: number }
+        carbohydrateMinimumGrams: { type: number }
+        carbohydrateMaximumGrams: { type: number }
+        fatMinimumGrams: { type: number }
+        fatMaximumGrams: { type: number }
+        micronutrients:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NutrientTarget'
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvidenceReference'
+        warnings:
+          type: array
+          items: { type: string }
+        assumptions:
+          type: object
+          additionalProperties: { type: string }
     NutrientCode:
       type: string
       enum: [ENERGY, PROTEIN, CARBOHYDRATE, FAT, FIBER]
