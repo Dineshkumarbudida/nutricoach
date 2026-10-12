@@ -76,7 +76,10 @@ set +a
 if [[ ! -s secrets/postgres_password ]]; then
   random_secret > secrets/postgres_password
 fi
-chmod 600 secrets/postgres_password
+# Compose mounts a local secret with its source-file mode. The containing
+# directory remains owner-only, while 0444 lets non-root service users read the
+# read-only mount inside only the containers to which it is explicitly granted.
+chmod 444 secrets/postgres_password
 
 case "$MODE" in
   local)

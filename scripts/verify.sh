@@ -13,6 +13,7 @@ required=(
   secrets/README.md
   backend/pom.xml
   backend/Dockerfile
+  backend/docker-entrypoint.sh
   backend/src/main/resources/application.yml
   backend/src/main/resources/db/migration/V1__baseline.sql
   web/package.json

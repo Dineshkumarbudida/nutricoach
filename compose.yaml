@@ -40,12 +40,11 @@ services:
     environment:
       DATABASE_URL: jdbc:postgresql://database:5432/${POSTGRES_DB:-nutricoach}
       DATABASE_USER: ${POSTGRES_USER:-nutricoach}
+      DATABASE_PASSWORD_FILE: /run/secrets/postgres_password
       DATABASE_POOL_SIZE: ${DATABASE_POOL_SIZE:-10}
       SERVER_PORT: 8080
-      SPRING_CONFIG_IMPORT: optional:configtree:/run/secrets/
     secrets:
-      - source: postgres_password
-        target: spring.datasource.password
+      - postgres_password
     depends_on:
       database:
         condition: service_healthy

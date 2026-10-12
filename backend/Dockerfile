@@ -13,6 +13,8 @@ RUN apt-get update \
 RUN groupadd --system nutricoach && useradd --system --gid nutricoach --home /app nutricoach
 WORKDIR /app
 COPY --from=build /workspace/target/nutricoach-api-*.jar /app/nutricoach-api.jar
+COPY --chown=nutricoach:nutricoach docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod 0555 /app/docker-entrypoint.sh
 USER nutricoach
 EXPOSE 8080
-ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75", "-jar", "/app/nutricoach-api.jar"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
