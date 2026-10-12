@@ -1,17 +1,13 @@
-# NutriCoach public demo
+# NutriCoach availability-aware public prototype
 
-This directory contains a self-contained, browser-only demonstration of NutriCoach's deterministic portion-scaling and missing-data semantics.
+This directory contains a self-contained browser prototype of NutriCoach's central workflow:
 
-## Live public URL
+1. Set a goal, daily targets, normal meal times, and workout time.
+2. Select foods that are actually available today and enter the available quantities.
+3. Apply dietary pattern, cooking-access, preparation-time, and appetite constraints.
+4. Generate breakfast, lunch, pre-workout, post-workout, snack, and dinner suggestions with times, portions, preparation notes, and estimated nutrition.
+5. See when the selected stock cannot fully cover the chosen targets rather than inventing unavailable food.
 
-[Open the NutriCoach browser demo](https://rawcdn.githack.com/Dineshkumarbudida/nutricoach/d3a1bbcaba6175625ab3c13b14eff3f1a4d30af8/public-demo/index.html)
+The prototype has no account, analytics, cookies, external AI call, backend API, or production food dataset. Approximate demonstration food records are embedded in the page, all calculations happen in the browser, and the page is not medical advice.
 
-The production URL is pinned to the commit that introduced the demo, so the served page is immutable. A development URL that follows the current `main` branch is also available:
-
-`https://raw.githack.com/Dineshkumarbudida/nutricoach/main/public-demo/index.html`
-
-The page has no external JavaScript dependencies, account system, analytics, cookies, server API, or production nutrition dataset. All values are synthetic and calculations happen only in the browser.
-
-The complete Java/Spring Boot, PostgreSQL, React, and Docker Compose foundation remains in the repository root. The browser demo is intentionally narrower than the self-hosted application and is not a replacement for the authoritative backend calculation service.
-
-The free raw.githack service has no formal uptime guarantee. The repository retains the complete source so the demo can be hosted on any static web server.
+The complete Java/Spring Boot, PostgreSQL, React, and Docker Compose foundation remains in the repository root. The public prototype demonstrates the intended product workflow but is not yet the production recommendation service.

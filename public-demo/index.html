@@ -3,25 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="NutriCoach deterministic nutrition calculation demo using synthetic inputs only.">
+  <meta name="description" content="NutriCoach availability-aware daily meal planner demonstration.">
   <meta name="color-scheme" content="light">
-  <title>NutriCoach — Public Calculation Demo</title>
+  <title>NutriCoach — Availability-Aware Daily Planner</title>
   <style>
     :root {
-      --ink: #162119;
-      --muted: #5f6d63;
-      --brand: #1f6a42;
-      --brand-dark: #154c2f;
+      --ink: #142019;
+      --muted: #5d6b62;
+      --brand: #1f6b43;
+      --brand-dark: #154a30;
+      --brand-soft: #dff2e5;
       --surface: #ffffff;
-      --surface-soft: #f3f7f1;
-      --border: #d5dfd4;
-      --success-bg: #e1f3e7;
-      --success-ink: #175431;
-      --warning-bg: #fff0bd;
-      --warning-ink: #664d00;
+      --surface-soft: #f4f8f2;
+      --border: #d2ded2;
+      --warning-bg: #fff1c6;
+      --warning-ink: #624b03;
       --danger-bg: #fde7e7;
-      --danger-ink: #7e2626;
-      --shadow: 0 24px 60px rgba(33, 73, 45, 0.10);
+      --danger-ink: #7a2929;
+      --info-bg: #e7f0fb;
+      --info-ink: #244e77;
+      --shadow: 0 24px 60px rgba(30, 72, 43, 0.10);
     }
 
     * { box-sizing: border-box; }
@@ -34,25 +35,22 @@
       min-height: 100vh;
       color: var(--ink);
       background:
-        radial-gradient(circle at 90% 0%, rgba(170, 220, 158, 0.48), transparent 30rem),
-        radial-gradient(circle at 0% 35%, rgba(218, 237, 204, 0.55), transparent 25rem),
-        #eef4ec;
+        radial-gradient(circle at 95% 0%, rgba(169, 221, 157, 0.50), transparent 32rem),
+        radial-gradient(circle at 0% 45%, rgba(217, 238, 205, 0.58), transparent 27rem),
+        #edf4eb;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
+    button, input, select { font: inherit; }
+
+    button, select, input[type="checkbox"] { cursor: pointer; }
+
     a { color: var(--brand-dark); }
 
-    button,
-    input,
-    select { font: inherit; }
-
-    button,
-    select { cursor: pointer; }
-
     .shell {
-      width: min(1160px, calc(100% - 2rem));
+      width: min(1220px, calc(100% - 2rem));
       margin: 0 auto;
-      padding: 2rem 0 5rem;
+      padding: 1.5rem 0 5rem;
     }
 
     .topbar {
@@ -60,7 +58,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      margin-bottom: 3rem;
+      margin-bottom: 2.6rem;
     }
 
     .brand {
@@ -76,44 +74,51 @@
     .brand-mark {
       display: grid;
       place-items: center;
-      width: 2.4rem;
-      height: 2.4rem;
-      border-radius: 0.75rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.8rem;
       color: #fff;
       background: var(--brand);
-      box-shadow: 0 8px 20px rgba(31, 106, 66, 0.25);
+      box-shadow: 0 8px 20px rgba(31, 107, 67, 0.25);
+    }
+
+    .privacy-pill,
+    .badge,
+    .status,
+    .meal-time,
+    .food-role {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 850;
+      letter-spacing: 0.035em;
     }
 
     .privacy-pill,
     .badge,
     .status {
-      display: inline-flex;
-      align-items: center;
-      width: fit-content;
-      border-radius: 999px;
-      font-size: 0.76rem;
-      font-weight: 850;
-      letter-spacing: 0.035em;
       text-transform: uppercase;
     }
 
     .privacy-pill {
       padding: 0.55rem 0.8rem;
-      color: var(--success-ink);
-      background: var(--success-bg);
+      color: #185331;
+      background: var(--brand-soft);
     }
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
       gap: 2rem;
       align-items: end;
-      margin-bottom: 2rem;
+      margin-bottom: 1.8rem;
     }
 
     .eyebrow,
     .step {
-      margin: 0 0 0.6rem;
+      margin: 0 0 0.55rem;
       color: var(--brand);
       font-size: 0.78rem;
       font-weight: 900;
@@ -121,31 +126,30 @@
       text-transform: uppercase;
     }
 
-    h1,
-    h2,
-    h3 {
+    h1, h2, h3, h4 {
       margin: 0;
       line-height: 1.08;
-      letter-spacing: -0.035em;
+      letter-spacing: -0.032em;
     }
 
-    h1 { font-size: clamp(2.8rem, 7vw, 5.8rem); }
-    h2 { font-size: clamp(1.55rem, 3vw, 2.2rem); }
-    h3 { font-size: 1.05rem; }
+    h1 { font-size: clamp(2.7rem, 6.5vw, 5.6rem); }
+    h2 { font-size: clamp(1.5rem, 3vw, 2.15rem); }
+    h3 { font-size: 1.16rem; }
+    h4 { font-size: 1rem; }
 
     .lead {
-      max-width: 70ch;
-      margin: 1.25rem 0 0;
-      color: #425047;
+      max-width: 72ch;
+      margin: 1.2rem 0 0;
+      color: #405047;
       font-size: 1.05rem;
-      line-height: 1.72;
+      line-height: 1.7;
     }
 
     .hero-note {
       padding: 1.25rem;
-      border: 1px solid rgba(213, 223, 212, 0.9);
+      border: 1px solid rgba(210, 222, 210, 0.95);
       border-radius: 1.2rem;
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.76);
       backdrop-filter: blur(8px);
     }
 
@@ -161,11 +165,11 @@
     }
 
     .panel {
-      margin-top: 1.4rem;
-      padding: clamp(1.2rem, 4vw, 2.4rem);
+      margin-top: 1.3rem;
+      padding: clamp(1.15rem, 3.7vw, 2.35rem);
       border: 1px solid var(--border);
       border-radius: 1.5rem;
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.95);
       box-shadow: var(--shadow);
     }
 
@@ -174,41 +178,55 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 1rem;
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.55rem;
+    }
+
+    .section-heading p:last-child {
+      margin: 0.55rem 0 0;
+      color: var(--muted);
+      line-height: 1.55;
     }
 
     .badge {
       padding: 0.55rem 0.75rem;
-      color: #5c4614;
-      background: #f8e9ad;
+      color: #5d4713;
+      background: #f7e9b2;
       white-space: nowrap;
     }
 
     .badge-success {
-      color: var(--success-ink);
-      background: var(--success-bg);
+      color: #185331;
+      background: var(--brand-soft);
+    }
+
+    .badge-info {
+      color: var(--info-ink);
+      background: var(--info-bg);
     }
 
     .form-grid {
       display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1rem;
     }
 
+    .form-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .form-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
     label {
       display: grid;
-      gap: 0.45rem;
-      color: #2d3930;
-      font-size: 0.88rem;
-      font-weight: 780;
+      gap: 0.42rem;
+      color: #2b3830;
+      font-size: 0.87rem;
+      font-weight: 760;
     }
 
     input,
     select {
       width: 100%;
       min-width: 0;
-      padding: 0.76rem 0.82rem;
-      border: 1px solid #b9c7b9;
+      padding: 0.75rem 0.82rem;
+      border: 1px solid #b8c8b9;
       border-radius: 0.72rem;
       color: var(--ink);
       background: #fff;
@@ -217,184 +235,382 @@
     input:focus-visible,
     select:focus-visible,
     button:focus-visible,
-    summary:focus-visible,
-    a:focus-visible {
-      outline: 3px solid rgba(31, 106, 66, 0.28);
+    summary:focus-visible {
+      outline: 3px solid rgba(45, 126, 74, 0.32);
       outline-offset: 2px;
     }
 
     fieldset {
-      margin: 1.5rem 0 0;
-      padding: 0;
-      border: 0;
+      margin: 1.3rem 0 0;
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
     }
 
     legend {
-      padding: 0;
-      font-weight: 900;
+      padding: 0 0.45rem;
+      font-weight: 850;
     }
 
     .hint {
-      margin: 0.45rem 0 1rem;
+      margin: 0.5rem 0 1rem;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.86rem;
       line-height: 1.5;
     }
 
-    .nutrient-list {
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .nutrient-row {
-      display: grid;
-      grid-template-columns: minmax(155px, 1fr) minmax(170px, 0.85fr) minmax(180px, 0.85fr) 90px;
-      gap: 0.8rem;
-      align-items: end;
-      padding: 0.9rem;
-      border: 1px solid #dfe6dd;
-      border-radius: 0.95rem;
+    .inline-check {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-height: 2.9rem;
+      padding: 0.65rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
       background: var(--surface-soft);
     }
 
-    .nutrient-name {
-      align-self: center;
-      font-weight: 900;
+    .inline-check input {
+      width: 1.1rem;
+      height: 1.1rem;
+      flex: 0 0 auto;
     }
 
-    .unit {
-      display: grid;
-      align-items: center;
-      height: 2.75rem;
-      color: var(--muted);
+    .food-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-bottom: 1rem;
+    }
+
+    .food-toolbar button,
+    .secondary-button {
+      padding: 0.62rem 0.9rem;
+      border: 1px solid #b8c8b9;
+      border-radius: 0.72rem;
+      color: var(--brand-dark);
+      background: #fff;
       font-weight: 800;
+    }
+
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    .food-card {
+      position: relative;
+      display: grid;
+      gap: 0.75rem;
+      min-height: 175px;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      background: #fff;
+      transition: border-color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+    }
+
+    .food-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(29, 69, 41, 0.08);
+    }
+
+    .food-card.selected {
+      border-color: #4e9867;
+      box-shadow: inset 0 0 0 1px #4e9867, 0 10px 25px rgba(29, 69, 41, 0.08);
+      background: #fbfefb;
+    }
+
+    .food-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.7rem;
+    }
+
+    .food-card h3 { font-size: 1rem; }
+
+    .food-card p {
+      margin: 0.32rem 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .food-card input[type="checkbox"] {
+      width: 1.15rem;
+      height: 1.15rem;
+      flex: 0 0 auto;
+    }
+
+    .food-role {
+      padding: 0.3rem 0.48rem;
+      color: #435148;
+      background: #eef3ec;
+      font-size: 0.68rem;
+      text-transform: none;
+    }
+
+    .quantity-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.55rem;
+      align-items: end;
+      margin-top: auto;
+    }
+
+    .quantity-row span {
+      padding-bottom: 0.72rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 750;
     }
 
     .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 1.4rem;
+      gap: 0.8rem;
+      margin-top: 1.35rem;
     }
 
-    button {
-      padding: 0.82rem 1.1rem;
+    .primary-button {
+      padding: 0.82rem 1.15rem;
       border: 0;
-      border-radius: 0.78rem;
+      border-radius: 0.82rem;
       color: #fff;
       background: var(--brand);
       font-weight: 850;
     }
 
-    button:hover { background: var(--brand-dark); }
-
-    button.secondary {
-      color: var(--brand-dark);
-      background: #e4eee2;
-    }
-
-    button.secondary:hover { background: #d4e5d1; }
+    .primary-button:hover { background: var(--brand-dark); }
+    .primary-button:disabled { cursor: not-allowed; opacity: 0.58; }
 
     .alert {
       margin-top: 1.2rem;
-      padding: 1rem 1.1rem;
+      padding: 1rem 1.05rem;
       border-radius: 0.9rem;
       line-height: 1.55;
     }
 
-    .alert-error {
-      color: var(--danger-ink);
-      background: var(--danger-bg);
-    }
+    .alert strong { display: inline-block; margin-right: 0.2rem; }
+    .alert ul { margin-bottom: 0; padding-left: 1.3rem; }
 
-    .alert-warning {
-      color: var(--warning-ink);
-      background: var(--warning-bg);
-    }
+    .alert-error { color: var(--danger-ink); background: var(--danger-bg); }
+    .alert-warning { color: var(--warning-ink); background: var(--warning-bg); }
+    .alert-info { color: var(--info-ink); background: var(--info-bg); }
+    .alert-success { color: #185331; background: var(--brand-soft); }
 
     .hidden { display: none !important; }
 
-    .empty-state {
-      margin: 0;
-      padding: 2.4rem 1rem;
-      border: 1px dashed #b9c7b9;
-      border-radius: 1rem;
-      color: var(--muted);
-      text-align: center;
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1.4rem;
     }
 
-    .result-summary {
+    .summary-card {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 0.9rem;
-      margin-bottom: 1.3rem;
-    }
-
-    .result-summary div {
-      display: grid;
-      gap: 0.35rem;
+      gap: 0.3rem;
       padding: 1rem;
-      border-radius: 0.95rem;
+      border-radius: 1rem;
       background: var(--surface-soft);
     }
 
-    .result-summary span {
+    .summary-card span {
       color: var(--muted);
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 800;
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
 
-    .result-summary strong { font-size: 1.06rem; }
+    .summary-card strong { font-size: 1.12rem; }
 
-    .table-wrapper { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .progress-list {
+      display: grid;
+      gap: 0.8rem;
+      margin-bottom: 1.4rem;
     }
 
-    th,
-    td {
-      padding: 0.9rem 0.72rem;
-      border-bottom: 1px solid #e0e7df;
-      text-align: left;
-      vertical-align: top;
+    .progress-row {
+      display: grid;
+      grid-template-columns: 9rem minmax(0, 1fr) 8rem;
+      gap: 0.75rem;
+      align-items: center;
     }
 
-    thead th {
-      color: #536058;
-      font-size: 0.74rem;
-      letter-spacing: 0.045em;
+    .progress-row label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .progress-track {
+      height: 0.8rem;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e3eae1;
+    }
+
+    .progress-fill {
+      height: 100%;
+      min-width: 0;
+      border-radius: inherit;
+      background: var(--brand);
+    }
+
+    .progress-row output {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-align: right;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .meal-card {
+      display: grid;
+      grid-template-columns: 7rem minmax(0, 1fr);
+      gap: 1rem;
+      padding: 1.15rem;
+      border: 1px solid var(--border);
+      border-radius: 1.1rem;
+      background: #fff;
+    }
+
+    .meal-time {
+      justify-content: center;
+      align-self: start;
+      padding: 0.55rem 0.7rem;
+      color: #fff;
+      background: var(--brand);
+      font-size: 0.78rem;
+    }
+
+    .meal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .meal-kicker {
+      margin: 0 0 0.25rem;
+      color: var(--muted);
+      font-size: 0.77rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
     }
 
-    .status {
-      padding: 0.34rem 0.54rem;
+    .macro-line {
+      color: var(--muted);
+      font-size: 0.84rem;
+      text-align: right;
+      line-height: 1.45;
       white-space: nowrap;
     }
 
-    .complete {
-      color: var(--success-ink);
-      background: var(--success-bg);
+    .meal-items {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
 
-    .bounded {
-      color: var(--warning-ink);
-      background: var(--warning-bg);
+    .meal-items li {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.72rem 0.8rem;
+      border-radius: 0.75rem;
+      background: var(--surface-soft);
     }
 
-    .unbounded {
-      color: var(--danger-ink);
-      background: var(--danger-bg);
+    .meal-items span:last-child {
+      color: var(--muted);
+      text-align: right;
     }
 
-    .warning-list { margin-bottom: 0; }
+    .meal-notes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.85rem;
+    }
+
+    .meal-notes div {
+      padding: 0.78rem 0.85rem;
+      border-left: 3px solid #74aa82;
+      border-radius: 0.3rem 0.75rem 0.75rem 0.3rem;
+      background: #f8fbf7;
+    }
+
+    .meal-notes strong {
+      display: block;
+      margin-bottom: 0.22rem;
+      font-size: 0.8rem;
+    }
+
+    .meal-notes p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.83rem;
+      line-height: 1.5;
+    }
+
+    .status {
+      padding: 0.35rem 0.55rem;
+      white-space: nowrap;
+    }
+
+    .status-planned {
+      color: var(--info-ink);
+      background: var(--info-bg);
+    }
+
+    .status-eaten {
+      color: #185331;
+      background: var(--brand-soft);
+    }
+
+    .meal-controls {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.85rem;
+    }
+
+    .meal-controls button {
+      padding: 0.5rem 0.72rem;
+      border: 1px solid #b8c8b9;
+      border-radius: 0.65rem;
+      color: var(--brand-dark);
+      background: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .empty-state {
+      margin: 0;
+      padding: 2.3rem;
+      border: 1px dashed #b7c6b8;
+      border-radius: 1rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
 
     details {
-      margin-top: 1.2rem;
-      padding: 1rem 1.1rem;
+      margin-top: 1.25rem;
+      padding: 1rem 1.05rem;
       border: 1px solid var(--border);
       border-radius: 0.9rem;
     }
@@ -404,479 +620,1375 @@
       cursor: pointer;
     }
 
-    .assumptions {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.9rem;
-      margin-top: 1rem;
-    }
-
-    .assumptions div {
-      padding: 0.9rem;
-      border-radius: 0.8rem;
-      background: var(--surface-soft);
-    }
-
-    .assumptions strong {
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-
-    .assumptions p {
-      margin: 0;
+    details p,
+    details li {
       color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-
-    .scope-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-      margin-top: 1.2rem;
-    }
-
-    .scope-card {
-      padding: 1rem;
-      border: 1px solid var(--border);
-      border-radius: 0.95rem;
-      background: var(--surface-soft);
-    }
-
-    .scope-card ul {
-      margin: 0.8rem 0 0;
-      padding-left: 1.15rem;
-      color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.55;
     }
 
     footer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 1rem;
       margin-top: 2rem;
-      padding: 1rem 0;
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: 0.83rem;
+      line-height: 1.55;
+      text-align: center;
     }
 
-    @media (max-width: 860px) {
-      .hero,
-      .form-grid,
-      .scope-grid { grid-template-columns: 1fr; }
+    @media (max-width: 1000px) {
+      .food-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .summary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
 
-      .nutrient-row {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .result-summary,
-      .assumptions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 760px) {
+      .hero { grid-template-columns: 1fr; }
+      .food-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .meal-card { grid-template-columns: 1fr; }
+      .meal-time { justify-content: flex-start; }
+      .meal-head { display: grid; }
+      .macro-line { text-align: left; white-space: normal; }
+      .progress-row { grid-template-columns: 6rem minmax(0, 1fr); }
+      .progress-row output { grid-column: 1 / -1; text-align: left; }
     }
 
     @media (max-width: 560px) {
-      .shell { width: min(100% - 1rem, 1160px); }
-      .topbar,
-      .section-heading { align-items: flex-start; }
-      .topbar { flex-direction: column; }
-      .section-heading { display: grid; }
+      .shell { width: min(100% - 1rem, 1220px); padding-top: 1rem; }
+      .topbar { align-items: flex-start; }
+      .privacy-pill { display: none; }
       .panel { border-radius: 1rem; }
-      .nutrient-row,
-      .result-summary,
-      .assumptions { grid-template-columns: 1fr; }
-      .unit { height: auto; }
+      .section-heading { display: grid; }
+      .food-grid,
+      .form-grid,
+      .form-grid.three,
+      .form-grid.two,
+      .summary-grid,
+      .meal-items,
+      .meal-notes {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <div class="shell">
-    <nav class="topbar" aria-label="Primary">
+    <header class="topbar">
       <a class="brand" href="#top">
         <span class="brand-mark" aria-hidden="true">N</span>
-        NutriCoach
+        <span>NutriCoach</span>
       </a>
-      <span class="privacy-pill">Runs only in your browser</span>
-    </nav>
+      <span class="privacy-pill">Runs in your browser</span>
+    </header>
 
     <main id="top">
-      <header class="hero">
+      <section class="hero">
         <div>
-          <p class="eyebrow">Public foundation demo</p>
-          <h1>Transparent nutrition arithmetic.</h1>
+          <p class="eyebrow">Availability-aware planning prototype</p>
+          <h1>Tell us what food you have. Get a practical day plan.</h1>
           <p class="lead">
-            Scale a versioned food snapshot to a portion while preserving measured, estimated,
-            below-limit, missing, and not-applicable nutrient states. This public demo uses only
-            values you enter and does not provide nutrition advice.
+            Choose today's available foods, your goal, workout time, and daily targets. NutriCoach
+            creates a breakfast, lunch, pre-workout, post-workout, and dinner plan using only the
+            selected stock—then explains portions, timing, preparation, and remaining gaps.
           </p>
         </div>
         <aside class="hero-note">
-          <strong>No account. No tracking. No server.</strong>
+          <strong>This is the feature you described.</strong>
           <p>
-            Calculations happen locally in this page. Nothing is uploaded, stored, or sent to an AI
-            service. Refreshing the page clears the inputs.
+            The earlier page only demonstrated nutrient arithmetic. This prototype demonstrates
+            the actual availability-to-meal-plan workflow. It still uses approximate demo food
+            records and is not medical advice.
           </p>
         </aside>
-      </header>
+      </section>
 
-      <section class="panel" aria-labelledby="input-heading">
+      <section class="panel" aria-labelledby="profile-heading">
         <div class="section-heading">
           <div>
             <p class="step">Step 1</p>
-            <h2 id="input-heading">Enter a synthetic food snapshot</h2>
+            <h2 id="profile-heading">Set the day's goal and schedule</h2>
+            <p>Use manual targets, or let the demo estimate adult targets with a transparent equation.</p>
           </div>
-          <span class="badge">Synthetic inputs only</span>
+          <span class="badge badge-info">Editable</span>
         </div>
 
-        <form id="calculator-form" novalidate>
+        <div class="form-grid">
+          <label>
+            Goal
+            <select id="goal">
+              <option value="fat-loss">Fat loss</option>
+              <option value="muscle-gain" selected>Muscle gain</option>
+              <option value="recomposition">Body recomposition</option>
+              <option value="maintenance">Weight maintenance</option>
+              <option value="general-health">General health</option>
+            </select>
+          </label>
+
+          <label>
+            Target method
+            <select id="target-method">
+              <option value="manual" selected>Use my daily targets</option>
+              <option value="estimate">Estimate from adult profile</option>
+            </select>
+          </label>
+
+          <label>
+            Daily energy target (kcal)
+            <input id="calorie-target" type="number" min="800" max="6000" step="10" value="2300">
+          </label>
+
+          <label>
+            Daily protein target (g)
+            <input id="protein-target" type="number" min="20" max="350" step="1" value="130">
+          </label>
+        </div>
+
+        <fieldset id="estimate-fields" class="hidden">
+          <legend>Inputs used only for the target estimate</legend>
+          <p class="hint">
+            The estimate uses the Mifflin–St Jeor resting-energy equation plus an activity multiplier
+            and a modest goal adjustment. It is an estimate, not a measurement.
+          </p>
           <div class="form-grid">
             <label>
-              Display name
-              <input id="display-name" value="Synthetic demonstration food" required>
+              Age
+              <input id="age" type="number" min="18" max="100" step="1" value="28">
             </label>
             <label>
-              Reference mass (g)
-              <input id="reference-mass" type="number" min="0.000001" step="any" value="100" required>
+              Weight (kg)
+              <input id="weight" type="number" min="35" max="300" step="0.1" value="70">
             </label>
             <label>
-              Portion mass (g)
-              <input id="portion-mass" type="number" min="0.000001" step="any" value="250" required>
+              Height (cm)
+              <input id="height" type="number" min="120" max="230" step="0.1" value="175">
+            </label>
+            <label>
+              Equation coefficient
+              <select id="equation-sex">
+                <option value="male" selected>Male coefficient</option>
+                <option value="female">Female coefficient</option>
+              </select>
+            </label>
+            <label>
+              Activity level
+              <select id="activity">
+                <option value="1.2">Mostly sedentary</option>
+                <option value="1.375">Lightly active</option>
+                <option value="1.55" selected>Moderately active</option>
+                <option value="1.725">Very active</option>
+              </select>
             </label>
           </div>
+        </fieldset>
 
-          <fieldset>
-            <legend>Nutrients on the reference-mass basis</legend>
-            <p class="hint">
-              A measured zero is different from a missing value. Choose the observation state first,
-              then enter the corresponding amount or reporting limit.
-            </p>
-            <div id="nutrient-list" class="nutrient-list"></div>
-          </fieldset>
-
-          <div class="actions">
-            <button type="submit">Calculate portion</button>
-            <button id="load-example" class="secondary" type="button">Load incomplete example</button>
-            <button id="reset-form" class="secondary" type="button">Reset</button>
+        <fieldset>
+          <legend>Today's timing</legend>
+          <div class="form-grid">
+            <label>
+              Breakfast time
+              <input id="breakfast-time" type="time" value="08:00">
+            </label>
+            <label>
+              Lunch time
+              <input id="lunch-time" type="time" value="13:00">
+            </label>
+            <label>
+              Dinner time
+              <input id="dinner-time" type="time" value="21:00">
+            </label>
+            <label class="inline-check">
+              <input id="training-today" type="checkbox" checked>
+              Training today
+            </label>
+            <label>
+              Workout time
+              <input id="workout-time" type="time" value="18:30">
+            </label>
+            <label>
+              Plan from
+              <select id="plan-from">
+                <option value="all" selected>Breakfast onward</option>
+                <option value="after-breakfast">After breakfast</option>
+                <option value="after-lunch">After lunch</option>
+                <option value="after-workout">After workout</option>
+                <option value="dinner-only">Dinner only</option>
+              </select>
+            </label>
           </div>
-        </form>
+        </fieldset>
 
-        <div id="error-box" class="alert alert-error hidden" role="alert" aria-live="assertive"></div>
+        <fieldset>
+          <legend>Already consumed today</legend>
+          <p class="hint">
+            These totals are subtracted before the planner allocates the remaining meals. Planned
+            meals are not counted as eaten until you mark them as eaten.
+          </p>
+          <div class="form-grid three">
+            <label>
+              Energy already eaten (kcal)
+              <input id="consumed-calories" type="number" min="0" max="6000" step="10" value="0">
+            </label>
+            <label>
+              Protein already eaten (g)
+              <input id="consumed-protein" type="number" min="0" max="350" step="1" value="0">
+            </label>
+            <label>
+              Fiber already eaten (g)
+              <input id="consumed-fiber" type="number" min="0" max="100" step="0.5" value="0">
+            </label>
+          </div>
+        </fieldset>
       </section>
 
-      <section class="panel" aria-labelledby="result-heading">
+      <section class="panel" aria-labelledby="availability-heading">
         <div class="section-heading">
           <div>
             <p class="step">Step 2</p>
-            <h2 id="result-heading">Inspect the deterministic result</h2>
+            <h2 id="availability-heading">What is available today?</h2>
+            <p>Select foods and enter the maximum amount available for the rest of the day.</p>
           </div>
-          <span id="result-badge" class="badge badge-success hidden">Calculated locally</span>
+          <span id="selected-count" class="badge">0 selected</span>
         </div>
 
-        <p id="empty-state" class="empty-state">
-          Submit the synthetic snapshot to see scaled totals, completeness states, and warnings.
-        </p>
-
-        <div id="result-content" class="hidden" aria-live="polite">
-          <div class="result-summary">
-            <div><span>Calculation</span><strong>Food portion</strong></div>
-            <div><span>Contract</span><strong>browser-demo/1.0.0</strong></div>
-            <div><span>Basis mass</span><strong id="basis-mass">—</strong></div>
-            <div><span>Warnings</span><strong id="warning-count">0</strong></div>
-          </div>
-
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">Nutrient</th>
-                  <th scope="col">Known subtotal</th>
-                  <th scope="col">Completeness</th>
-                  <th scope="col">Additional upper bound</th>
-                  <th scope="col">Interpretation</th>
-                </tr>
-              </thead>
-              <tbody id="result-body"></tbody>
-            </table>
-          </div>
-
-          <div id="warning-box" class="alert alert-warning hidden">
-            <strong>Uncertainty warnings</strong>
-            <ul id="warning-list" class="warning-list"></ul>
-          </div>
-
-          <details>
-            <summary>Calculation assumptions and provenance</summary>
-            <div class="assumptions">
-              <div>
-                <strong>Scaling</strong>
-                <p>Linear mass scaling from the declared reference basis.</p>
-              </div>
-              <div>
-                <strong>Rounding</strong>
-                <p>Values are calculated before display formatting to four decimal places.</p>
-              </div>
-              <div>
-                <strong>Source</strong>
-                <p>User-entered synthetic data; no food database is bundled into this demo.</p>
-              </div>
-            </div>
-          </details>
+        <div class="food-toolbar">
+          <button type="button" data-preset="example">Select your example</button>
+          <button type="button" data-preset="vegetarian">Vegetarian basics</button>
+          <button type="button" data-preset="nonveg">Non-veg basics</button>
+          <button type="button" data-preset="clear">Clear all</button>
         </div>
+
+        <div id="food-grid" class="food-grid" aria-live="polite"></div>
       </section>
 
-      <section class="panel" aria-labelledby="scope-heading">
-        <p class="step">Current scope</p>
-        <h2 id="scope-heading">What this public demo is—and is not</h2>
-        <div class="scope-grid">
-          <article class="scope-card">
-            <h3>It demonstrates</h3>
+      <section class="panel" aria-labelledby="constraints-heading">
+        <div class="section-heading">
+          <div>
+            <p class="step">Step 3</p>
+            <h2 id="constraints-heading">Apply practical constraints</h2>
+            <p>The planner filters incompatible foods before it scores meal combinations.</p>
+          </div>
+          <span class="badge badge-success">Hard constraints first</span>
+        </div>
+
+        <div class="form-grid">
+          <label>
+            Dietary pattern
+            <select id="diet-pattern">
+              <option value="nonveg">Non-vegetarian</option>
+              <option value="egg-vegetarian" selected>Vegetarian + eggs</option>
+              <option value="vegetarian">Vegetarian</option>
+            </select>
+          </label>
+          <label>
+            Cooking access
+            <select id="cooking-access">
+              <option value="none">No cooking</option>
+              <option value="basic" selected>Basic cooking</option>
+              <option value="full">Full kitchen</option>
+            </select>
+          </label>
+          <label>
+            Maximum active prep per meal
+            <select id="prep-limit">
+              <option value="5">5 minutes</option>
+              <option value="15" selected>15 minutes</option>
+              <option value="30">30 minutes</option>
+              <option value="60">60 minutes</option>
+            </select>
+          </label>
+          <label>
+            Portion preference
+            <select id="appetite">
+              <option value="0.85">Smaller portions</option>
+              <option value="1" selected>Regular portions</option>
+              <option value="1.15">Larger portions</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="generate-plan" class="primary-button" type="button">Build today's meal plan</button>
+          <button id="reset-demo" class="secondary-button" type="button">Reset demo</button>
+        </div>
+
+        <div id="form-error" class="alert alert-error hidden" role="alert"></div>
+      </section>
+
+      <section id="plan-panel" class="panel" aria-labelledby="plan-heading">
+        <div class="section-heading">
+          <div>
+            <p class="step">Step 4</p>
+            <h2 id="plan-heading">Your availability-aware plan</h2>
+            <p>Every suggestion below uses selected foods and respects the remaining stock.</p>
+          </div>
+          <span id="plan-status" class="badge badge-info">Waiting for inputs</span>
+        </div>
+
+        <div id="empty-plan" class="empty-state">
+          Choose today's foods and build a plan. Try the “Select your example” preset for eggs,
+          paneer, and oats.
+        </div>
+
+        <div id="plan-content" class="hidden">
+          <div id="summary-grid" class="summary-grid"></div>
+          <div id="progress-list" class="progress-list"></div>
+          <div id="plan-alerts"></div>
+          <div id="timeline" class="timeline"></div>
+
+          <details>
+            <summary>How this planner made the decision</summary>
             <ul>
-              <li>Deterministic portion scaling.</li>
-              <li>True zero versus missing-data semantics.</li>
-              <li>Bounded and unbounded uncertainty.</li>
-              <li>Transparent assumptions and warnings.</li>
-              <li>A fully client-side, no-account experience.</li>
+              <li>It subtracts already consumed energy and protein from the selected daily targets.</li>
+              <li>It creates meal slots around the chosen breakfast, lunch, workout, and dinner times.</li>
+              <li>It filters foods by dietary pattern, preparation access, and available quantity.</li>
+              <li>It scores feasible combinations for energy, protein, workout timing, variety, and meal practicality.</li>
+              <li>It never uses more food than the available quantity entered above.</li>
+              <li>It reports gaps when the selected stock cannot reasonably meet the targets.</li>
             </ul>
-          </article>
-          <article class="scope-card">
-            <h3>It does not yet include</h3>
-            <ul>
-              <li>A production food or recipe database.</li>
-              <li>User profiles, diaries, targets, or recommendations.</li>
-              <li>Application accounts or multi-user authorization.</li>
-              <li>Medical guidance or individualized nutrition advice.</li>
-              <li>Server-side decimal arithmetic from the Java backend.</li>
-            </ul>
-          </article>
+          </details>
+
+          <details>
+            <summary>Data and safety limitations</summary>
+            <p>
+              Food values in this public prototype are approximate demonstration records. Paneer,
+              curd, fish, cooked dishes, and household portions can vary substantially. A production
+              release must use versioned, rights-cleared food records and disclose recipe and portion
+              uncertainty. This is a general-wellness planning demonstration, not a therapeutic diet,
+              diagnosis, or medical prescription.
+            </p>
+          </details>
         </div>
       </section>
     </main>
 
     <footer>
-      <span>NutriCoach foundation demo · Apache-2.0 source</span>
-      <a href="https://github.com/Dineshkumarbudida/nutricoach" target="_blank" rel="noreferrer">View source on GitHub</a>
+      NutriCoach public prototype · Open-source project · No account, analytics, cookies, paid API,
+      or external AI call. Settings may be saved only in this browser's local storage.
     </footer>
   </div>
 
   <script>
     'use strict';
 
-    const nutrients = [
-      { code: 'ENERGY', label: 'Energy', unit: 'kcal', defaultValue: '100' },
-      { code: 'PROTEIN', label: 'Protein', unit: 'g', defaultValue: '10' },
-      { code: 'CARBOHYDRATE', label: 'Carbohydrate', unit: 'g', defaultValue: '20' },
-      { code: 'FAT', label: 'Total fat', unit: 'g', defaultValue: '2' },
-      { code: 'FIBER', label: 'Dietary fiber', unit: 'g', defaultValue: '' }
+    const FOOD_DATA = [
+      {
+        id: 'eggs', name: 'Eggs', category: 'protein', diet: 'egg', unit: 'eggs',
+        increment: 1, defaultQty: 6, perIncrement: { kcal: 72, protein: 6.3, carbs: 0.4, fat: 4.8, fiber: 0 },
+        maxPerMeal: 4, prep: 8, access: 'basic',
+        slots: { breakfast: 10, lunch: 7, pre: 3, post: 9, dinner: 8, snack: 7 },
+        prepText: 'Boil, poach, or scramble with minimal added oil.'
+      },
+      {
+        id: 'paneer', name: 'Paneer', category: 'protein', diet: 'vegetarian', unit: 'g',
+        increment: 50, defaultQty: 250, perIncrement: { kcal: 133, protein: 9.2, carbs: 1.7, fat: 10.4, fiber: 0 },
+        maxPerMeal: 4, prep: 10, access: 'basic',
+        slots: { breakfast: 6, lunch: 10, pre: 1, post: 6, dinner: 10, snack: 5 },
+        prepText: 'Cube and pan-sear with spices; avoid extra oil when the meal is already high in fat.'
+      },
+      {
+        id: 'oats', name: 'Oats', category: 'carb', diet: 'vegetarian', unit: 'g',
+        increment: 20, defaultQty: 160, perIncrement: { kcal: 76, protein: 2.6, carbs: 13.6, fat: 1.4, fiber: 2 },
+        maxPerMeal: 4, prep: 7, access: 'basic',
+        slots: { breakfast: 10, lunch: 3, pre: 10, post: 7, dinner: 4, snack: 8 },
+        prepText: 'Cook with water or milk; use a thinner texture before training if preferred.'
+      },
+      {
+        id: 'milk', name: 'Milk', category: 'dairy', diet: 'vegetarian', unit: 'ml',
+        increment: 100, defaultQty: 500, perIncrement: { kcal: 60, protein: 3.2, carbs: 4.8, fat: 3.2, fiber: 0 },
+        maxPerMeal: 4, prep: 1, access: 'none',
+        slots: { breakfast: 8, lunch: 3, pre: 7, post: 8, dinner: 4, snack: 9 },
+        prepText: 'Serve chilled or warm; combine with oats when convenient.'
+      },
+      {
+        id: 'curd', name: 'Curd / yogurt', category: 'dairy', diet: 'vegetarian', unit: 'g',
+        increment: 100, defaultQty: 400, perIncrement: { kcal: 60, protein: 3.5, carbs: 4.5, fat: 3, fiber: 0 },
+        maxPerMeal: 3, prep: 1, access: 'none',
+        slots: { breakfast: 6, lunch: 8, pre: 6, post: 7, dinner: 8, snack: 9 },
+        prepText: 'Serve plain; use as a quick side or combine with oats.'
+      },
+      {
+        id: 'peas', name: 'Green peas', category: 'produce', diet: 'vegetarian', unit: 'g',
+        increment: 50, defaultQty: 250, perIncrement: { kcal: 42, protein: 2.7, carbs: 7.5, fat: 0.2, fiber: 2.8 },
+        maxPerMeal: 4, prep: 10, access: 'basic',
+        slots: { breakfast: 3, lunch: 9, pre: 3, post: 5, dinner: 9, snack: 3 },
+        prepText: 'Steam or sauté briefly with spices.'
+      },
+      {
+        id: 'chicken', name: 'Chicken breast, cooked', category: 'protein', diet: 'nonveg', unit: 'g',
+        increment: 50, defaultQty: 300, perIncrement: { kcal: 83, protein: 15.5, carbs: 0, fat: 1.8, fiber: 0 },
+        maxPerMeal: 4, prep: 15, access: 'basic',
+        slots: { breakfast: 2, lunch: 10, pre: 1, post: 10, dinner: 10, snack: 3 },
+        prepText: 'Use cooked or grilled chicken; reheat safely and avoid excessive added oil.'
+      },
+      {
+        id: 'fish', name: 'Fish, cooked', category: 'protein', diet: 'nonveg', unit: 'g',
+        increment: 50, defaultQty: 250, perIncrement: { kcal: 75, protein: 13, carbs: 0, fat: 2.5, fiber: 0 },
+        maxPerMeal: 4, prep: 15, access: 'basic',
+        slots: { breakfast: 2, lunch: 10, pre: 1, post: 9, dinner: 10, snack: 2 },
+        prepText: 'Use cooked, grilled, or lightly curried fish; recipe oil changes the estimate.'
+      },
+      {
+        id: 'rice', name: 'Cooked rice', category: 'carb', diet: 'vegetarian', unit: 'g',
+        increment: 50, defaultQty: 450, perIncrement: { kcal: 65, protein: 1.3, carbs: 14, fat: 0.2, fiber: 0.2 },
+        maxPerMeal: 6, prep: 2, access: 'none',
+        slots: { breakfast: 3, lunch: 10, pre: 8, post: 10, dinner: 8, snack: 2 },
+        prepText: 'Use already cooked rice or prepare a batch; pair with a protein source.'
+      },
+      {
+        id: 'dal', name: 'Cooked dal', category: 'protein-carb', diet: 'vegetarian', unit: 'g',
+        increment: 50, defaultQty: 300, perIncrement: { kcal: 60, protein: 3.3, carbs: 10, fat: 0.7, fiber: 2.7 },
+        maxPerMeal: 5, prep: 3, access: 'none',
+        slots: { breakfast: 3, lunch: 10, pre: 3, post: 7, dinner: 9, snack: 3 },
+        prepText: 'Use prepared dal; the actual oil and consistency affect nutrition.'
+      },
+      {
+        id: 'banana', name: 'Banana', category: 'fruit-carb', diet: 'vegetarian', unit: 'bananas',
+        increment: 1, defaultQty: 4, perIncrement: { kcal: 105, protein: 1.3, carbs: 27, fat: 0.4, fiber: 3.1 },
+        maxPerMeal: 2, prep: 0, access: 'none',
+        slots: { breakfast: 8, lunch: 3, pre: 10, post: 8, dinner: 2, snack: 10 },
+        prepText: 'Eat as-is; especially practical around training.'
+      },
+      {
+        id: 'roti', name: 'Roti / chapati', category: 'carb', diet: 'vegetarian', unit: 'rotis',
+        increment: 1, defaultQty: 6, perIncrement: { kcal: 120, protein: 3.5, carbs: 22, fat: 2.5, fiber: 3 },
+        maxPerMeal: 3, prep: 2, access: 'none',
+        slots: { breakfast: 4, lunch: 10, pre: 6, post: 7, dinner: 10, snack: 3 },
+        prepText: 'Use prepared rotis or cook fresh if a kitchen is available.'
+      },
+      {
+        id: 'vegetables', name: 'Mixed vegetables', category: 'produce', diet: 'vegetarian', unit: 'g',
+        increment: 50, defaultQty: 300, perIncrement: { kcal: 30, protein: 1.3, carbs: 5.3, fat: 0.7, fiber: 2 },
+        maxPerMeal: 5, prep: 12, access: 'basic',
+        slots: { breakfast: 3, lunch: 10, pre: 2, post: 4, dinner: 10, snack: 3 },
+        prepText: 'Steam or sauté with limited oil; use a prepared vegetable curry when available.'
+      },
+      {
+        id: 'soy', name: 'Soya chunks, dry weight', category: 'protein', diet: 'vegetarian', unit: 'g dry',
+        increment: 25, defaultQty: 100, perIncrement: { kcal: 87, protein: 13, carbs: 8, fat: 0.2, fiber: 3.3 },
+        maxPerMeal: 3, prep: 15, access: 'basic',
+        slots: { breakfast: 2, lunch: 9, pre: 1, post: 10, dinner: 9, snack: 3 },
+        prepText: 'Soak, squeeze, and cook with spices; measure the dry amount before cooking.'
+      },
+      {
+        id: 'bread', name: 'Whole-wheat bread', category: 'carb', diet: 'vegetarian', unit: 'slices',
+        increment: 1, defaultQty: 8, perIncrement: { kcal: 80, protein: 3, carbs: 15, fat: 1, fiber: 2 },
+        maxPerMeal: 4, prep: 1, access: 'none',
+        slots: { breakfast: 8, lunch: 4, pre: 9, post: 7, dinner: 3, snack: 8 },
+        prepText: 'Toast or serve as-is; pair with a protein source.'
+      },
+      {
+        id: 'peanut-butter', name: 'Peanut butter', category: 'fat-protein', diet: 'vegetarian', unit: 'tbsp',
+        increment: 1, defaultQty: 4, perIncrement: { kcal: 95, protein: 4, carbs: 3.5, fat: 8, fiber: 1 },
+        maxPerMeal: 2, prep: 0, access: 'none',
+        slots: { breakfast: 7, lunch: 2, pre: 2, post: 3, dinner: 2, snack: 8 },
+        prepText: 'Measure with a tablespoon; easy to over-serve.'
+      },
+      {
+        id: 'potato', name: 'Boiled potato', category: 'carb', diet: 'vegetarian', unit: 'g',
+        increment: 50, defaultQty: 300, perIncrement: { kcal: 44, protein: 1, carbs: 10, fat: 0.1, fiber: 0.9 },
+        maxPerMeal: 5, prep: 5, access: 'basic',
+        slots: { breakfast: 4, lunch: 8, pre: 9, post: 9, dinner: 7, snack: 4 },
+        prepText: 'Use boiled potato; season without excessive added fat.'
+      },
+      {
+        id: 'tofu', name: 'Tofu', category: 'protein', diet: 'vegetarian', unit: 'g',
+        increment: 50, defaultQty: 250, perIncrement: { kcal: 72, protein: 8.5, carbs: 1.5, fat: 4.5, fiber: 1 },
+        maxPerMeal: 4, prep: 10, access: 'basic',
+        slots: { breakfast: 5, lunch: 9, pre: 2, post: 9, dinner: 10, snack: 5 },
+        prepText: 'Cube and pan-sear or add to a quick vegetable stir-fry.'
+      }
     ];
 
-    const statuses = [
-      ['MEASURED', 'Measured'],
-      ['ESTIMATED', 'Estimated'],
-      ['BELOW_REPORTING_LIMIT', 'Below reporting limit'],
-      ['MISSING', 'Missing'],
-      ['NOT_APPLICABLE', 'Not applicable']
-    ];
+    const foodById = Object.fromEntries(FOOD_DATA.map((food) => [food.id, food]));
+    const selectedState = new Map();
+    let lastPlan = null;
 
-    const nutrientList = document.getElementById('nutrient-list');
-    const form = document.getElementById('calculator-form');
-    const errorBox = document.getElementById('error-box');
-    const emptyState = document.getElementById('empty-state');
-    const resultContent = document.getElementById('result-content');
-    const resultBadge = document.getElementById('result-badge');
-    const resultBody = document.getElementById('result-body');
-    const warningBox = document.getElementById('warning-box');
-    const warningList = document.getElementById('warning-list');
+    const goalAdjustments = {
+      'fat-loss': -0.15,
+      'muscle-gain': 0.08,
+      'recomposition': -0.05,
+      'maintenance': 0,
+      'general-health': 0
+    };
 
-    function renderInputs() {
-      nutrientList.innerHTML = nutrients.map((nutrient) => {
-        const status = nutrient.defaultValue === '' ? 'MISSING' : 'MEASURED';
-        const options = statuses.map(([value, label]) =>
-          `<option value="${value}"${value === status ? ' selected' : ''}>${label}</option>`
-        ).join('');
+    const proteinFactors = {
+      'fat-loss': 1.6,
+      'muscle-gain': 1.6,
+      'recomposition': 1.6,
+      'maintenance': 1.2,
+      'general-health': 1.0
+    };
 
-        return `
-          <div class="nutrient-row" data-code="${nutrient.code}" data-unit="${nutrient.unit}">
-            <div class="nutrient-name">${nutrient.label}</div>
-            <label>
-              Observation state
-              <select class="status-select">${options}</select>
-            </label>
-            <label class="numeric-label">
-              <span class="numeric-title">Amount</span>
-              <input class="numeric-input" type="number" min="0" step="any" value="${nutrient.defaultValue}">
-            </label>
-            <div class="unit">${nutrient.unit}</div>
-          </div>`;
-      }).join('');
-
-      nutrientList.querySelectorAll('.nutrient-row').forEach(updateRowMode);
-    }
-
-    function updateRowMode(row) {
-      const status = row.querySelector('.status-select').value;
-      const input = row.querySelector('.numeric-input');
-      const title = row.querySelector('.numeric-title');
-      const requiresAmount = status === 'MEASURED' || status === 'ESTIMATED';
-      const requiresLimit = status === 'BELOW_REPORTING_LIMIT';
-
-      input.disabled = !(requiresAmount || requiresLimit);
-      input.required = requiresAmount || requiresLimit;
-      title.textContent = requiresLimit ? 'Reporting limit' : 'Amount';
-
-      if (!input.disabled && input.value === '') {
-        input.value = requiresLimit ? '0.5' : '0';
+    const mealWeights = {
+      training: {
+        breakfast: { kcal: 0.22, protein: 0.20 },
+        lunch: { kcal: 0.26, protein: 0.24 },
+        pre: { kcal: 0.14, protein: 0.10 },
+        post: { kcal: 0.18, protein: 0.24 },
+        dinner: { kcal: 0.20, protein: 0.22 }
+      },
+      rest: {
+        breakfast: { kcal: 0.25, protein: 0.22 },
+        lunch: { kcal: 0.30, protein: 0.30 },
+        snack: { kcal: 0.15, protein: 0.16 },
+        dinner: { kcal: 0.30, protein: 0.32 }
       }
-      if (input.disabled) input.value = '';
+    };
+
+    const slotNames = {
+      breakfast: 'Breakfast',
+      lunch: 'Lunch',
+      pre: 'Pre-workout',
+      post: 'Post-workout',
+      snack: 'Afternoon snack',
+      dinner: 'Dinner'
+    };
+
+    function formatNumber(value, digits = 0) {
+      return new Intl.NumberFormat(undefined, {
+        maximumFractionDigits: digits
+      }).format(value);
     }
 
-    function positiveNumber(value, field) {
-      const parsed = Number(value);
-      if (!Number.isFinite(parsed) || parsed <= 0) {
-        throw new Error(`${field} must be a positive number.`);
+    function parseNumber(id, label, options = {}) {
+      const element = document.getElementById(id);
+      const value = Number(element.value);
+      const min = options.min ?? -Infinity;
+      const max = options.max ?? Infinity;
+      if (!Number.isFinite(value) || value < min || value > max) {
+        throw new Error(`${label} must be between ${min} and ${max}.`);
       }
-      return parsed;
+      return value;
     }
 
-    function nonNegativeNumber(value, field) {
-      const parsed = Number(value);
-      if (!Number.isFinite(parsed) || parsed < 0) {
-        throw new Error(`${field} must be zero or a positive number.`);
+    function accessRank(access) {
+      return { none: 0, basic: 1, full: 2 }[access] ?? 2;
+    }
+
+    function dietAllows(food, pattern) {
+      if (pattern === 'nonveg') return true;
+      if (pattern === 'egg-vegetarian') return food.diet !== 'nonveg';
+      return food.diet === 'vegetarian';
+    }
+
+    function minutesFromTime(value) {
+      const [hour, minute] = value.split(':').map(Number);
+      return hour * 60 + minute;
+    }
+
+    function timeFromMinutes(minutes) {
+      const normalized = ((Math.round(minutes) % 1440) + 1440) % 1440;
+      const hour = Math.floor(normalized / 60);
+      const minute = normalized % 60;
+      return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+    }
+
+    function timeLabel(value) {
+      const [hourRaw, minute] = value.split(':').map(Number);
+      const suffix = hourRaw >= 12 ? 'PM' : 'AM';
+      const hour = hourRaw % 12 || 12;
+      return `${hour}:${String(minute).padStart(2, '0')} ${suffix}`;
+    }
+
+    function renderFoodGrid() {
+      const grid = document.getElementById('food-grid');
+      grid.innerHTML = '';
+
+      FOOD_DATA.forEach((food) => {
+        const state = selectedState.get(food.id) ?? { selected: false, quantity: food.defaultQty };
+        selectedState.set(food.id, state);
+
+        const card = document.createElement('article');
+        card.className = `food-card${state.selected ? ' selected' : ''}`;
+        card.dataset.foodId = food.id;
+
+        const top = document.createElement('div');
+        top.className = 'food-card-top';
+
+        const titleWrap = document.createElement('div');
+        const title = document.createElement('h3');
+        title.textContent = food.name;
+        const detail = document.createElement('p');
+        detail.textContent = `${formatNumber(food.perIncrement.kcal)} kcal · ${formatNumber(food.perIncrement.protein, 1)} g protein per ${food.increment} ${food.unit}`;
+        titleWrap.append(title, detail);
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = state.selected;
+        checkbox.setAttribute('aria-label', `Select ${food.name}`);
+        checkbox.addEventListener('change', () => {
+          state.selected = checkbox.checked;
+          card.classList.toggle('selected', state.selected);
+          updateSelectedCount();
+        });
+
+        top.append(titleWrap, checkbox);
+
+        const role = document.createElement('span');
+        role.className = 'food-role';
+        role.textContent = food.category.replaceAll('-', ' + ');
+
+        const quantityRow = document.createElement('div');
+        quantityRow.className = 'quantity-row';
+
+        const quantityLabel = document.createElement('label');
+        quantityLabel.textContent = 'Available today';
+        const quantity = document.createElement('input');
+        quantity.type = 'number';
+        quantity.min = String(food.increment);
+        quantity.step = String(food.increment);
+        quantity.value = String(state.quantity);
+        quantity.setAttribute('aria-label', `Available quantity for ${food.name}`);
+        quantity.addEventListener('input', () => {
+          const parsed = Number(quantity.value);
+          if (Number.isFinite(parsed) && parsed >= 0) state.quantity = parsed;
+        });
+        quantityLabel.append(quantity);
+
+        const unit = document.createElement('span');
+        unit.textContent = food.unit;
+
+        quantityRow.append(quantityLabel, unit);
+        card.append(top, role, quantityRow);
+        grid.append(card);
+      });
+
+      updateSelectedCount();
+    }
+
+    function updateSelectedCount() {
+      const count = [...selectedState.values()].filter((entry) => entry.selected).length;
+      document.getElementById('selected-count').textContent = `${count} selected`;
+    }
+
+    function applyPreset(name) {
+      const presets = {
+        example: ['eggs', 'paneer', 'oats'],
+        vegetarian: ['paneer', 'oats', 'milk', 'curd', 'peas', 'rice', 'dal', 'vegetables'],
+        nonveg: ['eggs', 'chicken', 'fish', 'rice', 'dal', 'curd', 'vegetables', 'banana'],
+        clear: []
+      };
+      const selectedIds = new Set(presets[name] ?? []);
+      FOOD_DATA.forEach((food) => {
+        const state = selectedState.get(food.id);
+        state.selected = selectedIds.has(food.id);
+        state.quantity = food.defaultQty;
+      });
+      renderFoodGrid();
+    }
+
+    function estimateTargets() {
+      const age = parseNumber('age', 'Age', { min: 18, max: 100 });
+      const weight = parseNumber('weight', 'Weight', { min: 35, max: 300 });
+      const height = parseNumber('height', 'Height', { min: 120, max: 230 });
+      const coefficient = document.getElementById('equation-sex').value === 'male' ? 5 : -161;
+      const activity = parseNumber('activity', 'Activity multiplier', { min: 1.1, max: 2 });
+      const goal = document.getElementById('goal').value;
+      const bmr = 10 * weight + 6.25 * height - 5 * age + coefficient;
+      const estimatedEnergy = Math.round((bmr * activity * (1 + goalAdjustments[goal])) / 10) * 10;
+      const estimatedProtein = Math.round(weight * proteinFactors[goal]);
+      document.getElementById('calorie-target').value = String(estimatedEnergy);
+      document.getElementById('protein-target').value = String(estimatedProtein);
+      return { estimatedEnergy, estimatedProtein, weight };
+    }
+
+    function getTargets() {
+      if (document.getElementById('target-method').value === 'estimate') {
+        return estimateTargets();
       }
-      return parsed;
+      const estimatedEnergy = parseNumber('calorie-target', 'Daily energy target', { min: 800, max: 6000 });
+      const estimatedProtein = parseNumber('protein-target', 'Daily protein target', { min: 20, max: 350 });
+      const weight = Number(document.getElementById('weight').value) || 70;
+      return { estimatedEnergy, estimatedProtein, weight };
     }
 
-    function formatNumber(value) {
-      return new Intl.NumberFormat(undefined, { maximumFractionDigits: 4 }).format(value);
+    function buildSlots(training) {
+      const breakfast = minutesFromTime(document.getElementById('breakfast-time').value);
+      const lunch = minutesFromTime(document.getElementById('lunch-time').value);
+      const dinner = minutesFromTime(document.getElementById('dinner-time').value);
+      const start = document.getElementById('plan-from').value;
+      let slots;
+
+      if (training) {
+        const workout = minutesFromTime(document.getElementById('workout-time').value);
+        const pre = workout - 90;
+        const post = workout + 45;
+        const adjustedDinner = Math.max(dinner, post + 120);
+        slots = [
+          { id: 'breakfast', time: breakfast },
+          { id: 'lunch', time: lunch },
+          { id: 'pre', time: pre },
+          { id: 'post', time: post },
+          { id: 'dinner', time: adjustedDinner }
+        ];
+      } else {
+        const snack = Math.round((lunch + dinner) / 2);
+        slots = [
+          { id: 'breakfast', time: breakfast },
+          { id: 'lunch', time: lunch },
+          { id: 'snack', time: snack },
+          { id: 'dinner', time: dinner }
+        ];
+      }
+
+      const allowed = {
+        all: slots.map((slot) => slot.id),
+        'after-breakfast': slots.filter((slot) => slot.id !== 'breakfast').map((slot) => slot.id),
+        'after-lunch': slots.filter((slot) => !['breakfast', 'lunch'].includes(slot.id)).map((slot) => slot.id),
+        'after-workout': slots.filter((slot) => ['post', 'dinner'].includes(slot.id)).map((slot) => slot.id),
+        'dinner-only': ['dinner']
+      }[start] ?? slots.map((slot) => slot.id);
+
+      return slots
+        .filter((slot) => allowed.includes(slot.id))
+        .sort((a, b) => a.time - b.time);
     }
 
-    function calculate(event) {
-      event.preventDefault();
+    function normalizeWeights(slots, training) {
+      const source = training ? mealWeights.training : mealWeights.rest;
+      const kcalTotal = slots.reduce((sum, slot) => sum + source[slot.id].kcal, 0);
+      const proteinTotal = slots.reduce((sum, slot) => sum + source[slot.id].protein, 0);
+      return Object.fromEntries(slots.map((slot) => [
+        slot.id,
+        {
+          kcal: source[slot.id].kcal / kcalTotal,
+          protein: source[slot.id].protein / proteinTotal
+        }
+      ]));
+    }
+
+    function selectedFoods(dietPattern, cookingAccess, prepLimit) {
+      const ignored = [];
+      const foods = [];
+
+      FOOD_DATA.forEach((food) => {
+        const state = selectedState.get(food.id);
+        if (!state?.selected) return;
+        if (!dietAllows(food, dietPattern)) {
+          ignored.push(`${food.name} conflicts with the selected dietary pattern.`);
+          return;
+        }
+        if (accessRank(food.access) > accessRank(cookingAccess) && food.prep > 1) {
+          ignored.push(`${food.name} needs more cooking access than selected.`);
+          return;
+        }
+        if (food.prep > prepLimit) {
+          ignored.push(`${food.name} exceeds the selected active preparation limit.`);
+          return;
+        }
+        const quantity = Number(state.quantity);
+        if (!Number.isFinite(quantity) || quantity < food.increment) {
+          ignored.push(`${food.name} has no usable available quantity.`);
+          return;
+        }
+        foods.push({
+          ...food,
+          remainingIncrements: Math.floor(quantity / food.increment),
+          originalIncrements: Math.floor(quantity / food.increment)
+        });
+      });
+
+      return { foods, ignored };
+    }
+
+    function combinationMetrics(combo, candidates) {
+      return combo.reduce((totals, count, index) => {
+        const food = candidates[index];
+        totals.kcal += count * food.perIncrement.kcal;
+        totals.protein += count * food.perIncrement.protein;
+        totals.carbs += count * food.perIncrement.carbs;
+        totals.fat += count * food.perIncrement.fat;
+        totals.fiber += count * food.perIncrement.fiber;
+        totals.count += count > 0 ? 1 : 0;
+        if (count > 0) totals.foodIds.push(food.id);
+        if (count > 0 && ['protein', 'protein-carb'].includes(food.category)) totals.hasProtein = true;
+        if (count > 0 && ['carb', 'fruit-carb', 'protein-carb'].includes(food.category)) totals.hasCarb = true;
+        if (count > 0 && food.category === 'produce') totals.hasProduce = true;
+        return totals;
+      }, {
+        kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, count: 0,
+        foodIds: [], hasProtein: false, hasCarb: false, hasProduce: false
+      });
+    }
+
+    function scoreCombination(metrics, target, slotId, candidates, combo, usageCount, appetite) {
+      if (metrics.count === 0) return Infinity;
+
+      const scaledKcalTarget = target.kcal * appetite;
+      const scaledProteinTarget = target.protein * appetite;
+      const kcalDiff = (metrics.kcal - scaledKcalTarget) / Math.max(scaledKcalTarget, 1);
+      const proteinDiff = (metrics.protein - scaledProteinTarget) / Math.max(scaledProteinTarget, 1);
+
+      let score = Math.abs(kcalDiff) * 1.5 + Math.abs(proteinDiff) * 2.4;
+      if (kcalDiff > 0.2) score += kcalDiff * 1.3;
+      if (proteinDiff < -0.25) score += Math.abs(proteinDiff) * 1.4;
+
+      if (!metrics.hasProtein && ['lunch', 'post', 'dinner'].includes(slotId)) score += 2.2;
+      if (!metrics.hasCarb && ['breakfast', 'pre', 'post', 'lunch'].includes(slotId)) score += 1.1;
+      if (!metrics.hasProduce && ['lunch', 'dinner'].includes(slotId)) score += 0.38;
+
+      if (slotId === 'pre') {
+        if (metrics.fat > 14) score += (metrics.fat - 14) * 0.09;
+        if (metrics.fiber > 10) score += (metrics.fiber - 10) * 0.08;
+      }
+
+      if (slotId === 'post' && metrics.protein < Math.min(20, scaledProteinTarget * 0.75)) {
+        score += 1.4;
+      }
+
+      if (metrics.count > 4) score += (metrics.count - 4) * 0.45;
+      if (metrics.count === 1 && scaledKcalTarget > 350) score += 0.35;
+
+      combo.forEach((count, index) => {
+        if (count <= 0) return;
+        const food = candidates[index];
+        const slotFit = food.slots[slotId] ?? 0;
+        score -= slotFit * 0.04;
+        if (slotFit < 4) score += 0.45;
+        score += (usageCount.get(food.id) ?? 0) * 0.12;
+      });
+
+      return score;
+    }
+
+    function candidateFoodsForSlot(foods, slotId, usageCount) {
+      return foods
+        .filter((food) => food.remainingIncrements > 0)
+        .sort((a, b) => {
+          const aScore = (a.slots[slotId] ?? 0) - (usageCount.get(a.id) ?? 0) * 1.1;
+          const bScore = (b.slots[slotId] ?? 0) - (usageCount.get(b.id) ?? 0) * 1.1;
+          return bScore - aScore;
+        })
+        .slice(0, 7);
+    }
+
+    function chooseMeal(foods, slot, target, usageCount, appetite, futureSlotIds = [slot.id]) {
+      const candidates = candidateFoodsForSlot(foods, slot.id, usageCount);
+      if (candidates.length === 0) return null;
+
+      const remainingMealCount = Math.max(1, futureSlotIds.length);
+      const totalRemainingIncrements = foods.reduce((sum, food) => sum + food.remainingIncrements, 0);
+      const futureMealReserve = Math.max(0, remainingMealCount - 1);
+      const maxUsableIncrements = Math.max(1, totalRemainingIncrements - futureMealReserve);
+      let best = null;
+      const combo = new Array(candidates.length).fill(0);
+
+      function recurse(index) {
+        if (index === candidates.length) {
+          const incrementsUsed = combo.reduce((sum, count) => sum + count, 0);
+          if (incrementsUsed === 0 || incrementsUsed > maxUsableIncrements) return;
+          const metrics = combinationMetrics(combo, candidates);
+          const score = scoreCombination(metrics, target, slot.id, candidates, combo, usageCount, appetite);
+          if (!best || score < best.score) {
+            best = { score, metrics, combo: [...combo], candidates };
+          }
+          return;
+        }
+
+        const food = candidates[index];
+        const preferredFutureSlots = Math.max(
+          1,
+          futureSlotIds.filter((futureSlot) => (food.slots[futureSlot] ?? 0) >= 6).length
+        );
+        const fairShare = Math.max(1, Math.ceil(food.remainingIncrements / preferredFutureSlots));
+        const max = Math.min(food.remainingIncrements, food.maxPerMeal, fairShare, 6);
+        for (let count = 0; count <= max; count += 1) {
+          combo[index] = count;
+          recurse(index + 1);
+        }
+      }
+
+      recurse(0);
+      if (!best || !Number.isFinite(best.score) || best.metrics.count === 0) return null;
+
+      const items = [];
+      best.combo.forEach((count, index) => {
+        if (count <= 0) return;
+        const food = best.candidates[index];
+        food.remainingIncrements -= count;
+        usageCount.set(food.id, (usageCount.get(food.id) ?? 0) + 1);
+        items.push({
+          id: food.id,
+          name: food.name,
+          count,
+          quantity: count * food.increment,
+          unit: food.unit,
+          prepText: food.prepText
+        });
+      });
+
+      return {
+        slotId: slot.id,
+        time: timeFromMinutes(slot.time),
+        items,
+        macros: best.metrics,
+        target,
+        score: best.score,
+        eaten: false
+      };
+    }
+
+    function mealReason(meal, goal) {
+      const protein = meal.macros.protein;
+      const carbs = meal.macros.carbs;
+      const slot = meal.slotId;
+
+      if (slot === 'pre') {
+        return `Placed before training to provide approximately ${formatNumber(carbs)} g carbohydrate while limiting a very heavy meal.`;
+      }
+      if (slot === 'post') {
+        return `Placed after training to contribute approximately ${formatNumber(protein)} g protein and ${formatNumber(carbs)} g carbohydrate toward recovery targets.`;
+      }
+      if (slot === 'breakfast') {
+        return `Starts the day with approximately ${formatNumber(protein)} g protein and a practical energy contribution using foods already available.`;
+      }
+      if (slot === 'lunch') {
+        return `Uses a larger midday allocation and combines available foods to support the ${goal.replaceAll('-', ' ')} goal.`;
+      }
+      if (slot === 'dinner') {
+        return `Completes the remaining day plan with available food while avoiding automatic use of anything not selected.`;
+      }
+      return `Provides a practical bridge between meals using foods already available.`;
+    }
+
+    function prepSummary(meal) {
+      const unique = [...new Set(meal.items.map((item) => item.prepText))];
+      return unique.slice(0, 2).join(' ');
+    }
+
+    function aggregatePlan(meals) {
+      return meals.reduce((totals, meal) => {
+        totals.kcal += meal.macros.kcal;
+        totals.protein += meal.macros.protein;
+        totals.carbs += meal.macros.carbs;
+        totals.fat += meal.macros.fat;
+        totals.fiber += meal.macros.fiber;
+        return totals;
+      }, { kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 });
+    }
+
+    function aggregateAvailable(foods) {
+      return foods.reduce((totals, food) => {
+        totals.kcal += food.remainingIncrements * food.perIncrement.kcal;
+        totals.protein += food.remainingIncrements * food.perIncrement.protein;
+        totals.carbs += food.remainingIncrements * food.perIncrement.carbs;
+        totals.fat += food.remainingIncrements * food.perIncrement.fat;
+        totals.fiber += food.remainingIncrements * food.perIncrement.fiber;
+        return totals;
+      }, { kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 });
+    }
+
+    function inventoryRemaining(foods) {
+      return foods
+        .filter((food) => food.remainingIncrements > 0)
+        .map((food) => ({
+          name: food.name,
+          quantity: food.remainingIncrements * food.increment,
+          unit: food.unit
+        }));
+    }
+
+    function buildPlan() {
+      const errorBox = document.getElementById('form-error');
       errorBox.classList.add('hidden');
       errorBox.textContent = '';
 
       try {
-        const referenceMass = positiveNumber(document.getElementById('reference-mass').value, 'Reference mass');
-        const portionMass = positiveNumber(document.getElementById('portion-mass').value, 'Portion mass');
-        const factor = portionMass / referenceMass;
-        const results = [];
-        const warnings = [];
+        const { estimatedEnergy, estimatedProtein } = getTargets();
+        const consumed = {
+          kcal: parseNumber('consumed-calories', 'Consumed energy', { min: 0, max: 6000 }),
+          protein: parseNumber('consumed-protein', 'Consumed protein', { min: 0, max: 350 }),
+          fiber: parseNumber('consumed-fiber', 'Consumed fiber', { min: 0, max: 100 })
+        };
+        const training = document.getElementById('training-today').checked;
+        const dietPattern = document.getElementById('diet-pattern').value;
+        const cookingAccess = document.getElementById('cooking-access').value;
+        const prepLimit = parseNumber('prep-limit', 'Preparation limit', { min: 0, max: 60 });
+        const appetite = parseNumber('appetite', 'Appetite factor', { min: 0.5, max: 1.5 });
+        const goal = document.getElementById('goal').value;
 
-        nutrientList.querySelectorAll('.nutrient-row').forEach((row) => {
-          const code = row.dataset.code;
-          const label = row.querySelector('.nutrient-name').textContent;
-          const unit = row.dataset.unit;
-          const status = row.querySelector('.status-select').value;
-          const raw = row.querySelector('.numeric-input').value;
-          let knownAmount = 0;
-          let completeness = 'COMPLETE';
-          let additionalUpperBound = 0;
-          let interpretation = 'A numeric observation was supplied.';
+        const remainingTarget = {
+          kcal: Math.max(0, estimatedEnergy - consumed.kcal),
+          protein: Math.max(0, estimatedProtein - consumed.protein),
+          fiber: Math.max(0, 25 - consumed.fiber)
+        };
 
-          if (status === 'MEASURED' || status === 'ESTIMATED') {
-            const amount = nonNegativeNumber(raw, `${label} amount`);
-            knownAmount = amount * factor;
-            if (status === 'ESTIMATED') {
-              warnings.push(`${label} includes an estimated source value.`);
-              interpretation = 'The known subtotal uses an estimated source value.';
-            }
-          } else if (status === 'BELOW_REPORTING_LIMIT') {
-            const limit = positiveNumber(raw, `${label} reporting limit`);
-            completeness = 'BOUNDED_INCOMPLETE';
-            additionalUpperBound = limit * factor;
-            interpretation = 'The actual contribution is below the displayed upper bound.';
-            warnings.push(`${label} is below a declared reporting limit.`);
-          } else {
-            completeness = 'UNBOUNDED_INCOMPLETE';
-            additionalUpperBound = null;
-            if (status === 'MISSING') {
-              interpretation = 'The known subtotal excludes missing source data.';
-              warnings.push(`${label} is incomplete because source data are missing.`);
-            } else {
-              interpretation = 'The source marked this value not applicable; it was not treated as zero.';
-              warnings.push(`${label} contains a not-applicable source value.`);
-            }
-          }
+        const slots = buildSlots(training);
+        if (slots.length === 0) throw new Error('No meal slots remain for the selected starting point.');
 
-          results.push({ code, label, unit, knownAmount, completeness, additionalUpperBound, interpretation });
+        const { foods, ignored } = selectedFoods(dietPattern, cookingAccess, prepLimit);
+        if (foods.length === 0) {
+          throw new Error('Select at least one food that matches the dietary and preparation constraints.');
+        }
+
+        const weights = normalizeWeights(slots, training);
+        const availableTotals = aggregateAvailable(foods);
+        const planningTarget = {
+          kcal: Math.min(remainingTarget.kcal, availableTotals.kcal),
+          protein: Math.min(remainingTarget.protein, availableTotals.protein)
+        };
+        const usageCount = new Map();
+        const meals = [];
+
+        slots.forEach((slot, slotIndex) => {
+          const target = {
+            kcal: planningTarget.kcal * weights[slot.id].kcal,
+            protein: planningTarget.protein * weights[slot.id].protein
+          };
+          const meal = chooseMeal(
+            foods,
+            slot,
+            target,
+            usageCount,
+            appetite,
+            slots.slice(slotIndex).map((futureSlot) => futureSlot.id)
+          );
+          if (meal) meals.push(meal);
         });
 
-        document.getElementById('basis-mass').textContent = `${formatNumber(portionMass)} g`;
-        document.getElementById('warning-count').textContent = String(warnings.length);
-        resultBody.innerHTML = results.map((result) => {
-          const statusClass = result.completeness === 'COMPLETE'
-            ? 'complete'
-            : result.completeness === 'BOUNDED_INCOMPLETE'
-              ? 'bounded'
-              : 'unbounded';
-          const upper = result.additionalUpperBound === null
-            ? 'No defensible bound'
-            : result.completeness === 'COMPLETE'
-              ? '0'
-              : `< ${formatNumber(result.additionalUpperBound)} ${result.unit}`;
+        if (meals.length === 0) {
+          throw new Error('The selected quantities could not form a feasible meal. Increase stock or select more foods.');
+        }
 
-          return `
-            <tr>
-              <th scope="row">${result.label}</th>
-              <td>${formatNumber(result.knownAmount)} ${result.unit}</td>
-              <td><span class="status ${statusClass}">${result.completeness.replaceAll('_', ' ')}</span></td>
-              <td>${upper}</td>
-              <td>${result.interpretation}</td>
-            </tr>`;
-        }).join('');
+        const totals = aggregatePlan(meals);
+        const allDay = {
+          kcal: consumed.kcal + totals.kcal,
+          protein: consumed.protein + totals.protein,
+          fiber: consumed.fiber + totals.fiber
+        };
 
-        warningList.innerHTML = warnings.map((warning) => `<li>${warning}</li>`).join('');
-        warningBox.classList.toggle('hidden', warnings.length === 0);
-        emptyState.classList.add('hidden');
-        resultContent.classList.remove('hidden');
-        resultBadge.classList.remove('hidden');
-        document.getElementById('result-heading').scrollIntoView({ block: 'start', behavior: 'smooth' });
+        lastPlan = {
+          goal,
+          targets: { kcal: estimatedEnergy, protein: estimatedProtein, fiber: 25 },
+          consumed,
+          remainingTarget,
+          meals,
+          totals,
+          allDay,
+          ignored,
+          remainingInventory: inventoryRemaining(foods),
+          targetMethod: document.getElementById('target-method').value
+        };
+
+        renderPlan(lastPlan);
+        saveSettings();
       } catch (error) {
-        errorBox.textContent = error instanceof Error ? error.message : 'An unknown calculation error occurred.';
+        errorBox.textContent = error instanceof Error ? error.message : 'Unable to build the plan.';
         errorBox.classList.remove('hidden');
+        errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
 
-    function loadExample() {
-      document.getElementById('display-name').value = 'Synthetic incomplete food';
-      document.getElementById('reference-mass').value = '100';
-      document.getElementById('portion-mass').value = '250';
-      const values = {
-        ENERGY: ['MEASURED', '100'],
-        PROTEIN: ['ESTIMATED', '10'],
-        CARBOHYDRATE: ['MEASURED', '20'],
-        FAT: ['BELOW_REPORTING_LIMIT', '2'],
-        FIBER: ['MISSING', '']
-      };
+    function renderSummary(plan) {
+      const summary = document.getElementById('summary-grid');
+      const remainingKcal = Math.max(0, plan.targets.kcal - plan.consumed.kcal);
+      const remainingProtein = Math.max(0, plan.targets.protein - plan.consumed.protein);
+      const cards = [
+        ['Goal', plan.goal.replaceAll('-', ' ')],
+        ['Daily energy target', `${formatNumber(plan.targets.kcal)} kcal`],
+        ['Daily protein target', `${formatNumber(plan.targets.protein)} g`],
+        ['Energy left to plan', `${formatNumber(remainingKcal)} kcal`],
+        ['Protein left to plan', `${formatNumber(remainingProtein)} g`]
+      ];
 
-      nutrientList.querySelectorAll('.nutrient-row').forEach((row) => {
-        const [status, value] = values[row.dataset.code];
-        row.querySelector('.status-select').value = status;
-        updateRowMode(row);
-        row.querySelector('.numeric-input').value = value;
+      summary.innerHTML = cards.map(([label, value]) => `
+        <div class="summary-card">
+          <span>${label}</span>
+          <strong>${value}</strong>
+        </div>
+      `).join('');
+    }
+
+    function renderProgress(plan) {
+      const list = document.getElementById('progress-list');
+      const rows = [
+        ['Energy', plan.allDay.kcal, plan.targets.kcal, 'kcal'],
+        ['Protein', plan.allDay.protein, plan.targets.protein, 'g'],
+        ['Fiber', plan.allDay.fiber, plan.targets.fiber, 'g']
+      ];
+
+      list.innerHTML = rows.map(([label, value, target, unit]) => {
+        const percent = Math.min(130, target > 0 ? (value / target) * 100 : 0);
+        return `
+          <div class="progress-row">
+            <label>${label}</label>
+            <div class="progress-track" aria-label="${label} progress">
+              <div class="progress-fill" style="width:${Math.min(100, percent)}%"></div>
+            </div>
+            <output>${formatNumber(value, 1)} / ${formatNumber(target, 1)} ${unit}</output>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAlerts(plan) {
+      const container = document.getElementById('plan-alerts');
+      const alerts = [];
+
+      if (plan.ignored.length > 0) {
+        alerts.push(`
+          <div class="alert alert-warning">
+            <strong>Some selected foods were not used:</strong>
+            <ul>${plan.ignored.map((item) => `<li>${item}</li>`).join('')}</ul>
+          </div>
+        `);
+      }
+
+      const energyGap = plan.targets.kcal - plan.allDay.kcal;
+      const proteinGap = plan.targets.protein - plan.allDay.protein;
+      const fiberGap = plan.targets.fiber - plan.allDay.fiber;
+
+      const gapItems = [];
+      if (energyGap > Math.max(200, plan.targets.kcal * 0.1)) {
+        gapItems.push(`about ${formatNumber(energyGap)} kcal below the selected energy target`);
+      }
+      if (proteinGap > Math.max(15, plan.targets.protein * 0.12)) {
+        gapItems.push(`about ${formatNumber(proteinGap)} g below the selected protein target`);
+      }
+      if (fiberGap > 5) {
+        gapItems.push(`about ${formatNumber(fiberGap)} g below the demonstration fiber guide`);
+      }
+
+      if (gapItems.length > 0) {
+        alerts.push(`
+          <div class="alert alert-warning">
+            <strong>The available stock does not fully cover the day:</strong>
+            ${gapItems.join('; ')}. Add or increase an appropriate available food rather than forcing an unrealistic portion.
+          </div>
+        `);
+      } else {
+        alerts.push(`
+          <div class="alert alert-success">
+            <strong>Feasible plan found.</strong>
+            The selected food quantities cover the main energy and protein targets within the demo planner's tolerance.
+          </div>
+        `);
+      }
+
+      if (plan.targetMethod === 'estimate') {
+        alerts.push(`
+          <div class="alert alert-info">
+            <strong>Target estimate:</strong>
+            Energy and protein targets were generated from profile inputs and a product heuristic. Review and edit them when actual experience, professional guidance, or a validated method indicates a different target.
+          </div>
+        `);
+      }
+
+      if (plan.remainingInventory.length > 0) {
+        const preview = plan.remainingInventory.slice(0, 5)
+          .map((item) => `${item.name}: ${formatNumber(item.quantity)} ${item.unit}`)
+          .join(' · ');
+        alerts.push(`
+          <div class="alert alert-info">
+            <strong>Stock left after the plan:</strong> ${preview}${plan.remainingInventory.length > 5 ? ' · …' : ''}
+          </div>
+        `);
+      }
+
+      container.innerHTML = alerts.join('');
+    }
+
+    function renderTimeline(plan) {
+      const timeline = document.getElementById('timeline');
+      timeline.innerHTML = '';
+
+      plan.meals.forEach((meal, index) => {
+        const card = document.createElement('article');
+        card.className = 'meal-card';
+        card.dataset.mealIndex = String(index);
+
+        const time = document.createElement('span');
+        time.className = 'meal-time';
+        time.textContent = timeLabel(meal.time);
+
+        const body = document.createElement('div');
+        const itemList = meal.items.map((item) => `
+          <li>
+            <strong>${item.name}</strong>
+            <span>${formatNumber(item.quantity)} ${item.unit}</span>
+          </li>
+        `).join('');
+
+        body.innerHTML = `
+          <div class="meal-head">
+            <div>
+              <p class="meal-kicker">${slotNames[meal.slotId]}</p>
+              <h3>${meal.items.map((item) => item.name).join(' + ')}</h3>
+            </div>
+            <div class="macro-line">
+              ${formatNumber(meal.macros.kcal)} kcal ·
+              ${formatNumber(meal.macros.protein, 1)} g protein ·
+              ${formatNumber(meal.macros.carbs, 1)} g carbs
+            </div>
+          </div>
+          <ul class="meal-items">${itemList}</ul>
+          <div class="meal-notes">
+            <div>
+              <strong>Why this meal</strong>
+              <p>${mealReason(meal, plan.goal)}</p>
+            </div>
+            <div>
+              <strong>Quick preparation</strong>
+              <p>${prepSummary(meal)}</p>
+            </div>
+          </div>
+          <div class="meal-controls">
+            <span class="status status-planned">Planned, not eaten</span>
+            <button type="button" data-action="toggle-eaten">Mark eaten</button>
+          </div>
+        `;
+
+        card.append(time, body);
+        timeline.append(card);
+      });
+
+      timeline.querySelectorAll('[data-action="toggle-eaten"]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const card = button.closest('.meal-card');
+          const index = Number(card.dataset.mealIndex);
+          const meal = lastPlan.meals[index];
+          meal.eaten = !meal.eaten;
+          const status = card.querySelector('.status');
+          status.textContent = meal.eaten ? 'Confirmed eaten' : 'Planned, not eaten';
+          status.className = meal.eaten ? 'status status-eaten' : 'status status-planned';
+          button.textContent = meal.eaten ? 'Undo confirmation' : 'Mark eaten';
+        });
       });
     }
 
-    function resetForm() {
-      document.getElementById('display-name').value = 'Synthetic demonstration food';
-      document.getElementById('reference-mass').value = '100';
-      document.getElementById('portion-mass').value = '250';
-      renderInputs();
-      errorBox.classList.add('hidden');
-      emptyState.classList.remove('hidden');
-      resultContent.classList.add('hidden');
-      resultBadge.classList.add('hidden');
+    function renderPlan(plan) {
+      document.getElementById('empty-plan').classList.add('hidden');
+      document.getElementById('plan-content').classList.remove('hidden');
+      document.getElementById('plan-status').textContent = `${plan.meals.length} meals planned`;
+      document.getElementById('plan-status').className = 'badge badge-success';
+      renderSummary(plan);
+      renderProgress(plan);
+      renderAlerts(plan);
+      renderTimeline(plan);
+      document.getElementById('plan-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    nutrientList.addEventListener('change', (event) => {
-      if (event.target.classList.contains('status-select')) {
-        updateRowMode(event.target.closest('.nutrient-row'));
+    function saveSettings() {
+      try {
+        const formIds = [
+          'goal', 'target-method', 'calorie-target', 'protein-target', 'age', 'weight', 'height',
+          'equation-sex', 'activity', 'breakfast-time', 'lunch-time', 'dinner-time', 'training-today',
+          'workout-time', 'plan-from', 'consumed-calories', 'consumed-protein', 'consumed-fiber',
+          'diet-pattern', 'cooking-access', 'prep-limit', 'appetite'
+        ];
+        const values = Object.fromEntries(formIds.map((id) => {
+          const element = document.getElementById(id);
+          return [id, element.type === 'checkbox' ? element.checked : element.value];
+        }));
+        values.foods = Object.fromEntries([...selectedState.entries()]);
+        localStorage.setItem('nutricoach-planner-demo', JSON.stringify(values));
+      } catch {
+        // Local storage is optional.
+      }
+    }
+
+    function loadSettings() {
+      try {
+        const raw = localStorage.getItem('nutricoach-planner-demo');
+        if (!raw) return;
+        const values = JSON.parse(raw);
+        Object.entries(values).forEach(([id, value]) => {
+          if (id === 'foods') return;
+          const element = document.getElementById(id);
+          if (!element) return;
+          if (element.type === 'checkbox') element.checked = Boolean(value);
+          else element.value = String(value);
+        });
+        if (values.foods) {
+          Object.entries(values.foods).forEach(([id, state]) => {
+            if (foodById[id] && state && typeof state === 'object') {
+              selectedState.set(id, {
+                selected: Boolean(state.selected),
+                quantity: Number(state.quantity) || foodById[id].defaultQty
+              });
+            }
+          });
+        }
+      } catch {
+        localStorage.removeItem('nutricoach-planner-demo');
+      }
+    }
+
+    function resetDemo() {
+      localStorage.removeItem('nutricoach-planner-demo');
+      selectedState.clear();
+      document.getElementById('goal').value = 'muscle-gain';
+      document.getElementById('target-method').value = 'manual';
+      document.getElementById('calorie-target').value = '2300';
+      document.getElementById('protein-target').value = '130';
+      document.getElementById('age').value = '28';
+      document.getElementById('weight').value = '70';
+      document.getElementById('height').value = '175';
+      document.getElementById('equation-sex').value = 'male';
+      document.getElementById('activity').value = '1.55';
+      document.getElementById('breakfast-time').value = '08:00';
+      document.getElementById('lunch-time').value = '13:00';
+      document.getElementById('dinner-time').value = '21:00';
+      document.getElementById('training-today').checked = true;
+      document.getElementById('workout-time').value = '18:30';
+      document.getElementById('plan-from').value = 'all';
+      document.getElementById('consumed-calories').value = '0';
+      document.getElementById('consumed-protein').value = '0';
+      document.getElementById('consumed-fiber').value = '0';
+      document.getElementById('diet-pattern').value = 'egg-vegetarian';
+      document.getElementById('cooking-access').value = 'basic';
+      document.getElementById('prep-limit').value = '15';
+      document.getElementById('appetite').value = '1';
+      document.getElementById('estimate-fields').classList.add('hidden');
+      document.getElementById('workout-time').disabled = false;
+      applyPreset('example');
+      document.getElementById('empty-plan').classList.remove('hidden');
+      document.getElementById('plan-content').classList.add('hidden');
+      document.getElementById('plan-status').textContent = 'Waiting for inputs';
+      document.getElementById('plan-status').className = 'badge badge-info';
+      document.getElementById('form-error').classList.add('hidden');
+      lastPlan = null;
+    }
+
+    document.getElementById('target-method').addEventListener('change', (event) => {
+      const estimating = event.target.value === 'estimate';
+      document.getElementById('estimate-fields').classList.toggle('hidden', !estimating);
+      document.getElementById('calorie-target').readOnly = estimating;
+      document.getElementById('protein-target').readOnly = estimating;
+      if (estimating) {
+        try { estimateTargets(); } catch { /* wait for valid fields */ }
       }
     });
 
-    form.addEventListener('submit', calculate);
-    document.getElementById('load-example').addEventListener('click', loadExample);
-    document.getElementById('reset-form').addEventListener('click', resetForm);
+    ['age', 'weight', 'height', 'equation-sex', 'activity', 'goal'].forEach((id) => {
+      document.getElementById(id).addEventListener('change', () => {
+        if (document.getElementById('target-method').value === 'estimate') {
+          try { estimateTargets(); } catch { /* wait for valid fields */ }
+        }
+      });
+    });
 
-    renderInputs();
+    document.getElementById('training-today').addEventListener('change', (event) => {
+      document.getElementById('workout-time').disabled = !event.target.checked;
+    });
+
+    document.querySelectorAll('[data-preset]').forEach((button) => {
+      button.addEventListener('click', () => applyPreset(button.dataset.preset));
+    });
+
+    document.getElementById('generate-plan').addEventListener('click', buildPlan);
+    document.getElementById('reset-demo').addEventListener('click', resetDemo);
+
+    loadSettings();
+    renderFoodGrid();
+
+    const estimating = document.getElementById('target-method').value === 'estimate';
+    document.getElementById('estimate-fields').classList.toggle('hidden', !estimating);
+    document.getElementById('calorie-target').readOnly = estimating;
+    document.getElementById('protein-target').readOnly = estimating;
+    document.getElementById('workout-time').disabled = !document.getElementById('training-today').checked;
+
+    if (![...selectedState.values()].some((state) => state.selected)) {
+      applyPreset('example');
+    }
   </script>
 </body>
 </html>
