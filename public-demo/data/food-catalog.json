@@ -1,0 +1,6105 @@
+{
+  "catalogId": "nutricoach-english-starter",
+  "catalogVersion": "1.0.0",
+  "generatedAt": "2026-10-12T17:45:04+00:00",
+  "displayLanguage": "en",
+  "source": {
+    "name": "USDA FoodData Central SR Legacy",
+    "release": "2018-04",
+    "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip",
+    "license": "CC0-1.0",
+    "citation": "U.S. Department of Agriculture, Agricultural Research Service. FoodData Central."
+  },
+  "nutrientDefinitions": {
+    "CALCIUM": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1087,
+      "sourceNutrientName": "Calcium, Ca"
+    },
+    "CARBOHYDRATE": {
+      "canonicalUnit": "g",
+      "sourceNutrientId": 1005,
+      "sourceNutrientName": "Carbohydrate, by difference"
+    },
+    "CHOLINE": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1180,
+      "sourceNutrientName": "Choline, total"
+    },
+    "COPPER": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1098,
+      "sourceNutrientName": "Copper, Cu"
+    },
+    "ENERGY": {
+      "canonicalUnit": "kcal",
+      "sourceNutrientId": 1008,
+      "sourceNutrientName": "Energy"
+    },
+    "FAT": {
+      "canonicalUnit": "g",
+      "sourceNutrientId": 1004,
+      "sourceNutrientName": "Total lipid (fat)"
+    },
+    "FIBER": {
+      "canonicalUnit": "g",
+      "sourceNutrientId": 1079,
+      "sourceNutrientName": "Fiber, total dietary"
+    },
+    "FOLATE_DFE": {
+      "canonicalUnit": "mcg DFE",
+      "sourceNutrientId": 1190,
+      "sourceNutrientName": "Folate, DFE"
+    },
+    "IRON": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1089,
+      "sourceNutrientName": "Iron, Fe"
+    },
+    "MAGNESIUM": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1090,
+      "sourceNutrientName": "Magnesium, Mg"
+    },
+    "MANGANESE": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1101,
+      "sourceNutrientName": "Manganese, Mn"
+    },
+    "NIACIN": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1167,
+      "sourceNutrientName": "Niacin"
+    },
+    "PANTOTHENIC_ACID": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1170,
+      "sourceNutrientName": "Pantothenic acid"
+    },
+    "PHOSPHORUS": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1091,
+      "sourceNutrientName": "Phosphorus, P"
+    },
+    "POTASSIUM": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1092,
+      "sourceNutrientName": "Potassium, K"
+    },
+    "PROTEIN": {
+      "canonicalUnit": "g",
+      "sourceNutrientId": 1003,
+      "sourceNutrientName": "Protein"
+    },
+    "RIBOFLAVIN": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1166,
+      "sourceNutrientName": "Riboflavin"
+    },
+    "SATURATED_FAT": {
+      "canonicalUnit": "g",
+      "sourceNutrientId": 1258,
+      "sourceNutrientName": "Fatty acids, total saturated"
+    },
+    "SELENIUM": {
+      "canonicalUnit": "mcg",
+      "sourceNutrientId": 1103,
+      "sourceNutrientName": "Selenium, Se"
+    },
+    "SODIUM": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1093,
+      "sourceNutrientName": "Sodium, Na"
+    },
+    "SUGARS": {
+      "canonicalUnit": "g",
+      "sourceNutrientId": 1063,
+      "sourceNutrientName": "Sugars, Total NLEA"
+    },
+    "THIAMIN": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1165,
+      "sourceNutrientName": "Thiamin"
+    },
+    "VITAMIN_A_RAE": {
+      "canonicalUnit": "mcg RAE",
+      "sourceNutrientId": 1106,
+      "sourceNutrientName": "Vitamin A, RAE"
+    },
+    "VITAMIN_B12": {
+      "canonicalUnit": "mcg",
+      "sourceNutrientId": 1178,
+      "sourceNutrientName": "Vitamin B-12"
+    },
+    "VITAMIN_B6": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1175,
+      "sourceNutrientName": "Vitamin B-6"
+    },
+    "VITAMIN_C": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1162,
+      "sourceNutrientName": "Vitamin C, total ascorbic acid"
+    },
+    "VITAMIN_D": {
+      "canonicalUnit": "mcg",
+      "sourceNutrientId": 1114,
+      "sourceNutrientName": "Vitamin D (D2 + D3)"
+    },
+    "VITAMIN_E": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1109,
+      "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+    },
+    "VITAMIN_K": {
+      "canonicalUnit": "mcg",
+      "sourceNutrientId": 1185,
+      "sourceNutrientName": "Vitamin K (phylloquinone)"
+    },
+    "ZINC": {
+      "canonicalUnit": "mg",
+      "sourceNutrientId": 1095,
+      "sourceNutrientName": "Zinc, Zn"
+    }
+  },
+  "foods": [
+    {
+      "id": "almonds",
+      "displayName": "Almonds",
+      "displayLanguage": "en",
+      "category": "Nuts and seeds",
+      "roles": [
+        "fat",
+        "protein",
+        "fiber",
+        "magnesium"
+      ],
+      "mealTags": [
+        "breakfast",
+        "snack"
+      ],
+      "defaultPortionGrams": "28",
+      "defaultAvailableGrams": "100",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "579",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "21.15",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "49.93",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "21.55",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "12.5",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "3.802",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "269",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "3.71",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "270",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "481",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "733",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "1",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "3.12",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "1.031",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "2.179",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "4.1",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "25.63",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.205",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "1.138",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "3.618",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.137",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "44",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "52.1",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.471",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "almond",
+          "gramWeight": "1.2"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, ground",
+          "gramWeight": "95"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, sliced",
+          "gramWeight": "92"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, slivered",
+          "gramWeight": "108"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, whole",
+          "gramWeight": "143"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "oz (23 whole kernels)",
+          "gramWeight": "28.35"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 170567,
+        "description": "Nuts, almonds",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "avocado-raw",
+      "displayName": "Avocado, raw",
+      "displayLanguage": "en",
+      "category": "Fruit",
+      "roles": [
+        "fat",
+        "fiber",
+        "potassium",
+        "fruit"
+      ],
+      "mealTags": [
+        "breakfast",
+        "lunch",
+        "snack"
+      ],
+      "defaultPortionGrams": "75",
+      "defaultAvailableGrams": "150",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "160",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "2",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "14.66",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "8.53",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "6.7",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "2.126",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "12",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.55",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "29",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "52",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "485",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "7",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.64",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.19",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.142",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "0.4",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "7",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "2.07",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "10",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.067",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.13",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "1.738",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.257",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "81",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "14.2",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "21",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "1.389",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "NLEA Serving",
+          "gramWeight": "50"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "avocado, NS as to Florida or California",
+          "gramWeight": "201"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, cubes",
+          "gramWeight": "150"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, pureed",
+          "gramWeight": "230"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, sliced",
+          "gramWeight": "146"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 171705,
+        "description": "Avocados, raw, all commercial varieties",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "banana-raw",
+      "displayName": "Banana, raw",
+      "displayLanguage": "en",
+      "category": "Fruit",
+      "roles": [
+        "carbohydrate",
+        "potassium",
+        "fruit"
+      ],
+      "mealTags": [
+        "breakfast",
+        "pre-workout",
+        "post-workout",
+        "snack"
+      ],
+      "defaultPortionGrams": "118",
+      "defaultAvailableGrams": "354",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "89",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "1.09",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.33",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "22.84",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "2.6",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.112",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "5",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.26",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "27",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "22",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "358",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "1",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.15",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.078",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.27",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "1",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "3",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.1",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "8.7",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.031",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.073",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.665",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.367",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "20",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "9.8",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0.5",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.334",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "NLEA serving",
+          "gramWeight": "126"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, mashed",
+          "gramWeight": "225"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, sliced",
+          "gramWeight": "150"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "extra large (9\" or longer)",
+          "gramWeight": "152"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "extra small (less than 6\" long)",
+          "gramWeight": "81"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "large (8\" to 8-7/8\" long)",
+          "gramWeight": "136"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "medium (7\" to 7-7/8\" long)",
+          "gramWeight": "118"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "small (6\" to 6-7/8\" long)",
+          "gramWeight": "101"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 173944,
+        "description": "Bananas, raw",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "black-beans-cooked",
+      "displayName": "Black beans, cooked",
+      "displayLanguage": "en",
+      "category": "Legumes",
+      "roles": [
+        "protein",
+        "carbohydrate",
+        "fiber",
+        "iron",
+        "folate"
+      ],
+      "mealTags": [
+        "lunch",
+        "dinner"
+      ],
+      "defaultPortionGrams": "150",
+      "defaultAvailableGrams": "300",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "132",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "8.86",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.54",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "23.71",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "8.7",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.139",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "27",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "2.1",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "70",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "140",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "355",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "1",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "1.12",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.209",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.444",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "1.2",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.87",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.244",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.059",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.505",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.069",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "149",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "32.6",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "3.3",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.242",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "172"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 173735,
+        "description": "Beans, black, mature seeds, cooked, boiled, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "broccoli-cooked",
+      "displayName": "Broccoli, cooked",
+      "displayLanguage": "en",
+      "category": "Vegetables",
+      "roles": [
+        "fiber",
+        "vitamin-c",
+        "folate",
+        "vegetable"
+      ],
+      "mealTags": [
+        "lunch",
+        "dinner"
+      ],
+      "defaultPortionGrams": "100",
+      "defaultAvailableGrams": "200",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "35",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "2.38",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.41",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "7.18",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "3.3",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.079",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "40",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.67",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "21",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "67",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "293",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "41",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.45",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.061",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.194",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "1.6",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "77",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "1.45",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "64.9",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.063",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.123",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.553",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.2",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "108",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "40.1",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "141.1",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.616",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "0.5",
+          "measureUnit": "undetermined",
+          "description": "cup, chopped",
+          "gramWeight": "78"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "spear (about 5\" long)",
+          "gramWeight": "37"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "stalk, large (11\"-12\" long)",
+          "gramWeight": "280"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "stalk, medium (7-1/2\" - 8\" long)",
+          "gramWeight": "180"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "stalk, small (5\" long)",
+          "gramWeight": "140"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 169967,
+        "description": "Broccoli, cooked, boiled, drained, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "carrots-cooked",
+      "displayName": "Carrots, cooked",
+      "displayLanguage": "en",
+      "category": "Vegetables",
+      "roles": [
+        "fiber",
+        "vitamin-a",
+        "vegetable"
+      ],
+      "mealTags": [
+        "lunch",
+        "dinner"
+      ],
+      "defaultPortionGrams": "100",
+      "defaultAvailableGrams": "200",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "35",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "0.76",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.18",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "8.22",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "3",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.03",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "30",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.34",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "10",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "30",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "235",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "58",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.2",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.017",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.155",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "0.7",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "852",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "1.03",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "3.6",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.066",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.044",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.645",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.153",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "14",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "8.8",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "13.7",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.232",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "carrot",
+          "gramWeight": "46"
+        },
+        {
+          "amount": "0.5",
+          "measureUnit": "undetermined",
+          "description": "cup slices",
+          "gramWeight": "78"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "tbsp",
+          "gramWeight": "9.7"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 170394,
+        "description": "Carrots, cooked, boiled, drained, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "chicken-breast-roasted",
+      "displayName": "Chicken breast, roasted, skinless",
+      "displayLanguage": "en",
+      "category": "Poultry",
+      "roles": [
+        "protein"
+      ],
+      "mealTags": [
+        "lunch",
+        "post-workout",
+        "dinner"
+      ],
+      "defaultPortionGrams": "120",
+      "defaultAvailableGrams": "300",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "165",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "31.02",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "3.57",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "1.01",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "15",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "1.04",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "29",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "228",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "256",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "74",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "1",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.049",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.017",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "27.6",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "6",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.27",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0.1",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.07",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.114",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "13.712",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.6",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "4",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0.34",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "85.3",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0.3",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.965",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "0.5",
+          "measureUnit": "undetermined",
+          "description": "breast, bone and skin removed",
+          "gramWeight": "86"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, chopped or diced",
+          "gramWeight": "140"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "unit (yield from 1 lb ready-to-cook chicken)",
+          "gramWeight": "52"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 171477,
+        "description": "Chicken, broilers or fryers, breast, meat only, cooked, roasted",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "chickpeas-cooked",
+      "displayName": "Chickpeas, cooked",
+      "displayLanguage": "en",
+      "category": "Legumes",
+      "roles": [
+        "protein",
+        "carbohydrate",
+        "fiber",
+        "folate"
+      ],
+      "mealTags": [
+        "lunch",
+        "snack",
+        "dinner"
+      ],
+      "defaultPortionGrams": "150",
+      "defaultAvailableGrams": "300",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "164",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "8.86",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "2.59",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "27.42",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "7.6",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.269",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "49",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "2.89",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "48",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "168",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "291",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "7",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "1.53",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.352",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "1.03",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "3.7",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "1",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.35",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "1.3",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.116",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.063",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.526",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.139",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "172",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "42.8",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "4",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.286",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "164"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 173757,
+        "description": "Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "cottage-cheese",
+      "displayName": "Cottage cheese, creamed",
+      "displayLanguage": "en",
+      "category": "Dairy",
+      "roles": [
+        "protein",
+        "calcium"
+      ],
+      "mealTags": [
+        "breakfast",
+        "snack",
+        "dinner"
+      ],
+      "defaultPortionGrams": "100",
+      "defaultAvailableGrams": "250",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "98",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "11.12",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "4.3",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "3.38",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "1.718",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "83",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.07",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "8",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "159",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "104",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "315",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.4",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.029",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.002",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "9.7",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "37",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.08",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0.1",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.027",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.163",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.099",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.046",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "12",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0.43",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "18.4",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.557",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, large curd (not packed)",
+          "gramWeight": "210"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, small curd (not packed)",
+          "gramWeight": "225"
+        },
+        {
+          "amount": "4",
+          "measureUnit": "undetermined",
+          "description": "oz",
+          "gramWeight": "113"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 172179,
+        "description": "Cheese, cottage, creamed, large or small curd",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "egg-hard-boiled",
+      "displayName": "Egg, whole, hard-boiled",
+      "displayLanguage": "en",
+      "category": "Eggs",
+      "roles": [
+        "protein",
+        "fat"
+      ],
+      "mealTags": [
+        "breakfast",
+        "lunch",
+        "post-workout",
+        "dinner"
+      ],
+      "defaultPortionGrams": "50",
+      "defaultAvailableGrams": "300",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "155",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "12.58",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "10.61",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "1.12",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "3.267",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "50",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "1.19",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "10",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "172",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "126",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "124",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "1.05",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.013",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.026",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "30.8",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "149",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "1.03",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "2.2",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.066",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.513",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.064",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.121",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "44",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "1.11",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "293.8",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0.3",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "1.398",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, chopped",
+          "gramWeight": "136"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "large",
+          "gramWeight": "50"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "tbsp",
+          "gramWeight": "8.5"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 173424,
+        "description": "Egg, whole, cooked, hard-boiled",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "green-peas-cooked",
+      "displayName": "Green peas, cooked",
+      "displayLanguage": "en",
+      "category": "Vegetables",
+      "roles": [
+        "fiber",
+        "carbohydrate",
+        "protein",
+        "vitamin-c",
+        "folate"
+      ],
+      "mealTags": [
+        "lunch",
+        "dinner"
+      ],
+      "defaultPortionGrams": "100",
+      "defaultAvailableGrams": "250",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "84",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "5.36",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.22",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "15.63",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "5.5",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.039",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "27",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "1.54",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "39",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "117",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "271",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "3",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "1.19",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.173",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.525",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "1.9",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "40",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.14",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "14.2",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.259",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.149",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "2.021",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.216",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "63",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "29.7",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "25.9",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.153",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "160"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 170420,
+        "description": "Peas, green, cooked, boiled, drained, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "kidney-beans-cooked",
+      "displayName": "Kidney beans, cooked",
+      "displayLanguage": "en",
+      "category": "Legumes",
+      "roles": [
+        "protein",
+        "carbohydrate",
+        "fiber",
+        "iron",
+        "folate"
+      ],
+      "mealTags": [
+        "lunch",
+        "dinner"
+      ],
+      "defaultPortionGrams": "150",
+      "defaultAvailableGrams": "300",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "127",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "8.67",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.5",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "22.8",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "7.4",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.072",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "28",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "2.94",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "45",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "142",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "403",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "2",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "1.07",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.242",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.477",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "1.2",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.03",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "1.2",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.16",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.058",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.578",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.12",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "130",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "30.5",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "8.4",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.22",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "177"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "tbsp",
+          "gramWeight": "11"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 175194,
+        "description": "Beans, kidney, red, mature seeds, cooked, boiled, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "lentils-cooked",
+      "displayName": "Lentils, cooked",
+      "displayLanguage": "en",
+      "category": "Legumes",
+      "roles": [
+        "protein",
+        "carbohydrate",
+        "fiber",
+        "iron",
+        "folate"
+      ],
+      "mealTags": [
+        "lunch",
+        "dinner"
+      ],
+      "defaultPortionGrams": "150",
+      "defaultAvailableGrams": "300",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "116",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "9.02",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.38",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "20.13",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "7.9",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.053",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "19",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "3.33",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "36",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "180",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "369",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "2",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "1.27",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.251",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.494",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "2.8",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.11",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "1.5",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.169",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.073",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "1.06",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.178",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "181",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "32.7",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "1.7",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.638",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "198"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "tbsp",
+          "gramWeight": "12.3"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 172421,
+        "description": "Lentils, mature seeds, cooked, boiled, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "oats-dry",
+      "displayName": "Oats, dry",
+      "displayLanguage": "en",
+      "category": "Grains",
+      "roles": [
+        "carbohydrate",
+        "fiber"
+      ],
+      "mealTags": [
+        "breakfast",
+        "pre-workout",
+        "snack"
+      ],
+      "defaultPortionGrams": "50",
+      "defaultAvailableGrams": "200",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "379",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "13.15",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "6.52",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "67.7",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "10.1",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "1.11",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "52",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "4.25",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "138",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "410",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "362",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "6",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "3.64",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.391",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "3.63",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "28.9",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.42",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.46",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.155",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "1.125",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.1",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "32",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "40.4",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "2",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "1.12",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "0.33",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "27"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "81"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 173904,
+        "description": "Cereals, oats, regular and quick, not fortified, dry",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "olive-oil",
+      "displayName": "Olive oil",
+      "displayLanguage": "en",
+      "category": "Fats and oils",
+      "roles": [
+        "fat"
+      ],
+      "mealTags": [
+        "lunch",
+        "dinner"
+      ],
+      "defaultPortionGrams": "14",
+      "defaultAvailableGrams": "100",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "884",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "100",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "13.808",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "1",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.56",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "1",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "2",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "14.35",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "0",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "0.3",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "60.2",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "216"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "tablespoon",
+          "gramWeight": "13.5"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "tsp",
+          "gramWeight": "4.5"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 171413,
+        "description": "Oil, olive, salad or cooking",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "orange-raw",
+      "displayName": "Orange, raw",
+      "displayLanguage": "en",
+      "category": "Fruit",
+      "roles": [
+        "carbohydrate",
+        "fiber",
+        "vitamin-c",
+        "fruit"
+      ],
+      "mealTags": [
+        "breakfast",
+        "pre-workout",
+        "snack"
+      ],
+      "defaultPortionGrams": "140",
+      "defaultAvailableGrams": "280",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "47",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "0.94",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.12",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "11.75",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "2.4",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.015",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "40",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.1",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "10",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "14",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "181",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.07",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.045",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.025",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "0.5",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "11",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.18",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "53.2",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.087",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.04",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.282",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.06",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "30",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "8.4",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.25",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, sections",
+          "gramWeight": "180"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "fruit (2-5/8\" dia)",
+          "gramWeight": "131"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "large (3-1/16\" dia)",
+          "gramWeight": "184"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "small (2-3/8\" dia)",
+          "gramWeight": "96"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 169097,
+        "description": "Oranges, raw, all commercial varieties",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "peanuts-raw",
+      "displayName": "Peanuts, raw",
+      "displayLanguage": "en",
+      "category": "Nuts and seeds",
+      "roles": [
+        "fat",
+        "protein",
+        "fiber",
+        "magnesium"
+      ],
+      "mealTags": [
+        "breakfast",
+        "snack"
+      ],
+      "defaultPortionGrams": "28",
+      "defaultAvailableGrams": "100",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "567",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "25.8",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "49.24",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "16.13",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "8.5",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "6.279",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "92",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "4.58",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "168",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "376",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "705",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "18",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "3.27",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "1.144",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "1.934",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "7.2",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "8.33",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.64",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.135",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "12.066",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.348",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "240",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "52.5",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "1.767",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "146"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "oz",
+          "gramWeight": "28.35"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 172430,
+        "description": "Peanuts, all types, raw",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "potato-boiled",
+      "displayName": "Potato, boiled, without skin",
+      "displayLanguage": "en",
+      "category": "Vegetables",
+      "roles": [
+        "carbohydrate",
+        "potassium",
+        "vitamin-c"
+      ],
+      "mealTags": [
+        "lunch",
+        "pre-workout",
+        "post-workout",
+        "dinner"
+      ],
+      "defaultPortionGrams": "150",
+      "defaultAvailableGrams": "300",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "86",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "1.71",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.1",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "20.01",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "1.8",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.026",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "8",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.31",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "20",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "40",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "328",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "5",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.27",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.167",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.14",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "0.3",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.01",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "7.4",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.098",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.019",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "1.312",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.269",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "9",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "13.2",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "2.2",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.509",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "0.5",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "78"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "large (3\" to 4-1/4\" dia.)",
+          "gramWeight": "300"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "medium (2-1/4\" to 3-1/4\" dia.)",
+          "gramWeight": "167"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "small (1-3/4\" to 2-1/2\" dia.)",
+          "gramWeight": "125"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 170440,
+        "description": "Potatoes, boiled, cooked without skin, flesh, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "salmon-cooked",
+      "displayName": "Salmon, Atlantic, cooked",
+      "displayLanguage": "en",
+      "category": "Fish",
+      "roles": [
+        "protein",
+        "fat"
+      ],
+      "mealTags": [
+        "lunch",
+        "dinner"
+      ],
+      "defaultPortionGrams": "120",
+      "defaultAvailableGrams": "240",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "206",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "22.1",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "12.35",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "2.397",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "15",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.34",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "30",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "252",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "384",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "61",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.43",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.049",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.016",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "41.4",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "69",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "1.14",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "13.1",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "3.7",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.34",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.135",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "8.045",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.647",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "34",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "2.8",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "90.5",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0.1",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "1.475",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "0.5",
+          "measureUnit": "undetermined",
+          "description": "fillet",
+          "gramWeight": "178"
+        },
+        {
+          "amount": "3",
+          "measureUnit": "undetermined",
+          "description": "oz",
+          "gramWeight": "85"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 175168,
+        "description": "Fish, salmon, Atlantic, farmed, cooked, dry heat",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "spinach-cooked",
+      "displayName": "Spinach, cooked",
+      "displayLanguage": "en",
+      "category": "Vegetables",
+      "roles": [
+        "fiber",
+        "iron",
+        "folate",
+        "vitamin-a",
+        "vegetable"
+      ],
+      "mealTags": [
+        "lunch",
+        "dinner"
+      ],
+      "defaultPortionGrams": "100",
+      "defaultAvailableGrams": "200",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "23",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "2.97",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.26",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "3.75",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "2.4",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.043",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "136",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "3.57",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "87",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "56",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "466",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "70",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.76",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.174",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.935",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "1.5",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "524",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "2.08",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "9.8",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.095",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.236",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.49",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.242",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "146",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "19.7",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "493.6",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.145",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "180"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 168463,
+        "description": "Spinach, cooked, boiled, drained, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "sweet-potato-baked",
+      "displayName": "Sweet potato, baked",
+      "displayLanguage": "en",
+      "category": "Vegetables",
+      "roles": [
+        "carbohydrate",
+        "fiber",
+        "vitamin-a",
+        "potassium"
+      ],
+      "mealTags": [
+        "lunch",
+        "pre-workout",
+        "dinner"
+      ],
+      "defaultPortionGrams": "150",
+      "defaultAvailableGrams": "300",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "90",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "2.01",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.15",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "20.71",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "3.3",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.052",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "38",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.69",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "27",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "54",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "475",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "36",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.32",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.161",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.497",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "0.2",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "961",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.71",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "19.6",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.107",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.106",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "1.487",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.286",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "6",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "13.1",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "2.3",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.884",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "200"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "large",
+          "gramWeight": "180"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "medium (2\" dia, 5\" long, raw)",
+          "gramWeight": "114"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "small",
+          "gramWeight": "60"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 168483,
+        "description": "Sweet potato, cooked, baked in skin, flesh, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "tilapia-cooked",
+      "displayName": "Tilapia, cooked",
+      "displayLanguage": "en",
+      "category": "Fish",
+      "roles": [
+        "protein"
+      ],
+      "mealTags": [
+        "lunch",
+        "post-workout",
+        "dinner"
+      ],
+      "defaultPortionGrams": "120",
+      "defaultAvailableGrams": "240",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "128",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "26.15",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "2.65",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.94",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "14",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.69",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "34",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "204",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "380",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "56",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.41",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.075",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.037",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "54.4",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.79",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "3.7",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.093",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.073",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "4.745",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.123",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "6",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "1.86",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "51.3",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0.9",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.664",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "fillet",
+          "gramWeight": "87"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 175177,
+        "description": "Fish, tilapia, cooked, dry heat",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "tofu-firm",
+      "displayName": "Tofu, firm, calcium-set",
+      "displayLanguage": "en",
+      "category": "Soy foods",
+      "roles": [
+        "protein",
+        "calcium",
+        "iron"
+      ],
+      "mealTags": [
+        "breakfast",
+        "lunch",
+        "post-workout",
+        "dinner"
+      ],
+      "defaultPortionGrams": "120",
+      "defaultAvailableGrams": "300",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "144",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "17.27",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "8.72",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "2.78",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "2.3",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "1.261",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "683",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "2.66",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "58",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "190",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "237",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "14",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "1.57",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.378",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "1.181",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "17.4",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0.2",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.158",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.102",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.381",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.092",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "29",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.133",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS",
+        "VITAMIN_A_RAE",
+        "VITAMIN_E",
+        "CHOLINE",
+        "VITAMIN_K"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "0.25",
+          "measureUnit": "undetermined",
+          "description": "block",
+          "gramWeight": "81"
+        },
+        {
+          "amount": "0.5",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "126"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 172475,
+        "description": "Tofu, raw, firm, prepared with calcium sulfate",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "tomato-raw",
+      "displayName": "Tomato, raw",
+      "displayLanguage": "en",
+      "category": "Vegetables",
+      "roles": [
+        "vitamin-c",
+        "potassium",
+        "vegetable"
+      ],
+      "mealTags": [
+        "breakfast",
+        "lunch",
+        "dinner"
+      ],
+      "defaultPortionGrams": "100",
+      "defaultAvailableGrams": "300",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "18",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "0.88",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.2",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "3.89",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "1.2",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.028",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "10",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.27",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "11",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "24",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "237",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "5",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.17",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.059",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.114",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "42",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.54",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "13.7",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.037",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.019",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.594",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.08",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "15",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "6.7",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "7.9",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.089",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "Italian tomato",
+          "gramWeight": "62"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "NLEA serving",
+          "gramWeight": "148"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cherry",
+          "gramWeight": "17"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup cherry tomatoes",
+          "gramWeight": "149"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup, chopped or sliced",
+          "gramWeight": "180"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "large whole (3\" dia)",
+          "gramWeight": "182"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "medium whole (2-3/5\" dia)",
+          "gramWeight": "123"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "plum tomato",
+          "gramWeight": "62"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "slice, medium (1/4\" thick)",
+          "gramWeight": "20"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "slice, thick/large (1/2\" thick)",
+          "gramWeight": "27"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "slice, thin/small",
+          "gramWeight": "15"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "small whole (2-2/5\" dia)",
+          "gramWeight": "91"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 170457,
+        "description": "Tomatoes, red, ripe, raw, year round average",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "rice-white-cooked",
+      "displayName": "White rice, cooked",
+      "displayLanguage": "en",
+      "category": "Grains",
+      "roles": [
+        "carbohydrate"
+      ],
+      "mealTags": [
+        "lunch",
+        "pre-workout",
+        "post-workout",
+        "dinner"
+      ],
+      "defaultPortionGrams": "150",
+      "defaultAvailableGrams": "450",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "130",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "2.69",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "0.28",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "28.17",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "0.4",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.077",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "10",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "1.2",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "12",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "43",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "35",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "1",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.49",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.069",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.472",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "7.5",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.04",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.163",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.013",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "1.476",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.093",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "97",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "2.1",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.39",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "158"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 168878,
+        "description": "Rice, white, long-grain, regular, enriched, cooked",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "whole-wheat-bread",
+      "displayName": "Whole-wheat bread",
+      "displayLanguage": "en",
+      "category": "Grains",
+      "roles": [
+        "carbohydrate",
+        "fiber"
+      ],
+      "mealTags": [
+        "breakfast",
+        "pre-workout",
+        "post-workout",
+        "snack"
+      ],
+      "defaultPortionGrams": "56",
+      "defaultAvailableGrams": "224",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "252",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "12.45",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "3.5",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "42.71",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "6",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "0.722",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "161",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "2.47",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "75",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "212",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "254",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "455",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "1.77",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.227",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "2.174",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "25.7",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "0",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "2.66",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.394",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.167",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "4.438",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.215",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "42",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "27.2",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "7.8",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.646",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "oz",
+          "gramWeight": "28.35"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "slice",
+          "gramWeight": "32"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 172688,
+        "description": "Bread, whole-wheat, commercially prepared",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    }
+  ],
+  "customFoodNotice": "Foods not present in this verified starter catalog, including paneer, must be added from a package label or a versioned personal recipe. Missing nutrients remain missing."
+}

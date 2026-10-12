@@ -1,0 +1,319 @@
+{
+  "importerVersion": "fdc-catalog-importer/1.0.0",
+  "generatedAt": "2026-10-12T17:45:04+00:00",
+  "manifest": "data/catalog/english-foods.json",
+  "fixture": false,
+  "source": {
+    "name": "USDA FoodData Central SR Legacy",
+    "release": "2018-04",
+    "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip",
+    "license": "CC0-1.0",
+    "citation": "U.S. Department of Agriculture, Agricultural Research Service. FoodData Central."
+  },
+  "resolved": [
+    {
+      "id": "egg-hard-boiled",
+      "displayName": "Egg, whole, hard-boiled",
+      "fdcId": 173424,
+      "sourceDescription": "Egg, whole, cooked, hard-boiled",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "oats-dry",
+      "displayName": "Oats, dry",
+      "fdcId": 173904,
+      "sourceDescription": "Cereals, oats, regular and quick, not fortified, dry",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "chicken-breast-roasted",
+      "displayName": "Chicken breast, roasted, skinless",
+      "fdcId": 171477,
+      "sourceDescription": "Chicken, broilers or fryers, breast, meat only, cooked, roasted",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "salmon-cooked",
+      "displayName": "Salmon, Atlantic, cooked",
+      "fdcId": 175168,
+      "sourceDescription": "Fish, salmon, Atlantic, farmed, cooked, dry heat",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "tilapia-cooked",
+      "displayName": "Tilapia, cooked",
+      "fdcId": 175177,
+      "sourceDescription": "Fish, tilapia, cooked, dry heat",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "cottage-cheese",
+      "displayName": "Cottage cheese, creamed",
+      "fdcId": 172179,
+      "sourceDescription": "Cheese, cottage, creamed, large or small curd",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "rice-white-cooked",
+      "displayName": "White rice, cooked",
+      "fdcId": 168878,
+      "sourceDescription": "Rice, white, long-grain, regular, enriched, cooked",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "lentils-cooked",
+      "displayName": "Lentils, cooked",
+      "fdcId": 172421,
+      "sourceDescription": "Lentils, mature seeds, cooked, boiled, without salt",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "chickpeas-cooked",
+      "displayName": "Chickpeas, cooked",
+      "fdcId": 173757,
+      "sourceDescription": "Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, without salt",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "green-peas-cooked",
+      "displayName": "Green peas, cooked",
+      "fdcId": 170420,
+      "sourceDescription": "Peas, green, cooked, boiled, drained, without salt",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "kidney-beans-cooked",
+      "displayName": "Kidney beans, cooked",
+      "fdcId": 175194,
+      "sourceDescription": "Beans, kidney, red, mature seeds, cooked, boiled, without salt",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "black-beans-cooked",
+      "displayName": "Black beans, cooked",
+      "fdcId": 173735,
+      "sourceDescription": "Beans, black, mature seeds, cooked, boiled, without salt",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "potato-boiled",
+      "displayName": "Potato, boiled, without skin",
+      "fdcId": 170440,
+      "sourceDescription": "Potatoes, boiled, cooked without skin, flesh, without salt",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "sweet-potato-baked",
+      "displayName": "Sweet potato, baked",
+      "fdcId": 168483,
+      "sourceDescription": "Sweet potato, cooked, baked in skin, flesh, without salt",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "banana-raw",
+      "displayName": "Banana, raw",
+      "fdcId": 173944,
+      "sourceDescription": "Bananas, raw",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "orange-raw",
+      "displayName": "Orange, raw",
+      "fdcId": 169097,
+      "sourceDescription": "Oranges, raw, all commercial varieties",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "spinach-cooked",
+      "displayName": "Spinach, cooked",
+      "fdcId": 168463,
+      "sourceDescription": "Spinach, cooked, boiled, drained, without salt",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "broccoli-cooked",
+      "displayName": "Broccoli, cooked",
+      "fdcId": 169967,
+      "sourceDescription": "Broccoli, cooked, boiled, drained, without salt",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "carrots-cooked",
+      "displayName": "Carrots, cooked",
+      "fdcId": 170394,
+      "sourceDescription": "Carrots, cooked, boiled, drained, without salt",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "tomato-raw",
+      "displayName": "Tomato, raw",
+      "fdcId": 170457,
+      "sourceDescription": "Tomatoes, red, ripe, raw, year round average",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "almonds",
+      "displayName": "Almonds",
+      "fdcId": 170567,
+      "sourceDescription": "Nuts, almonds",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "peanuts-raw",
+      "displayName": "Peanuts, raw",
+      "fdcId": 172430,
+      "sourceDescription": "Peanuts, all types, raw",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "tofu-firm",
+      "displayName": "Tofu, firm, calcium-set",
+      "fdcId": 172475,
+      "sourceDescription": "Tofu, raw, firm, prepared with calcium sulfate",
+      "nutrientCount": 25,
+      "missingNutrients": [
+        "SUGARS",
+        "VITAMIN_A_RAE",
+        "VITAMIN_E",
+        "CHOLINE",
+        "VITAMIN_K"
+      ]
+    },
+    {
+      "id": "whole-wheat-bread",
+      "displayName": "Whole-wheat bread",
+      "fdcId": 172688,
+      "sourceDescription": "Bread, whole-wheat, commercially prepared",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "olive-oil",
+      "displayName": "Olive oil",
+      "fdcId": 171413,
+      "sourceDescription": "Oil, olive, salad or cooking",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "avocado-raw",
+      "displayName": "Avocado, raw",
+      "fdcId": 171705,
+      "sourceDescription": "Avocados, raw, all commercial varieties",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "yogurt-plain-whole",
+      "displayName": "Yogurt, plain, whole milk",
+      "acceptedDescriptions": [
+        "Yogurt, plain, whole milk, 8 grams protein per 8 ounce"
+      ]
+    },
+    {
+      "id": "rice-brown-cooked",
+      "displayName": "Brown rice, cooked",
+      "acceptedDescriptions": [
+        "Rice, brown, long-grain, cooked"
+      ]
+    },
+    {
+      "id": "apple-raw",
+      "displayName": "Apple, raw, with skin",
+      "acceptedDescriptions": [
+        "Apples, raw, with skin"
+      ]
+    }
+  ],
+  "ambiguous": [
+    {
+      "id": "milk-whole",
+      "displayName": "Milk, whole",
+      "matches": [
+        {
+          "fdcId": 172217,
+          "description": "Milk, whole, 3.25% milkfat, without added vitamin A and vitamin D"
+        },
+        {
+          "fdcId": 171265,
+          "description": "Milk, whole, 3.25% milkfat, with added vitamin D"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}
