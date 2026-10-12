@@ -1,0 +1,52 @@
+services:
+  caddy:
+    image: caddy:2.11.7-alpine
+    restart: unless-stopped
+    init: true
+    environment:
+      NUTRICOACH_SITE_ADDRESS: ${NUTRICOACH_SITE_ADDRESS:?Set NUTRICOACH_SITE_ADDRESS in .env}
+    depends_on:
+      web:
+        condition: service_healthy
+    ports:
+      - "${HTTP_BIND_ADDRESS:-0.0.0.0}:${HTTP_PORT:-80}:80"
+      - "${HTTPS_BIND_ADDRESS:-0.0.0.0}:${HTTPS_PORT:-443}:443"
+      - "${HTTPS_BIND_ADDRESS:-0.0.0.0}:${HTTPS_PORT:-443}:443/udp"
+    volumes:
+      - ./deploy/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - nutricoach-caddy-data:/data
+      - nutricoach-caddy-config:/config
+    secrets:
+      - caddy_users
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    pids_limit: 128
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "caddy", "validate", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    networks:
+      - nutricoach-internal
+      - nutricoach-edge
+
+secrets:
+  caddy_users:
+    file: ./secrets/caddy_users
+
+volumes:
+  nutricoach-caddy-data:
+  nutricoach-caddy-config:
+
+networks:
+  nutricoach-edge:
+    driver: bridge

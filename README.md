@@ -7,22 +7,29 @@ This repository is the first implementation milestone. It contains:
 - A pure Java deterministic nutrition calculation core.
 - Explicit missing-value and below-reporting-limit semantics.
 - Recipe batch, per-100-g, and portion calculations.
-- A Spring Boot HTTP API scaffold and OpenAPI 3.1 contract.
+- A Spring Boot HTTP API and OpenAPI 3.1 contract.
 - A PostgreSQL/Flyway baseline schema with provenance, rights review, and versioning.
 - A small React/TypeScript calculation workbench.
-- A Docker Compose reference deployment.
-- Backup/restore helpers, CI, and project governance.
+- A free and open-source Docker Compose deployment path.
+- Optional Caddy HTTPS with an outer Basic Authentication gate.
+- Backup/restore helpers, runtime smoke tests, CI, and project governance.
 - Product, architecture, data-rights, reuse, and testing decisions.
 
 No production nutrition dataset is bundled. Test and UI fixtures are synthetic and must never be presented as food facts.
 
 ## Security status
 
-**Do not expose this foundation build to the public internet.** Authentication and authorization are intentionally not implemented yet. Use it only on a private development machine or isolated network until object-level access control and the security release gate are complete.
+Application-level accounts and per-user authorization are not implemented yet.
+
+- **Local mode** is the safest default and binds to host loopback only.
+- **LAN mode** is for a trusted private network only and must not be port-forwarded.
+- **HTTPS mode** adds Caddy-managed TLS and Basic Authentication as a single-instance outer gate.
+
+The HTTPS gate does not turn this foundation into a safe multi-tenant service. Do not use it for mutually untrusted users or medically sensitive production data until object-level authorization and the security release gate are complete.
 
 ## Current status
 
-### Implemented and locally verified without external dependencies
+### Implemented and verified
 
 - Linear portion scaling from an immutable, versioned food snapshot.
 - Recipe aggregation from immutable ingredient snapshots.
@@ -31,24 +38,31 @@ No production nutrition dataset is bundled. Test and UI fixtures are synthetic a
 - Warning, assumption, and source-provenance output.
 - Validation, determinism, and immutability tests.
 - **48 dependency-free core assertions pass on Java 21.**
+- Spring Boot, Flyway, PostgreSQL, React, the frontend proxy, and the calculation API run together in automated runtime tests.
 
-### Scaffolded but not yet production-complete
+### Scaffolded but not yet product-complete
 
-- Spring Boot API and structured validation errors.
-- PostgreSQL persistence contract and first Flyway migration.
-- React web client.
-- Authentication and authorization.
+- Authentication and per-user authorization.
 - Food-data import, curation, and search.
-- Diary, targets, availability, and recommendations.
+- Profiles, diary, targets, availability, and recommendations.
+- Production nutrition datasets.
 
-See [IMPLEMENTATION_REPORT.md](IMPLEMENTATION_REPORT.md) for exactly what was and was not executed in the build environment.
+See [IMPLEMENTATION_REPORT.md](IMPLEMENTATION_REPORT.md) for the foundation report.
 
 ## Requirements
 
 For the reference full stack:
 
-- Docker Engine with Docker Compose v2, or
-- Java 21 and Maven 3.6.3+, Node.js 22.12+, and PostgreSQL 18.
+- A Linux host.
+- Docker Engine and Docker Compose, or equivalent compatible open-source OCI tooling.
+- About 2 GB RAM minimum; 4 GB is more comfortable while building images.
+- About 10 GB free disk plus room for database growth and backups.
+
+For development without containers:
+
+- Java 21 and Maven 3.6.3+.
+- Node.js 22.12+.
+- PostgreSQL 18.
 
 The pure calculation core can be compiled and tested with Java 21 alone.
 
@@ -64,34 +78,54 @@ Expected result:
 PASS: 48 core assertions
 ```
 
-Run all repository checks available without downloading dependencies:
+Run repository checks available without downloading dependencies:
 
 ```bash
 make verify
 ```
 
-## Run with Docker Compose
+## Deploy locally with free/open-source software
 
 ```bash
-cp .env.example .env
-# Change POSTGRES_PASSWORD before any use beyond a private local machine.
-docker compose up --build
+./scripts/init-deployment.sh local
+./scripts/deploy.sh local
 ```
 
-Then open:
+Open:
 
-- Web workbench: `http://localhost:8081`
-- API metadata: `http://localhost:8080/api/v1/meta`
-- API health: `http://localhost:8080/actuator/health`
+- Web workbench: `http://127.0.0.1:8081`
+- API metadata: `http://127.0.0.1:8080/api/v1/meta`
+- API health: `http://127.0.0.1:8080/actuator/health`
 
-The web workbench submits synthetic values to the deterministic API. It is not a food database or nutrition-advice interface.
+The initializer creates a random PostgreSQL password under the ignored `secrets/` directory. Plaintext passwords are not placed in `.env` or committed to Git.
+
+## Other deployment modes
+
+Trusted private LAN:
+
+```bash
+./scripts/init-deployment.sh lan
+./scripts/deploy.sh lan
+```
+
+Public HTTPS for a single protected instance:
+
+```bash
+NUTRICOACH_SITE_ADDRESS=nutrition.example.org \
+  ./scripts/init-deployment.sh https
+./scripts/deploy.sh https
+```
+
+The HTTPS initializer displays a generated Basic Authentication password once and stores only its one-way hash. Caddy obtains and renews certificates automatically.
+
+Read [Free and open-source deployment](docs/operations/free-open-source-deployment.md) before choosing a mode. The self-hosted privacy baseline is documented in [PRIVACY.md](PRIVACY.md).
 
 ## Try the API directly
 
 The following example contains synthetic test values, not nutrition facts:
 
 ```bash
-curl --request POST http://localhost:8080/api/v1/calculations/food-portions \
+curl --request POST http://127.0.0.1:8080/api/v1/calculations/food-portions \
   --header 'Content-Type: application/json' \
   --data '{
     "food": {
@@ -139,10 +173,11 @@ npm run dev
 
 ```bash
 ./scripts/backup.sh
+BACKUP_RETENTION_DAYS=14 ./scripts/backup-rotate.sh
 ALLOW_DESTRUCTIVE_RESTORE=1 ./scripts/restore.sh backups/example.dump
 ```
 
-Read [docs/operations/self-hosting.md](docs/operations/self-hosting.md) before relying on a self-hosted instance.
+Back up `.env` and `secrets/` securely and separately from the database dump. Read [Self-hosting](docs/operations/self-hosting.md) before relying on an installation.
 
 ## Repository map
 
@@ -152,7 +187,8 @@ web/       React/TypeScript calculation workbench
 openapi/   versioned HTTP contract
 docs/      product, architecture, operations, research, data, and test decisions
 data/      dataset policy; no third-party dataset is bundled
-scripts/   verification, backup, and restore helpers
+deploy/    open-source reverse-proxy configuration
+scripts/   verification, deployment, health, backup, and restore helpers
 ```
 
 ## Non-negotiable rules
@@ -164,6 +200,7 @@ scripts/   verification, backup, and restore helpers
 5. Dataset rights are separate from the source-code license.
 6. Core workflows must work without a paid AI service.
 7. Age-dependent targets may run only for populations covered by the selected, versioned method.
+8. The reference deployment must remain usable without a proprietary hosting platform.
 
 ## License
 

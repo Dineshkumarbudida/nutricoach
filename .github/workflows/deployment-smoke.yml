@@ -1,0 +1,93 @@
+name: FOSS deployment smoke test
+
+on:
+  push:
+    paths:
+      - 'compose*.yaml'
+      - '.env.example'
+      - 'deploy/**'
+      - 'scripts/**'
+      - 'backend/**'
+      - 'web/**'
+      - '.github/workflows/deployment-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: foss-deployment-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize and run local-only deployment
+        run: |
+          set -Eeuo pipefail
+          ./scripts/init-deployment.sh local
+          ./scripts/deploy.sh local
+          curl --fail --silent http://127.0.0.1:8081/ | grep -q 'NutriCoach Foundation'
+          curl --fail --silent http://127.0.0.1:8080/api/v1/meta | grep -q 'NutriCoach'
+
+      - name: Stop local deployment and remove CI volumes
+        run: docker compose down -v
+
+      - name: Initialize HTTPS deployment
+        env:
+          NUTRICOACH_SITE_ADDRESS: localhost
+          NUTRICOACH_ADMIN_USER: ci-user
+          NUTRICOACH_ADMIN_PASSWORD: ci-only-password-not-a-secret
+        run: |
+          set -Eeuo pipefail
+          ./scripts/init-deployment.sh https
+          sed -i 's/^HTTP_PORT=.*/HTTP_PORT=18080/' .env
+          sed -i 's/^HTTPS_PORT=.*/HTTPS_PORT=18443/' .env
+
+      - name: Run HTTPS deployment with Basic Authentication
+        env:
+          NUTRICOACH_HEALTHCHECK_PASSWORD: ci-only-password-not-a-secret
+          NUTRICOACH_HEALTHCHECK_INSECURE: '1'
+        run: ./scripts/deploy.sh https
+
+      - name: Verify HTTPS access controls and routing
+        run: |
+          set -Eeuo pipefail
+          base_url=https://localhost:18443
+
+          unauthorized=$(curl --insecure --silent --output /dev/null --write-out '%{http_code}' "$base_url/")
+          test "$unauthorized" = 401
+
+          curl --insecure --fail --silent \
+            --user 'ci-user:ci-only-password-not-a-secret' \
+            "$base_url/" | grep -q 'NutriCoach Foundation'
+
+          curl --insecure --fail --silent \
+            --user 'ci-user:ci-only-password-not-a-secret' \
+            "$base_url/api/v1/meta" | grep -q 'deterministic-code'
+
+          actuator=$(curl --insecure --silent --output /dev/null --write-out '%{http_code}' \
+            --user 'ci-user:ci-only-password-not-a-secret' \
+            "$base_url/actuator/health")
+          test "$actuator" = 404
+
+          database_port=$(docker compose -f compose.yaml -f compose.https.yaml port database 5432 || true)
+          test -z "$database_port"
+
+          backend_port=$(docker compose -f compose.yaml -f compose.https.yaml port backend 8080)
+          test "$backend_port" = '127.0.0.1:8080'
+
+      - name: Show diagnostics on failure
+        if: failure()
+        run: |
+          docker compose -f compose.yaml -f compose.https.yaml ps || true
+          docker compose -f compose.yaml -f compose.https.yaml logs --tail=300 || true
+
+      - name: Clean up
+        if: always()
+        run: docker compose -f compose.yaml -f compose.https.yaml down -v --remove-orphans || true
