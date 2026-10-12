@@ -30,7 +30,7 @@ services:
       - no-new-privileges:true
     logging: *default-logging
     networks:
-      - nutricoach-internal
+      - nutricoach-data
 
   backend:
     build:
@@ -67,7 +67,8 @@ services:
       start_period: 45s
     logging: *default-logging
     networks:
-      - nutricoach-internal
+      - nutricoach-data
+      - nutricoach-app
 
   web:
     build:
@@ -90,7 +91,7 @@ services:
       start_period: 20s
     logging: *default-logging
     networks:
-      - nutricoach-internal
+      - nutricoach-app
 
 secrets:
   postgres_password:
@@ -100,6 +101,8 @@ volumes:
   nutricoach-postgres:
 
 networks:
-  nutricoach-internal:
+  nutricoach-data:
     driver: bridge
     internal: true
+  nutricoach-app:
+    driver: bridge
