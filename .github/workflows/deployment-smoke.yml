@@ -33,11 +33,14 @@ jobs:
           DEPLOYMENT_LOG: ${{ runner.temp }}/nutricoach-deployment.log
         run: |
           set -Eeuo pipefail
+          trap 'echo "FAILED at line ${LINENO}: ${BASH_COMMAND}" >&2' ERR
           {
             ./scripts/init-deployment.sh local
             ./scripts/deploy.sh local
-            curl --fail --silent http://127.0.0.1:8081/ | grep -q 'NutriCoach Foundation'
-            curl --fail --silent http://127.0.0.1:8080/api/v1/meta | grep -q 'NutriCoach'
+            page=$(curl --fail --silent --show-error http://127.0.0.1:8081/)
+            [[ "$page" == *'NutriCoach Foundation'* ]]
+            meta=$(curl --fail --silent --show-error http://127.0.0.1:8080/api/v1/meta)
+            [[ "$meta" == *'"application":"NutriCoach"'* ]]
           } 2>&1 | tee "$DEPLOYMENT_LOG"
 
       - name: Stop local deployment and remove CI volumes
@@ -51,6 +54,7 @@ jobs:
           DEPLOYMENT_LOG: ${{ runner.temp }}/nutricoach-deployment.log
         run: |
           set -Eeuo pipefail
+          trap 'echo "FAILED at line ${LINENO}: ${BASH_COMMAND}" >&2' ERR
           {
             ./scripts/init-deployment.sh https
             sed -i 's/^HTTP_PORT=.*/HTTP_PORT=18080/' .env
@@ -64,23 +68,25 @@ jobs:
           DEPLOYMENT_LOG: ${{ runner.temp }}/nutricoach-deployment.log
         run: |
           set -Eeuo pipefail
+          trap 'echo "FAILED at line ${LINENO}: ${BASH_COMMAND}" >&2' ERR
           ./scripts/deploy.sh https 2>&1 | tee -a "$DEPLOYMENT_LOG"
 
       - name: Verify HTTPS access controls and routing
         run: |
           set -Eeuo pipefail
+          trap 'echo "FAILED at line ${LINENO}: ${BASH_COMMAND}" >&2' ERR
           base_url=https://localhost:18443
 
           unauthorized=$(curl --insecure --silent --output /dev/null --write-out '%{http_code}' "$base_url/")
           test "$unauthorized" = 401
 
-          curl --insecure --fail --silent \
-            --user 'ci-user:ci-only-password-not-a-secret' \
-            "$base_url/" | grep -q 'NutriCoach Foundation'
+          page=$(curl --insecure --fail --silent --show-error \
+            --user 'ci-user:ci-only-password-not-a-secret' "$base_url/")
+          [[ "$page" == *'NutriCoach Foundation'* ]]
 
-          curl --insecure --fail --silent \
-            --user 'ci-user:ci-only-password-not-a-secret' \
-            "$base_url/api/v1/meta" | grep -q 'deterministic-code'
+          meta=$(curl --insecure --fail --silent --show-error \
+            --user 'ci-user:ci-only-password-not-a-secret' "$base_url/api/v1/meta")
+          [[ "$meta" == *'deterministic-code'* ]]
 
           actuator=$(curl --insecure --silent --output /dev/null --write-out '%{http_code}' \
             --user 'ci-user:ci-only-password-not-a-secret' \
@@ -100,16 +106,23 @@ jobs:
           DEPLOYMENT_LOG: ${{ runner.temp }}/nutricoach-deployment.log
         run: |
           set +e
+          DIAGNOSTIC_LOG="${RUNNER_TEMP}/nutricoach-diagnostics.log"
           {
+            echo '--- deployment command output ---'
+            tail -n 30 "$DEPLOYMENT_LOG" 2>/dev/null || true
             echo '--- docker compose ps ---'
             docker compose -f compose.yaml -f compose.https.yaml ps
             echo '--- docker compose logs ---'
-            docker compose -f compose.yaml -f compose.https.yaml logs --tail=120
-          } >> "$DEPLOYMENT_LOG" 2>&1
+            docker compose -f compose.yaml -f compose.https.yaml logs --tail=80
+          } > "$DIAGNOSTIC_LOG" 2>&1
 
-          mapfile -t lines < <(tail -n 12 "$DEPLOYMENT_LOG" | sed -E 's/[[:space:]]+/ /g')
+          mapfile -t lines < <(grep -E 'FAILED|FAIL  |Error|ERROR|unhealthy|exited|denied|refused|timed out' "$DIAGNOSTIC_LOG" | tail -n 8)
+          if [[ ${#lines[@]} -eq 0 ]]; then
+            mapfile -t lines < <(tail -n 8 "$DIAGNOSTIC_LOG")
+          fi
           index=1
           for line in "${lines[@]}"; do
+            line=$(printf '%s' "$line" | sed -E 's/[[:space:]]+/ /g')
             payload=$(STATE=failure CONTEXT="foss-deploy-diagnostic-${index}" DESCRIPTION="$line" python3 - <<'PY'
           import json
           import os

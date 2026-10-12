@@ -20,29 +20,43 @@ else
   COMPOSE+=( -f compose.yaml )
 fi
 
+fail() {
+  echo "FAIL  $*" >&2
+  "${COMPOSE[@]}" ps >&2 || true
+  exit 1
+}
+
 attempt=0
 until "${COMPOSE[@]}" exec -T web wget -qO- http://127.0.0.1:8081/ >/dev/null 2>&1; do
   attempt=$((attempt + 1))
   if (( attempt >= 60 )); then
-    echo "Web container did not become ready." >&2
-    "${COMPOSE[@]}" ps >&2 || true
-    exit 1
+    fail "Web container did not become ready."
   fi
   sleep 2
 done
 
-"${COMPOSE[@]}" exec -T web \
-  wget -qO- http://backend:8080/actuator/health | grep -q '"status":"UP"'
+if ! backend_health=$("${COMPOSE[@]}" exec -T web wget -qO- http://backend:8080/actuator/health); then
+  fail "The web container could not reach the backend health endpoint."
+fi
+if [[ "$backend_health" != *'"status":"UP"'* ]]; then
+  echo "Backend health response: $backend_health" >&2
+  fail "Backend health endpoint did not report UP."
+fi
 
 echo "PASS  Internal frontend and backend health checks"
 
 if [[ "$MODE" == local || "$MODE" == lan ]]; then
-  curl --fail --silent --show-error "http://127.0.0.1:${WEB_PORT:-8081}/" >/dev/null
-  curl --fail --silent --show-error "http://127.0.0.1:${BACKEND_PORT:-8080}/api/v1/meta" >/dev/null
+  curl --fail --silent --show-error --output /dev/null \
+    "http://127.0.0.1:${WEB_PORT:-8081}/" \
+    || fail "Host could not reach the web endpoint."
+  curl --fail --silent --show-error --output /dev/null \
+    "http://127.0.0.1:${BACKEND_PORT:-8080}/api/v1/meta" \
+    || fail "Host could not reach the backend metadata endpoint."
   echo "PASS  Host-accessible web and API endpoints"
 else
   "${COMPOSE[@]}" exec -T caddy \
-    caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile >/dev/null
+    caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile >/dev/null \
+    || fail "Caddy configuration validation failed."
   echo "PASS  Caddy HTTPS configuration"
 
   if [[ -n ${NUTRICOACH_HEALTHCHECK_PASSWORD:-} ]]; then
@@ -56,7 +70,8 @@ else
     if [[ ${NUTRICOACH_HEALTHCHECK_INSECURE:-0} == 1 ]]; then
       curl_args+=(--insecure)
     fi
-    curl "${curl_args[@]}" "$site/api/v1/meta" >/dev/null
+    curl "${curl_args[@]}" --output /dev/null "$site/api/v1/meta" \
+      || fail "Authenticated public endpoint check failed."
     echo "PASS  Authenticated public endpoint"
   else
     echo "INFO  Set NUTRICOACH_HEALTHCHECK_PASSWORD to test the public authenticated URL."
