@@ -1,6 +1,6 @@
 {
   "catalogId": "nutricoach-english-starter",
-  "catalogVersion": "1.0.0",
+  "catalogVersion": "1.0.1",
   "displayLanguage": "en",
   "source": {
     "name": "USDA FoodData Central SR Legacy",
@@ -10,351 +10,32 @@
     "citation": "U.S. Department of Agriculture, Agricultural Research Service. FoodData Central."
   },
   "foods": [
-    {
-      "id": "egg-hard-boiled",
-      "displayName": "Egg, whole, hard-boiled",
-      "acceptedDescriptions": ["Egg, whole, cooked, hard-boiled"],
-      "category": "Eggs",
-      "roles": ["protein", "fat"],
-      "mealTags": ["breakfast", "lunch", "post-workout", "dinner"],
-      "defaultPortionGrams": 50,
-      "defaultAvailableGrams": 300
-    },
-    {
-      "id": "oats-dry",
-      "displayName": "Oats, dry",
-      "acceptedDescriptions": [
-        "Cereals, oats, regular and quick, not fortified, dry",
-        "Oats"
-      ],
-      "category": "Grains",
-      "roles": ["carbohydrate", "fiber"],
-      "mealTags": ["breakfast", "pre-workout", "snack"],
-      "defaultPortionGrams": 50,
-      "defaultAvailableGrams": 200
-    },
-    {
-      "id": "chicken-breast-roasted",
-      "displayName": "Chicken breast, roasted, skinless",
-      "acceptedDescriptions": [
-        "Chicken, broilers or fryers, breast, meat only, cooked, roasted"
-      ],
-      "category": "Poultry",
-      "roles": ["protein"],
-      "mealTags": ["lunch", "post-workout", "dinner"],
-      "defaultPortionGrams": 120,
-      "defaultAvailableGrams": 300
-    },
-    {
-      "id": "salmon-cooked",
-      "displayName": "Salmon, Atlantic, cooked",
-      "acceptedDescriptions": [
-        "Fish, salmon, Atlantic, farmed, cooked, dry heat"
-      ],
-      "category": "Fish",
-      "roles": ["protein", "fat"],
-      "mealTags": ["lunch", "dinner"],
-      "defaultPortionGrams": 120,
-      "defaultAvailableGrams": 240
-    },
-    {
-      "id": "tilapia-cooked",
-      "displayName": "Tilapia, cooked",
-      "acceptedDescriptions": ["Fish, tilapia, cooked, dry heat"],
-      "category": "Fish",
-      "roles": ["protein"],
-      "mealTags": ["lunch", "post-workout", "dinner"],
-      "defaultPortionGrams": 120,
-      "defaultAvailableGrams": 240
-    },
-    {
-      "id": "milk-whole",
-      "displayName": "Milk, whole",
-      "acceptedDescriptions": [
-        "Milk, whole, 3.25% milkfat, without added vitamin A and vitamin D",
-        "Milk, whole, 3.25% milkfat, with added vitamin D"
-      ],
-      "category": "Dairy",
-      "roles": ["protein", "carbohydrate", "calcium"],
-      "mealTags": ["breakfast", "post-workout", "snack"],
-      "defaultPortionGrams": 244,
-      "defaultAvailableGrams": 500
-    },
-    {
-      "id": "yogurt-plain-whole",
-      "displayName": "Yogurt, plain, whole milk",
-      "acceptedDescriptions": [
-        "Yogurt, plain, whole milk, 8 grams protein per 8 ounce"
-      ],
-      "category": "Dairy",
-      "roles": ["protein", "calcium"],
-      "mealTags": ["breakfast", "lunch", "snack", "dinner"],
-      "defaultPortionGrams": 170,
-      "defaultAvailableGrams": 340
-    },
-    {
-      "id": "cottage-cheese",
-      "displayName": "Cottage cheese, creamed",
-      "acceptedDescriptions": [
-        "Cheese, cottage, creamed, large or small curd"
-      ],
-      "category": "Dairy",
-      "roles": ["protein", "calcium"],
-      "mealTags": ["breakfast", "snack", "dinner"],
-      "defaultPortionGrams": 100,
-      "defaultAvailableGrams": 250
-    },
-    {
-      "id": "rice-white-cooked",
-      "displayName": "White rice, cooked",
-      "acceptedDescriptions": [
-        "Rice, white, long-grain, regular, enriched, cooked"
-      ],
-      "category": "Grains",
-      "roles": ["carbohydrate"],
-      "mealTags": ["lunch", "pre-workout", "post-workout", "dinner"],
-      "defaultPortionGrams": 150,
-      "defaultAvailableGrams": 450
-    },
-    {
-      "id": "rice-brown-cooked",
-      "displayName": "Brown rice, cooked",
-      "acceptedDescriptions": ["Rice, brown, long-grain, cooked"],
-      "category": "Grains",
-      "roles": ["carbohydrate", "fiber"],
-      "mealTags": ["lunch", "pre-workout", "dinner"],
-      "defaultPortionGrams": 150,
-      "defaultAvailableGrams": 450
-    },
-    {
-      "id": "lentils-cooked",
-      "displayName": "Lentils, cooked",
-      "acceptedDescriptions": [
-        "Lentils, mature seeds, cooked, boiled, without salt"
-      ],
-      "category": "Legumes",
-      "roles": ["protein", "carbohydrate", "fiber", "iron", "folate"],
-      "mealTags": ["lunch", "dinner"],
-      "defaultPortionGrams": 150,
-      "defaultAvailableGrams": 300
-    },
-    {
-      "id": "chickpeas-cooked",
-      "displayName": "Chickpeas, cooked",
-      "acceptedDescriptions": [
-        "Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, without salt"
-      ],
-      "category": "Legumes",
-      "roles": ["protein", "carbohydrate", "fiber", "folate"],
-      "mealTags": ["lunch", "snack", "dinner"],
-      "defaultPortionGrams": 150,
-      "defaultAvailableGrams": 300
-    },
-    {
-      "id": "green-peas-cooked",
-      "displayName": "Green peas, cooked",
-      "acceptedDescriptions": [
-        "Peas, green, cooked, boiled, drained, without salt"
-      ],
-      "category": "Vegetables",
-      "roles": ["fiber", "carbohydrate", "protein", "vitamin-c", "folate"],
-      "mealTags": ["lunch", "dinner"],
-      "defaultPortionGrams": 100,
-      "defaultAvailableGrams": 250
-    },
-    {
-      "id": "kidney-beans-cooked",
-      "displayName": "Kidney beans, cooked",
-      "acceptedDescriptions": [
-        "Beans, kidney, red, mature seeds, cooked, boiled, without salt"
-      ],
-      "category": "Legumes",
-      "roles": ["protein", "carbohydrate", "fiber", "iron", "folate"],
-      "mealTags": ["lunch", "dinner"],
-      "defaultPortionGrams": 150,
-      "defaultAvailableGrams": 300
-    },
-    {
-      "id": "black-beans-cooked",
-      "displayName": "Black beans, cooked",
-      "acceptedDescriptions": [
-        "Beans, black, mature seeds, cooked, boiled, without salt"
-      ],
-      "category": "Legumes",
-      "roles": ["protein", "carbohydrate", "fiber", "iron", "folate"],
-      "mealTags": ["lunch", "dinner"],
-      "defaultPortionGrams": 150,
-      "defaultAvailableGrams": 300
-    },
-    {
-      "id": "potato-boiled",
-      "displayName": "Potato, boiled, without skin",
-      "acceptedDescriptions": [
-        "Potatoes, boiled, cooked without skin, flesh, without salt"
-      ],
-      "category": "Vegetables",
-      "roles": ["carbohydrate", "potassium", "vitamin-c"],
-      "mealTags": ["lunch", "pre-workout", "post-workout", "dinner"],
-      "defaultPortionGrams": 150,
-      "defaultAvailableGrams": 300
-    },
-    {
-      "id": "sweet-potato-baked",
-      "displayName": "Sweet potato, baked",
-      "acceptedDescriptions": [
-        "Sweet potato, cooked, baked in skin, flesh, without salt"
-      ],
-      "category": "Vegetables",
-      "roles": ["carbohydrate", "fiber", "vitamin-a", "potassium"],
-      "mealTags": ["lunch", "pre-workout", "dinner"],
-      "defaultPortionGrams": 150,
-      "defaultAvailableGrams": 300
-    },
-    {
-      "id": "banana-raw",
-      "displayName": "Banana, raw",
-      "acceptedDescriptions": ["Bananas, raw"],
-      "category": "Fruit",
-      "roles": ["carbohydrate", "potassium", "fruit"],
-      "mealTags": ["breakfast", "pre-workout", "post-workout", "snack"],
-      "defaultPortionGrams": 118,
-      "defaultAvailableGrams": 354
-    },
-    {
-      "id": "apple-raw",
-      "displayName": "Apple, raw, with skin",
-      "acceptedDescriptions": ["Apples, raw, with skin"],
-      "category": "Fruit",
-      "roles": ["carbohydrate", "fiber", "fruit"],
-      "mealTags": ["breakfast", "pre-workout", "snack"],
-      "defaultPortionGrams": 182,
-      "defaultAvailableGrams": 364
-    },
-    {
-      "id": "orange-raw",
-      "displayName": "Orange, raw",
-      "acceptedDescriptions": [
-        "Oranges, raw, all commercial varieties"
-      ],
-      "category": "Fruit",
-      "roles": ["carbohydrate", "fiber", "vitamin-c", "fruit"],
-      "mealTags": ["breakfast", "pre-workout", "snack"],
-      "defaultPortionGrams": 140,
-      "defaultAvailableGrams": 280
-    },
-    {
-      "id": "spinach-cooked",
-      "displayName": "Spinach, cooked",
-      "acceptedDescriptions": [
-        "Spinach, cooked, boiled, drained, without salt"
-      ],
-      "category": "Vegetables",
-      "roles": ["fiber", "iron", "folate", "vitamin-a", "vegetable"],
-      "mealTags": ["lunch", "dinner"],
-      "defaultPortionGrams": 100,
-      "defaultAvailableGrams": 200
-    },
-    {
-      "id": "broccoli-cooked",
-      "displayName": "Broccoli, cooked",
-      "acceptedDescriptions": [
-        "Broccoli, cooked, boiled, drained, without salt"
-      ],
-      "category": "Vegetables",
-      "roles": ["fiber", "vitamin-c", "folate", "vegetable"],
-      "mealTags": ["lunch", "dinner"],
-      "defaultPortionGrams": 100,
-      "defaultAvailableGrams": 200
-    },
-    {
-      "id": "carrots-cooked",
-      "displayName": "Carrots, cooked",
-      "acceptedDescriptions": [
-        "Carrots, cooked, boiled, drained, without salt"
-      ],
-      "category": "Vegetables",
-      "roles": ["fiber", "vitamin-a", "vegetable"],
-      "mealTags": ["lunch", "dinner"],
-      "defaultPortionGrams": 100,
-      "defaultAvailableGrams": 200
-    },
-    {
-      "id": "tomato-raw",
-      "displayName": "Tomato, raw",
-      "acceptedDescriptions": [
-        "Tomatoes, red, ripe, raw, year round average"
-      ],
-      "category": "Vegetables",
-      "roles": ["vitamin-c", "potassium", "vegetable"],
-      "mealTags": ["breakfast", "lunch", "dinner"],
-      "defaultPortionGrams": 100,
-      "defaultAvailableGrams": 300
-    },
-    {
-      "id": "almonds",
-      "displayName": "Almonds",
-      "acceptedDescriptions": ["Nuts, almonds"],
-      "category": "Nuts and seeds",
-      "roles": ["fat", "protein", "fiber", "magnesium"],
-      "mealTags": ["breakfast", "snack"],
-      "defaultPortionGrams": 28,
-      "defaultAvailableGrams": 100
-    },
-    {
-      "id": "peanuts-raw",
-      "displayName": "Peanuts, raw",
-      "acceptedDescriptions": ["Peanuts, all types, raw"],
-      "category": "Nuts and seeds",
-      "roles": ["fat", "protein", "fiber", "magnesium"],
-      "mealTags": ["breakfast", "snack"],
-      "defaultPortionGrams": 28,
-      "defaultAvailableGrams": 100
-    },
-    {
-      "id": "tofu-firm",
-      "displayName": "Tofu, firm, calcium-set",
-      "acceptedDescriptions": [
-        "Tofu, raw, firm, prepared with calcium sulfate"
-      ],
-      "category": "Soy foods",
-      "roles": ["protein", "calcium", "iron"],
-      "mealTags": ["breakfast", "lunch", "post-workout", "dinner"],
-      "defaultPortionGrams": 120,
-      "defaultAvailableGrams": 300
-    },
-    {
-      "id": "whole-wheat-bread",
-      "displayName": "Whole-wheat bread",
-      "acceptedDescriptions": [
-        "Bread, whole-wheat, commercially prepared"
-      ],
-      "category": "Grains",
-      "roles": ["carbohydrate", "fiber"],
-      "mealTags": ["breakfast", "pre-workout", "post-workout", "snack"],
-      "defaultPortionGrams": 56,
-      "defaultAvailableGrams": 224
-    },
-    {
-      "id": "olive-oil",
-      "displayName": "Olive oil",
-      "acceptedDescriptions": ["Oil, olive, salad or cooking"],
-      "category": "Fats and oils",
-      "roles": ["fat"],
-      "mealTags": ["lunch", "dinner"],
-      "defaultPortionGrams": 14,
-      "defaultAvailableGrams": 100
-    },
-    {
-      "id": "avocado-raw",
-      "displayName": "Avocado, raw",
-      "acceptedDescriptions": [
-        "Avocados, raw, all commercial varieties"
-      ],
-      "category": "Fruit",
-      "roles": ["fat", "fiber", "potassium", "fruit"],
-      "mealTags": ["breakfast", "lunch", "snack"],
-      "defaultPortionGrams": 75,
-      "defaultAvailableGrams": 150
-    }
+    {"id":"egg-hard-boiled","displayName":"Egg, whole, hard-boiled","acceptedDescriptions":["Egg, whole, cooked, hard-boiled"],"category":"Eggs","roles":["protein","fat"],"mealTags":["breakfast","lunch","post-workout","dinner"],"defaultPortionGrams":50,"defaultAvailableGrams":300},
+    {"id":"oats-dry","displayName":"Oats, dry","acceptedDescriptions":["Cereals, oats, regular and quick, not fortified, dry"],"category":"Grains","roles":["carbohydrate","fiber"],"mealTags":["breakfast","pre-workout","snack"],"defaultPortionGrams":50,"defaultAvailableGrams":200},
+    {"id":"chicken-breast-roasted","displayName":"Chicken breast, roasted, skinless","acceptedDescriptions":["Chicken, broilers or fryers, breast, meat only, cooked, roasted"],"category":"Poultry","roles":["protein"],"mealTags":["lunch","post-workout","dinner"],"defaultPortionGrams":120,"defaultAvailableGrams":300},
+    {"id":"salmon-cooked","displayName":"Salmon, Atlantic, cooked","acceptedDescriptions":["Fish, salmon, Atlantic, farmed, cooked, dry heat"],"category":"Fish","roles":["protein","fat"],"mealTags":["lunch","dinner"],"defaultPortionGrams":120,"defaultAvailableGrams":240},
+    {"id":"tilapia-cooked","displayName":"Tilapia, cooked","acceptedDescriptions":["Fish, tilapia, cooked, dry heat"],"category":"Fish","roles":["protein"],"mealTags":["lunch","post-workout","dinner"],"defaultPortionGrams":120,"defaultAvailableGrams":240},
+    {"id":"milk-whole","displayName":"Milk, whole","acceptedDescriptions":["Milk, whole, 3.25% milkfat, with added vitamin D"],"category":"Dairy","roles":["protein","carbohydrate","calcium"],"mealTags":["breakfast","post-workout","snack"],"defaultPortionGrams":244,"defaultAvailableGrams":500},
+    {"id":"cottage-cheese","displayName":"Cottage cheese, creamed","acceptedDescriptions":["Cheese, cottage, creamed, large or small curd"],"category":"Dairy","roles":["protein","calcium"],"mealTags":["breakfast","snack","dinner"],"defaultPortionGrams":100,"defaultAvailableGrams":250},
+    {"id":"rice-white-cooked","displayName":"White rice, cooked","acceptedDescriptions":["Rice, white, long-grain, regular, enriched, cooked"],"category":"Grains","roles":["carbohydrate"],"mealTags":["lunch","pre-workout","post-workout","dinner"],"defaultPortionGrams":150,"defaultAvailableGrams":450},
+    {"id":"lentils-cooked","displayName":"Lentils, cooked","acceptedDescriptions":["Lentils, mature seeds, cooked, boiled, without salt"],"category":"Legumes","roles":["protein","carbohydrate","fiber","iron","folate"],"mealTags":["lunch","dinner"],"defaultPortionGrams":150,"defaultAvailableGrams":300},
+    {"id":"chickpeas-cooked","displayName":"Chickpeas, cooked","acceptedDescriptions":["Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, without salt"],"category":"Legumes","roles":["protein","carbohydrate","fiber","folate"],"mealTags":["lunch","snack","dinner"],"defaultPortionGrams":150,"defaultAvailableGrams":300},
+    {"id":"green-peas-cooked","displayName":"Green peas, cooked","acceptedDescriptions":["Peas, green, cooked, boiled, drained, without salt"],"category":"Vegetables","roles":["fiber","carbohydrate","protein","vitamin-c","folate"],"mealTags":["lunch","dinner"],"defaultPortionGrams":100,"defaultAvailableGrams":250},
+    {"id":"kidney-beans-cooked","displayName":"Kidney beans, cooked","acceptedDescriptions":["Beans, kidney, red, mature seeds, cooked, boiled, without salt"],"category":"Legumes","roles":["protein","carbohydrate","fiber","iron","folate"],"mealTags":["lunch","dinner"],"defaultPortionGrams":150,"defaultAvailableGrams":300},
+    {"id":"black-beans-cooked","displayName":"Black beans, cooked","acceptedDescriptions":["Beans, black, mature seeds, cooked, boiled, without salt"],"category":"Legumes","roles":["protein","carbohydrate","fiber","iron","folate"],"mealTags":["lunch","dinner"],"defaultPortionGrams":150,"defaultAvailableGrams":300},
+    {"id":"potato-boiled","displayName":"Potato, boiled, without skin","acceptedDescriptions":["Potatoes, boiled, cooked without skin, flesh, without salt"],"category":"Vegetables","roles":["carbohydrate","potassium","vitamin-c"],"mealTags":["lunch","pre-workout","post-workout","dinner"],"defaultPortionGrams":150,"defaultAvailableGrams":300},
+    {"id":"sweet-potato-baked","displayName":"Sweet potato, baked","acceptedDescriptions":["Sweet potato, cooked, baked in skin, flesh, without salt"],"category":"Vegetables","roles":["carbohydrate","fiber","vitamin-a","potassium"],"mealTags":["lunch","pre-workout","dinner"],"defaultPortionGrams":150,"defaultAvailableGrams":300},
+    {"id":"banana-raw","displayName":"Banana, raw","acceptedDescriptions":["Bananas, raw"],"category":"Fruit","roles":["carbohydrate","potassium","fruit"],"mealTags":["breakfast","pre-workout","post-workout","snack"],"defaultPortionGrams":118,"defaultAvailableGrams":354},
+    {"id":"orange-raw","displayName":"Orange, raw","acceptedDescriptions":["Oranges, raw, all commercial varieties"],"category":"Fruit","roles":["carbohydrate","fiber","vitamin-c","fruit"],"mealTags":["breakfast","pre-workout","snack"],"defaultPortionGrams":140,"defaultAvailableGrams":280},
+    {"id":"spinach-cooked","displayName":"Spinach, cooked","acceptedDescriptions":["Spinach, cooked, boiled, drained, without salt"],"category":"Vegetables","roles":["fiber","iron","folate","vitamin-a","vegetable"],"mealTags":["lunch","dinner"],"defaultPortionGrams":100,"defaultAvailableGrams":200},
+    {"id":"broccoli-cooked","displayName":"Broccoli, cooked","acceptedDescriptions":["Broccoli, cooked, boiled, drained, without salt"],"category":"Vegetables","roles":["fiber","vitamin-c","folate","vegetable"],"mealTags":["lunch","dinner"],"defaultPortionGrams":100,"defaultAvailableGrams":200},
+    {"id":"carrots-cooked","displayName":"Carrots, cooked","acceptedDescriptions":["Carrots, cooked, boiled, drained, without salt"],"category":"Vegetables","roles":["fiber","vitamin-a","vegetable"],"mealTags":["lunch","dinner"],"defaultPortionGrams":100,"defaultAvailableGrams":200},
+    {"id":"tomato-raw","displayName":"Tomato, raw","acceptedDescriptions":["Tomatoes, red, ripe, raw, year round average"],"category":"Vegetables","roles":["vitamin-c","potassium","vegetable"],"mealTags":["breakfast","lunch","dinner"],"defaultPortionGrams":100,"defaultAvailableGrams":300},
+    {"id":"almonds","displayName":"Almonds","acceptedDescriptions":["Nuts, almonds"],"category":"Nuts and seeds","roles":["fat","protein","fiber","magnesium"],"mealTags":["breakfast","snack"],"defaultPortionGrams":28,"defaultAvailableGrams":100},
+    {"id":"peanuts-raw","displayName":"Peanuts, raw","acceptedDescriptions":["Peanuts, all types, raw"],"category":"Nuts and seeds","roles":["fat","protein","fiber","magnesium"],"mealTags":["breakfast","snack"],"defaultPortionGrams":28,"defaultAvailableGrams":100},
+    {"id":"tofu-firm","displayName":"Tofu, firm, calcium-set","acceptedDescriptions":["Tofu, raw, firm, prepared with calcium sulfate"],"category":"Soy foods","roles":["protein","calcium","iron"],"mealTags":["breakfast","lunch","post-workout","dinner"],"defaultPortionGrams":120,"defaultAvailableGrams":300},
+    {"id":"whole-wheat-bread","displayName":"Whole-wheat bread","acceptedDescriptions":["Bread, whole-wheat, commercially prepared"],"category":"Grains","roles":["carbohydrate","fiber"],"mealTags":["breakfast","pre-workout","post-workout","snack"],"defaultPortionGrams":56,"defaultAvailableGrams":224},
+    {"id":"olive-oil","displayName":"Olive oil","acceptedDescriptions":["Oil, olive, salad or cooking"],"category":"Fats and oils","roles":["fat"],"mealTags":["lunch","dinner"],"defaultPortionGrams":14,"defaultAvailableGrams":100},
+    {"id":"avocado-raw","displayName":"Avocado, raw","acceptedDescriptions":["Avocados, raw, all commercial varieties"],"category":"Fruit","roles":["fat","fiber","potassium","fruit"],"mealTags":["breakfast","lunch","snack"],"defaultPortionGrams":75,"defaultAvailableGrams":150}
   ]
 }
