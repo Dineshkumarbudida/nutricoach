@@ -1,6 +1,6 @@
 {
   "importerVersion": "fdc-catalog-importer/1.0.0",
-  "generatedAt": "2026-10-12T17:45:04+00:00",
+  "generatedAt": "2026-10-12T17:46:29+00:00",
   "manifest": "data/catalog/english-foods.json",
   "fixture": false,
   "source": {
@@ -56,6 +56,16 @@
       "displayName": "Tilapia, cooked",
       "fdcId": 175177,
       "sourceDescription": "Fish, tilapia, cooked, dry heat",
+      "nutrientCount": 29,
+      "missingNutrients": [
+        "SUGARS"
+      ]
+    },
+    {
+      "id": "milk-whole",
+      "displayName": "Milk, whole",
+      "fdcId": 171265,
+      "sourceDescription": "Milk, whole, 3.25% milkfat, with added vitamin D",
       "nutrientCount": 29,
       "missingNutrients": [
         "SUGARS"
@@ -276,44 +286,7 @@
       ]
     }
   ],
-  "unresolved": [
-    {
-      "id": "yogurt-plain-whole",
-      "displayName": "Yogurt, plain, whole milk",
-      "acceptedDescriptions": [
-        "Yogurt, plain, whole milk, 8 grams protein per 8 ounce"
-      ]
-    },
-    {
-      "id": "rice-brown-cooked",
-      "displayName": "Brown rice, cooked",
-      "acceptedDescriptions": [
-        "Rice, brown, long-grain, cooked"
-      ]
-    },
-    {
-      "id": "apple-raw",
-      "displayName": "Apple, raw, with skin",
-      "acceptedDescriptions": [
-        "Apples, raw, with skin"
-      ]
-    }
-  ],
-  "ambiguous": [
-    {
-      "id": "milk-whole",
-      "displayName": "Milk, whole",
-      "matches": [
-        {
-          "fdcId": 172217,
-          "description": "Milk, whole, 3.25% milkfat, without added vitamin A and vitamin D"
-        },
-        {
-          "fdcId": 171265,
-          "description": "Milk, whole, 3.25% milkfat, with added vitamin D"
-        }
-      ]
-    }
-  ],
+  "unresolved": [],
+  "ambiguous": [],
   "warnings": []
 }

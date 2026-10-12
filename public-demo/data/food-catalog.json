@@ -1,7 +1,7 @@
 {
   "catalogId": "nutricoach-english-starter",
-  "catalogVersion": "1.0.0",
-  "generatedAt": "2026-10-12T17:45:04+00:00",
+  "catalogVersion": "1.0.1",
+  "generatedAt": "2026-10-12T17:46:29+00:00",
   "displayLanguage": "en",
   "source": {
     "name": "USDA FoodData Central SR Legacy",
@@ -3147,6 +3147,240 @@
         "name": "USDA FoodData Central SR Legacy",
         "fdcId": 172421,
         "description": "Lentils, mature seeds, cooked, boiled, without salt",
+        "dataType": "sr_legacy_food",
+        "publicationDate": "2019-04-01",
+        "release": "2018-04",
+        "license": "CC0-1.0",
+        "archiveUrl": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip"
+      }
+    },
+    {
+      "id": "milk-whole",
+      "displayName": "Milk, whole",
+      "displayLanguage": "en",
+      "category": "Dairy",
+      "roles": [
+        "protein",
+        "carbohydrate",
+        "calcium"
+      ],
+      "mealTags": [
+        "breakfast",
+        "post-workout",
+        "snack"
+      ],
+      "defaultPortionGrams": "244",
+      "defaultAvailableGrams": "500",
+      "referenceBasisGrams": "100",
+      "nutrients": {
+        "ENERGY": {
+          "amountPer100g": "61",
+          "unit": "kcal",
+          "sourceNutrientId": 1008,
+          "sourceNutrientName": "Energy"
+        },
+        "PROTEIN": {
+          "amountPer100g": "3.15",
+          "unit": "g",
+          "sourceNutrientId": 1003,
+          "sourceNutrientName": "Protein"
+        },
+        "FAT": {
+          "amountPer100g": "3.25",
+          "unit": "g",
+          "sourceNutrientId": 1004,
+          "sourceNutrientName": "Total lipid (fat)"
+        },
+        "CARBOHYDRATE": {
+          "amountPer100g": "4.8",
+          "unit": "g",
+          "sourceNutrientId": 1005,
+          "sourceNutrientName": "Carbohydrate, by difference"
+        },
+        "FIBER": {
+          "amountPer100g": "0",
+          "unit": "g",
+          "sourceNutrientId": 1079,
+          "sourceNutrientName": "Fiber, total dietary"
+        },
+        "SATURATED_FAT": {
+          "amountPer100g": "1.865",
+          "unit": "g",
+          "sourceNutrientId": 1258,
+          "sourceNutrientName": "Fatty acids, total saturated"
+        },
+        "CALCIUM": {
+          "amountPer100g": "113",
+          "unit": "mg",
+          "sourceNutrientId": 1087,
+          "sourceNutrientName": "Calcium, Ca"
+        },
+        "IRON": {
+          "amountPer100g": "0.03",
+          "unit": "mg",
+          "sourceNutrientId": 1089,
+          "sourceNutrientName": "Iron, Fe"
+        },
+        "MAGNESIUM": {
+          "amountPer100g": "10",
+          "unit": "mg",
+          "sourceNutrientId": 1090,
+          "sourceNutrientName": "Magnesium, Mg"
+        },
+        "PHOSPHORUS": {
+          "amountPer100g": "84",
+          "unit": "mg",
+          "sourceNutrientId": 1091,
+          "sourceNutrientName": "Phosphorus, P"
+        },
+        "POTASSIUM": {
+          "amountPer100g": "132",
+          "unit": "mg",
+          "sourceNutrientId": 1092,
+          "sourceNutrientName": "Potassium, K"
+        },
+        "SODIUM": {
+          "amountPer100g": "43",
+          "unit": "mg",
+          "sourceNutrientId": 1093,
+          "sourceNutrientName": "Sodium, Na"
+        },
+        "ZINC": {
+          "amountPer100g": "0.37",
+          "unit": "mg",
+          "sourceNutrientId": 1095,
+          "sourceNutrientName": "Zinc, Zn"
+        },
+        "COPPER": {
+          "amountPer100g": "0.025",
+          "unit": "mg",
+          "sourceNutrientId": 1098,
+          "sourceNutrientName": "Copper, Cu"
+        },
+        "MANGANESE": {
+          "amountPer100g": "0.004",
+          "unit": "mg",
+          "sourceNutrientId": 1101,
+          "sourceNutrientName": "Manganese, Mn"
+        },
+        "SELENIUM": {
+          "amountPer100g": "3.7",
+          "unit": "mcg",
+          "sourceNutrientId": 1103,
+          "sourceNutrientName": "Selenium, Se"
+        },
+        "VITAMIN_A_RAE": {
+          "amountPer100g": "46",
+          "unit": "mcg RAE",
+          "sourceNutrientId": 1106,
+          "sourceNutrientName": "Vitamin A, RAE"
+        },
+        "VITAMIN_E": {
+          "amountPer100g": "0.07",
+          "unit": "mg",
+          "sourceNutrientId": 1109,
+          "sourceNutrientName": "Vitamin E (alpha-tocopherol)"
+        },
+        "VITAMIN_D": {
+          "amountPer100g": "1.3",
+          "unit": "mcg",
+          "sourceNutrientId": 1114,
+          "sourceNutrientName": "Vitamin D (D2 + D3)"
+        },
+        "VITAMIN_C": {
+          "amountPer100g": "0",
+          "unit": "mg",
+          "sourceNutrientId": 1162,
+          "sourceNutrientName": "Vitamin C, total ascorbic acid"
+        },
+        "THIAMIN": {
+          "amountPer100g": "0.046",
+          "unit": "mg",
+          "sourceNutrientId": 1165,
+          "sourceNutrientName": "Thiamin"
+        },
+        "RIBOFLAVIN": {
+          "amountPer100g": "0.169",
+          "unit": "mg",
+          "sourceNutrientId": 1166,
+          "sourceNutrientName": "Riboflavin"
+        },
+        "NIACIN": {
+          "amountPer100g": "0.089",
+          "unit": "mg",
+          "sourceNutrientId": 1167,
+          "sourceNutrientName": "Niacin"
+        },
+        "VITAMIN_B6": {
+          "amountPer100g": "0.036",
+          "unit": "mg",
+          "sourceNutrientId": 1175,
+          "sourceNutrientName": "Vitamin B-6"
+        },
+        "FOLATE_DFE": {
+          "amountPer100g": "5",
+          "unit": "mcg DFE",
+          "sourceNutrientId": 1190,
+          "sourceNutrientName": "Folate, DFE"
+        },
+        "VITAMIN_B12": {
+          "amountPer100g": "0.45",
+          "unit": "mcg",
+          "sourceNutrientId": 1178,
+          "sourceNutrientName": "Vitamin B-12"
+        },
+        "CHOLINE": {
+          "amountPer100g": "14.3",
+          "unit": "mg",
+          "sourceNutrientId": 1180,
+          "sourceNutrientName": "Choline, total"
+        },
+        "VITAMIN_K": {
+          "amountPer100g": "0.3",
+          "unit": "mcg",
+          "sourceNutrientId": 1185,
+          "sourceNutrientName": "Vitamin K (phylloquinone)"
+        },
+        "PANTOTHENIC_ACID": {
+          "amountPer100g": "0.373",
+          "unit": "mg",
+          "sourceNutrientId": 1170,
+          "sourceNutrientName": "Pantothenic acid"
+        }
+      },
+      "missingNutrients": [
+        "SUGARS"
+      ],
+      "sourcePortions": [
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "cup",
+          "gramWeight": "244"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "fl oz",
+          "gramWeight": "30.5"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "quart",
+          "gramWeight": "976"
+        },
+        {
+          "amount": "1",
+          "measureUnit": "undetermined",
+          "description": "tbsp",
+          "gramWeight": "15"
+        }
+      ],
+      "source": {
+        "name": "USDA FoodData Central SR Legacy",
+        "fdcId": 171265,
+        "description": "Milk, whole, 3.25% milkfat, with added vitamin D",
         "dataType": "sr_legacy_food",
         "publicationDate": "2019-04-01",
         "release": "2018-04",
