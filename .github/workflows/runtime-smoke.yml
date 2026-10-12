@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  statuses: write
 
 jobs:
   full-stack-runtime:
@@ -47,6 +48,7 @@ jobs:
           DATABASE_PASSWORD: nutricoach-ci-only
           DATABASE_POOL_SIZE: '4'
           SERVER_PORT: '8080'
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -Eeuo pipefail
 
@@ -54,6 +56,50 @@ jobs:
           WEB_LOG="${RUNNER_TEMP}/nutricoach-web.log"
           BACKEND_PID=""
           WEB_PID=""
+
+          post_status() {
+            state="$1"
+            context="$2"
+            description="$3"
+            payload="$(STATE="$state" CONTEXT="$context" DESCRIPTION="$description" python3 - <<'PY'
+          import json
+          import os
+          print(json.dumps({
+              "state": os.environ["STATE"],
+              "context": os.environ["CONTEXT"],
+              "description": os.environ["DESCRIPTION"][:140],
+              "target_url": f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
+          }))
+          PY
+          )"
+            curl --fail --silent --show-error \
+              --request POST \
+              --header "Accept: application/vnd.github+json" \
+              --header "Authorization: Bearer ${GH_TOKEN}" \
+              --header "X-GitHub-Api-Version: 2022-11-28" \
+              "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}" \
+              --data "${payload}" >/dev/null || true
+          }
+
+          publish_failure_diagnostics() {
+            post_status failure runtime-smoke "Full-stack runtime smoke test failed"
+
+            if [[ -s "${BACKEND_LOG}" ]]; then
+              mapfile -t diagnostic_lines < <(
+                grep -E "APPLICATION FAILED|Description:|Action:|Caused by:|Exception|ERROR" "${BACKEND_LOG}" \
+                  | sed -E 's/[[:space:]]+/ /g; s/nutricoach-ci-only/[REDACTED]/g' \
+                  | tail -n 6
+              )
+              if [[ ${#diagnostic_lines[@]} -eq 0 ]]; then
+                mapfile -t diagnostic_lines < <(tail -n 6 "${BACKEND_LOG}" | sed -E 's/[[:space:]]+/ /g; s/nutricoach-ci-only/[REDACTED]/g')
+              fi
+              index=1
+              for line in "${diagnostic_lines[@]}"; do
+                post_status failure "runtime-diagnostic-${index}" "${line}"
+                index=$((index + 1))
+              done
+            fi
+          }
 
           cleanup() {
             if [[ -n "${WEB_PID}" ]]; then
@@ -71,6 +117,7 @@ jobs:
               cat "${BACKEND_LOG}" 2>/dev/null || true
               echo "--- web log ---"
               cat "${WEB_LOG}" 2>/dev/null || true
+              publish_failure_diagnostics
             fi
             cleanup
             exit ${status}
@@ -92,6 +139,7 @@ jobs:
           }
 
           trap finish EXIT
+          post_status pending runtime-smoke "Starting PostgreSQL, backend, and frontend runtime checks"
 
           echo "Building backend..."
           mvn -B -ntp -f backend/pom.xml -DskipTests package
@@ -99,7 +147,7 @@ jobs:
           echo "Starting backend..."
           java -jar backend/target/nutricoach-api-0.1.0-SNAPSHOT.jar >"${BACKEND_LOG}" 2>&1 &
           BACKEND_PID=$!
-          wait_for_url "Backend health endpoint" "http://127.0.0.1:8080/actuator/health" 60
+          wait_for_url "Backend health endpoint" "http://127.0.0.1:8080/actuator/health" 35
 
           curl --fail --silent --show-error \
             "http://127.0.0.1:8080/api/v1/meta" \
@@ -197,4 +245,5 @@ jobs:
           print("Frontend server and API proxy both returned the expected results.")
           PY
 
+          post_status success runtime-smoke "PostgreSQL, backend API, frontend, and API proxy checks passed"
           echo "RUNTIME SMOKE TEST PASSED"
