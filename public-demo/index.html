@@ -969,7 +969,7 @@
     }
 
     function normalizedCategory(category, name) {
-      const text = \`\${category} \${name}\`.toLowerCase();
+      const text = `${category} ${name}`.toLowerCase();
       if (/marine|fish|shellfish|meat|poultry|egg/.test(text)) return 'protein';
       if (/milk|dairy|cheese|curd/.test(text)) return 'dairy';
       if (/nuts|oil|seed/.test(text)) return 'fat-protein';
@@ -980,7 +980,7 @@
     }
 
     function dietaryType(category, name) {
-      const text = \`\${category} \${name}\`.toLowerCase();
+      const text = `${category} ${name}`.toLowerCase();
       if (/fish|shellfish|meat|poultry/.test(text)) return 'nonveg';
       if (/egg/.test(text)) return 'egg';
       return 'vegetarian';
@@ -1007,7 +1007,7 @@
       const increment = unit === 'items' ? 1 : 50;
       const factor = increment / 100;
       return {
-        id: \`food-\${sourceId}\`,
+        id: `food-${sourceId}`,
         name: name.trim(),
         category: categoryCode,
         diet: dietaryType(category, name),
@@ -1717,15 +1717,15 @@
 
       list.innerHTML = rows.map(([label, value, target, unit]) => {
         const percent = Math.min(130, target > 0 ? (value / target) * 100 : 0);
-        return \`
+        return `
           <div class="progress-row">
-            <label>\${label}</label>
-            <div class="progress-track" aria-label="\${label} progress">
-              <div class="progress-fill" style="width:\${Math.min(100, percent)}%"></div>
+            <label>${label}</label>
+            <div class="progress-track" aria-label="${label} progress">
+              <div class="progress-fill" style="width:${Math.min(100, percent)}%"></div>
             </div>
-            <output>\${formatNumber(value, 1)} / \${formatNumber(target, 1)} \${unit}</output>
+            <output>${formatNumber(value, 1)} / ${formatNumber(target, 1)} ${unit}</output>
           </div>
-        \`;
+        `;
       }).join('');
     }
 
@@ -1827,18 +1827,18 @@ function renderAlerts(plan) {
       const suggestions = candidates.map(({ food }) => {
         const state = selectedState.get(food.id);
         const nextQty = (Number(state?.quantity || 0) + food.increment);
-        return \`
-          <button type="button" class="secondary-button" data-gap-food="\${food.id}" style="margin:0.3rem 0.3rem 0 0;">
-            Add \${food.name} (+\${formatNumber(food.perIncrement.fiber,1)} g fiber / \${food.increment} \${food.unit})
+        return `
+          <button type="button" class="secondary-button" data-gap-food="${food.id}" style="margin:0.3rem 0.3rem 0 0;">
+            Add ${food.name} (+${formatNumber(food.perIncrement.fiber,1)} g fiber / ${food.increment} ${food.unit})
           </button>
-        \`;
+        `;
       }).join('');
 
-      container.innerHTML = \`
+      container.innerHTML = `
         <strong>Fiber gap repair</strong>
-        <p class="hint">The current plan is about \${formatNumber(fiberGap,1)} g below the fiber reference. These are real foods already present in today's catalog. Add one and rebuild; NutriCoach will recalculate the full plan.</p>
-        <div>\${suggestions}</div>
-      \`;
+        <p class="hint">The current plan is about ${formatNumber(fiberGap,1)} g below the fiber reference. These are real foods already present in today's catalog. Add one and rebuild; NutriCoach will recalculate the full plan.</p>
+        <div>${suggestions}</div>
+      `;
 
       container.querySelectorAll('[data-gap-food]').forEach((button) => {
         button.addEventListener('click', () => {
