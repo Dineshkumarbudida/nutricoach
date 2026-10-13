@@ -1145,47 +1145,55 @@
       return `${hour}:${String(minute).padStart(2, '0')} ${suffix}`;
     }
 
-    function renderFoodGrid() {
+    function renderFoodGrid(query = '') {
       const grid = document.getElementById('food-grid');
-      grid.innerHTML = '';
+      const normalized = query.trim().toLowerCase();
+      const matches = normalized
+        ? FOOD_DATA.filter((food) => (food.name + ' ' + (food.source || '') + ' ' + (food.category || '')).toLowerCase().includes(normalized))
+        : FOOD_DATA.slice(0, 40);
 
-      FOOD_DATA.forEach((food) => {
+      grid.innerHTML = '';
+      if (!matches.length) {
+        grid.innerHTML = '<div class="alert alert-info" style="grid-column:1/-1">No matching foods. Try a broader English name, for example "egg", "rice", "paneer", "dal", or "oats".</div>';
+        updateSelectedCount();
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+      matches.forEach((food) => {
         const state = selectedState.get(food.id) ?? { selected: false, quantity: food.defaultQty };
         selectedState.set(food.id, state);
-
         const card = document.createElement('article');
-        card.className = `food-card${state.selected ? ' selected' : ''}`;
+        card.className = 'food-card' + (state.selected ? ' selected' : '');
         card.dataset.foodId = food.id;
 
         const top = document.createElement('div');
         top.className = 'food-card-top';
-
         const titleWrap = document.createElement('div');
         const title = document.createElement('h3');
         title.textContent = food.name;
         const detail = document.createElement('p');
-        detail.textContent = `${formatNumber(food.perIncrement.kcal)} kcal · ${formatNumber(food.perIncrement.protein, 1)} g protein per ${food.increment} ${food.unit}`;
+        detail.textContent = formatNumber(food.perIncrement.kcal) + ' kcal · ' + formatNumber(food.perIncrement.protein, 1) + ' g protein per ' + food.increment + ' ' + food.unit;
         titleWrap.append(title, detail);
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.checked = state.selected;
-        checkbox.setAttribute('aria-label', `Select ${food.name}`);
+        checkbox.setAttribute('aria-label', 'Select ' + food.name);
         checkbox.addEventListener('change', () => {
           state.selected = checkbox.checked;
+          selectedState.set(food.id, state);
           card.classList.toggle('selected', state.selected);
           updateSelectedCount();
+          saveSettings();
         });
-
         top.append(titleWrap, checkbox);
 
         const role = document.createElement('span');
         role.className = 'food-role';
         role.textContent = food.category.replaceAll('-', ' + ');
-
         const quantityRow = document.createElement('div');
         quantityRow.className = 'quantity-row';
-
         const quantityLabel = document.createElement('label');
         quantityLabel.textContent = 'Available today';
         const quantity = document.createElement('input');
@@ -1193,21 +1201,31 @@
         quantity.min = String(food.increment);
         quantity.step = String(food.increment);
         quantity.value = String(state.quantity);
-        quantity.setAttribute('aria-label', `Available quantity for ${food.name}`);
+        quantity.setAttribute('aria-label', 'Available quantity for ' + food.name);
         quantity.addEventListener('input', () => {
           const parsed = Number(quantity.value);
-          if (Number.isFinite(parsed) && parsed >= 0) state.quantity = parsed;
+          if (Number.isFinite(parsed) && parsed >= 0) {
+            state.quantity = parsed;
+            selectedState.set(food.id, state);
+          }
         });
         quantityLabel.append(quantity);
-
         const unit = document.createElement('span');
         unit.textContent = food.unit;
-
         quantityRow.append(quantityLabel, unit);
+        card.addEventListener('click', (event) => {
+          if (event.target instanceof HTMLInputElement) return;
+          state.selected = !state.selected;
+          selectedState.set(food.id, state);
+          checkbox.checked = state.selected;
+          card.classList.toggle('selected', state.selected);
+          updateSelectedCount();
+          saveSettings();
+        });
         card.append(top, role, quantityRow);
-        grid.append(card);
+        fragment.append(card);
       });
-
+      grid.append(fragment);
       updateSelectedCount();
     }
 
@@ -1987,16 +2005,13 @@ function renderAlerts(plan) {
     });
 
     document.getElementById('food-search').addEventListener('input', (event) => {
-      const query = event.target.value.trim().toLowerCase();
-      let matches = 0;
-      document.querySelectorAll('#food-grid .food-card').forEach((card) => {
-        const food = foodById[card.dataset.foodId];
-        const haystack = `${food.name} ${food.source || ''}`.toLowerCase();
-        const visible = !query || haystack.includes(query);
-        card.hidden = !visible;
-        if (visible) matches += 1;
-      });
-      document.getElementById('food-search-count').textContent = query ? matches + ' matches' : FOOD_DATA.length + ' foods';
+      const query = event.target.value.trim();
+      renderFoodGrid(query);
+      const normalized = query.toLowerCase();
+      const matches = normalized
+        ? FOOD_DATA.filter((food) => (food.name + ' ' + (food.source || '') + ' ' + (food.category || '')).toLowerCase().includes(normalized)).length
+        : FOOD_DATA.length;
+      document.getElementById('food-search-count').textContent = query ? matches + ' matches' : matches + ' foods';
     });
 
     document.querySelectorAll('[data-preset]').forEach((button) => {
