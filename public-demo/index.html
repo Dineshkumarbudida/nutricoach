@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="NutriCoach availability-aware daily meal planner demonstration.">
   <meta name="color-scheme" content="light">
-  <title>NutriCoach — Availability-Aware Daily Planner</title>
+  <title>NutriCoach — Source-Backed Daily Meal Planner</title>
   <style>
     :root {
       --ink: #142019;
@@ -682,7 +682,7 @@
     <main id="top">
       <section class="hero">
         <div>
-          <p class="eyebrow">Availability-aware planning prototype</p>
+          <p class="eyebrow">Source-backed availability-aware nutrition planning</p>
           <h1>Tell us what food you have. Get a practical day plan.</h1>
           <p class="lead">
             Choose today's available foods, your goal, workout time, and daily targets. NutriCoach
@@ -693,9 +693,7 @@
         <aside class="hero-note">
           <strong>This is the feature you described.</strong>
           <p>
-            The earlier page only demonstrated nutrient arithmetic. This prototype demonstrates
-            the actual availability-to-meal-plan workflow. It still uses approximate demo food
-            records and is not medical advice.
+            This release candidate uses source-backed food composition data and a deterministic availability-to-meal-plan workflow. It is designed for generally healthy adults and is not a diagnosis or medical prescription.
           </p>
         </aside>
       </section>
@@ -705,7 +703,7 @@
           <div>
             <p class="step">Step 1</p>
             <h2 id="profile-heading">Set the day's goal and schedule</h2>
-            <p>Use manual targets, or let the demo estimate adult targets with a transparent equation.</p>
+            <p>NutriCoach calculates the daily planning target from your profile using a documented adult DRI energy method and evidence-reviewed protein guidance.</p>
           </div>
           <span class="badge badge-info">Editable</span>
         </div>
@@ -725,55 +723,54 @@
           <label>
             Target method
             <select id="target-method">
-              <option value="manual" selected>Use my daily targets</option>
-              <option value="estimate">Estimate from adult profile</option>
+              <option value="estimate" selected>Calculate from my profile</option>
+              <option value="manual">Enter my own targets</option>
             </select>
           </label>
 
           <label>
-            Daily energy target (kcal)
-            <input id="calorie-target" type="number" min="800" max="6000" step="10" value="2300">
+            Calculated daily energy target (kcal)
+            <input id="calorie-target" type="number" min="800" max="6000" step="10" value="">
           </label>
 
           <label>
-            Daily protein target (g)
-            <input id="protein-target" type="number" min="20" max="350" step="1" value="130">
+            Calculated daily protein target (g)
+            <input id="protein-target" type="number" min="20" max="350" step="1" value="">
           </label>
         </div>
 
         <fieldset id="estimate-fields" class="hidden">
           <legend>Inputs used only for the target estimate</legend>
           <p class="hint">
-            The estimate uses the Mifflin–St Jeor resting-energy equation plus an activity multiplier
-            and a modest goal adjustment. It is an estimate, not a measurement.
+            The calculation uses the published adult Estimated Energy Requirement equations by activity category. Energy is an estimate, not a measurement of metabolism; observed weight trend remains an important real-world check.
           </p>
           <div class="form-grid">
             <label>
               Age
-              <input id="age" type="number" min="18" max="100" step="1" value="28">
+              <input id="age" type="number" min="18" max="100" step="1" value="">
             </label>
             <label>
               Weight (kg)
-              <input id="weight" type="number" min="35" max="300" step="0.1" value="70">
+              <input id="weight" type="number" min="35" max="300" step="0.1" value="">
             </label>
             <label>
               Height (cm)
-              <input id="height" type="number" min="120" max="230" step="0.1" value="175">
+              <input id="height" type="number" min="120" max="230" step="0.1" value="">
             </label>
             <label>
-              Equation coefficient
+              Energy equation reference
               <select id="equation-sex">
-                <option value="male" selected>Male coefficient</option>
-                <option value="female">Female coefficient</option>
+                <option value="male" selected>Male equation</option>
+                <option value="female">Female equation</option>
               </select>
             </label>
             <label>
               Activity level
               <select id="activity">
-                <option value="1.2">Mostly sedentary</option>
-                <option value="1.375">Lightly active</option>
-                <option value="1.55" selected>Moderately active</option>
-                <option value="1.725">Very active</option>
+                <option value="inactive">Inactive</option>
+                <option value="low">Low active</option>
+                <option value="active" selected>Active</option>
+                <option value="very">Very active</option>
               </select>
             </label>
           </div>
@@ -815,27 +812,7 @@
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend>Already consumed today</legend>
-          <p class="hint">
-            These totals are subtracted before the planner allocates the remaining meals. Planned
-            meals are not counted as eaten until you mark them as eaten.
-          </p>
-          <div class="form-grid three">
-            <label>
-              Energy already eaten (kcal)
-              <input id="consumed-calories" type="number" min="0" max="6000" step="10" value="0">
-            </label>
-            <label>
-              Protein already eaten (g)
-              <input id="consumed-protein" type="number" min="0" max="350" step="1" value="0">
-            </label>
-            <label>
-              Fiber already eaten (g)
-              <input id="consumed-fiber" type="number" min="0" max="100" step="0.5" value="0">
-            </label>
-          </div>
-        </fieldset>
+        >
       </section>
 
       <section class="panel" aria-labelledby="availability-heading">
@@ -843,15 +820,18 @@
           <div>
             <p class="step">Step 2</p>
             <h2 id="availability-heading">What is available today?</h2>
-            <p>Select foods and enter the maximum amount available for the rest of the day.</p>
+            <p>Search the verified food catalog and enter what is actually available today.</p>
           </div>
           <span id="selected-count" class="badge">0 selected</span>
         </div>
 
         <div class="food-toolbar">
-          <button type="button" data-preset="example">Select your example</button>
-          <button type="button" data-preset="vegetarian">Vegetarian basics</button>
-          <button type="button" data-preset="nonveg">Non-veg basics</button>
+          <label style="flex:1; min-width:240px">
+            Search foods
+            <input id="food-search" type="search" placeholder="Search eggs, paneer, oats, rice, lentils..." autocomplete="off">
+          </label>
+          <button type="button" data-preset="vegetarian">Select vegetarian</button>
+          <button type="button" data-preset="nonveg">Select non-vegetarian</button>
           <button type="button" data-preset="clear">Clear all</button>
         </div>
 
@@ -863,7 +843,7 @@
           <div>
             <p class="step">Step 3</p>
             <h2 id="constraints-heading">Apply practical constraints</h2>
-            <p>The planner filters incompatible foods before it scores meal combinations.</p>
+            <p>The planner applies hard dietary and availability filters before ranking feasible meal combinations.</p>
           </div>
           <span class="badge badge-success">Hard constraints first</span>
         </div>
@@ -906,7 +886,7 @@
 
         <div class="actions">
           <button id="generate-plan" class="primary-button" type="button">Build today's meal plan</button>
-          <button id="reset-demo" class="secondary-button" type="button">Reset demo</button>
+          <button id="reset-demo" class="secondary-button" type="button">Reset planner</button>
         </div>
 
         <div id="form-error" class="alert alert-error hidden" role="alert"></div>
@@ -923,14 +903,14 @@
         </div>
 
         <div id="empty-plan" class="empty-state">
-          Choose today's foods and build a plan. Try the “Select your example” preset for eggs,
-          paneer, and oats.
+          Search the real food catalog, select what is available today, and build your plan.
         </div>
 
         <div id="plan-content" class="hidden">
           <div id="summary-grid" class="summary-grid"></div>
           <div id="progress-list" class="progress-list"></div>
           <div id="plan-alerts"></div>
+          <div id="gap-repair" class="panel" style="margin-top:1rem; padding:1rem 1.15rem; box-shadow:none; background:#fbfefb; border-style:dashed;"></div>
           <div id="timeline" class="timeline"></div>
 
           <details>
@@ -948,8 +928,7 @@
           <details>
             <summary>Data and safety limitations</summary>
             <p>
-              Food values in this public prototype are approximate demonstration records. Paneer,
-              curd, fish, cooked dishes, and household portions can vary substantially. A production
+              Food values shown here come from the bundled source snapshot. Preparation state, household portions, and missing nutrients remain explicit.A production
               release must use versioned, rights-cleared food records and disclose recipe and portion
               uncertainty. This is a general-wellness planning demonstration, not a therapeutic diet,
               diagnosis, or medical prescription.
@@ -960,7 +939,7 @@
     </main>
 
     <footer>
-      NutriCoach public prototype · Open-source project · No account, analytics, cookies, paid API,
+      NutriCoach release candidate · Open-source project · No account, analytics, cookies, paid API,
       or external AI call. Settings may be saved only in this browser's local storage.
     </footer>
   </div>
@@ -968,143 +947,120 @@
   <script>
     'use strict';
 
-    const FOOD_DATA = [
-      {
-        id: 'eggs', name: 'Eggs', category: 'protein', diet: 'egg', unit: 'eggs',
-        increment: 1, defaultQty: 6, perIncrement: { kcal: 72, protein: 6.3, carbs: 0.4, fat: 4.8, fiber: 0 },
-        maxPerMeal: 4, prep: 8, access: 'basic',
-        slots: { breakfast: 10, lunch: 7, pre: 3, post: 9, dinner: 8, snack: 7 },
-        prepText: 'Boil, poach, or scramble with minimal added oil.'
-      },
-      {
-        id: 'paneer', name: 'Paneer', category: 'protein', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 250, perIncrement: { kcal: 133, protein: 9.2, carbs: 1.7, fat: 10.4, fiber: 0 },
-        maxPerMeal: 4, prep: 10, access: 'basic',
-        slots: { breakfast: 6, lunch: 10, pre: 1, post: 6, dinner: 10, snack: 5 },
-        prepText: 'Cube and pan-sear with spices; avoid extra oil when the meal is already high in fat.'
-      },
-      {
-        id: 'oats', name: 'Oats', category: 'carb', diet: 'vegetarian', unit: 'g',
-        increment: 20, defaultQty: 160, perIncrement: { kcal: 76, protein: 2.6, carbs: 13.6, fat: 1.4, fiber: 2 },
-        maxPerMeal: 4, prep: 7, access: 'basic',
-        slots: { breakfast: 10, lunch: 3, pre: 10, post: 7, dinner: 4, snack: 8 },
-        prepText: 'Cook with water or milk; use a thinner texture before training if preferred.'
-      },
-      {
-        id: 'milk', name: 'Milk', category: 'dairy', diet: 'vegetarian', unit: 'ml',
-        increment: 100, defaultQty: 500, perIncrement: { kcal: 60, protein: 3.2, carbs: 4.8, fat: 3.2, fiber: 0 },
-        maxPerMeal: 4, prep: 1, access: 'none',
-        slots: { breakfast: 8, lunch: 3, pre: 7, post: 8, dinner: 4, snack: 9 },
-        prepText: 'Serve chilled or warm; combine with oats when convenient.'
-      },
-      {
-        id: 'curd', name: 'Curd / yogurt', category: 'dairy', diet: 'vegetarian', unit: 'g',
-        increment: 100, defaultQty: 400, perIncrement: { kcal: 60, protein: 3.5, carbs: 4.5, fat: 3, fiber: 0 },
-        maxPerMeal: 3, prep: 1, access: 'none',
-        slots: { breakfast: 6, lunch: 8, pre: 6, post: 7, dinner: 8, snack: 9 },
-        prepText: 'Serve plain; use as a quick side or combine with oats.'
-      },
-      {
-        id: 'peas', name: 'Green peas', category: 'produce', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 250, perIncrement: { kcal: 42, protein: 2.7, carbs: 7.5, fat: 0.2, fiber: 2.8 },
-        maxPerMeal: 4, prep: 10, access: 'basic',
-        slots: { breakfast: 3, lunch: 9, pre: 3, post: 5, dinner: 9, snack: 3 },
-        prepText: 'Steam or sauté briefly with spices.'
-      },
-      {
-        id: 'chicken', name: 'Chicken breast, cooked', category: 'protein', diet: 'nonveg', unit: 'g',
-        increment: 50, defaultQty: 300, perIncrement: { kcal: 83, protein: 15.5, carbs: 0, fat: 1.8, fiber: 0 },
-        maxPerMeal: 4, prep: 15, access: 'basic',
-        slots: { breakfast: 2, lunch: 10, pre: 1, post: 10, dinner: 10, snack: 3 },
-        prepText: 'Use cooked or grilled chicken; reheat safely and avoid excessive added oil.'
-      },
-      {
-        id: 'fish', name: 'Fish, cooked', category: 'protein', diet: 'nonveg', unit: 'g',
-        increment: 50, defaultQty: 250, perIncrement: { kcal: 75, protein: 13, carbs: 0, fat: 2.5, fiber: 0 },
-        maxPerMeal: 4, prep: 15, access: 'basic',
-        slots: { breakfast: 2, lunch: 10, pre: 1, post: 9, dinner: 10, snack: 2 },
-        prepText: 'Use cooked, grilled, or lightly curried fish; recipe oil changes the estimate.'
-      },
-      {
-        id: 'rice', name: 'Cooked rice', category: 'carb', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 450, perIncrement: { kcal: 65, protein: 1.3, carbs: 14, fat: 0.2, fiber: 0.2 },
-        maxPerMeal: 6, prep: 2, access: 'none',
-        slots: { breakfast: 3, lunch: 10, pre: 8, post: 10, dinner: 8, snack: 2 },
-        prepText: 'Use already cooked rice or prepare a batch; pair with a protein source.'
-      },
-      {
-        id: 'dal', name: 'Cooked dal', category: 'protein-carb', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 300, perIncrement: { kcal: 60, protein: 3.3, carbs: 10, fat: 0.7, fiber: 2.7 },
-        maxPerMeal: 5, prep: 3, access: 'none',
-        slots: { breakfast: 3, lunch: 10, pre: 3, post: 7, dinner: 9, snack: 3 },
-        prepText: 'Use prepared dal; the actual oil and consistency affect nutrition.'
-      },
-      {
-        id: 'banana', name: 'Banana', category: 'fruit-carb', diet: 'vegetarian', unit: 'bananas',
-        increment: 1, defaultQty: 4, perIncrement: { kcal: 105, protein: 1.3, carbs: 27, fat: 0.4, fiber: 3.1 },
-        maxPerMeal: 2, prep: 0, access: 'none',
-        slots: { breakfast: 8, lunch: 3, pre: 10, post: 8, dinner: 2, snack: 10 },
-        prepText: 'Eat as-is; especially practical around training.'
-      },
-      {
-        id: 'roti', name: 'Roti / chapati', category: 'carb', diet: 'vegetarian', unit: 'rotis',
-        increment: 1, defaultQty: 6, perIncrement: { kcal: 120, protein: 3.5, carbs: 22, fat: 2.5, fiber: 3 },
-        maxPerMeal: 3, prep: 2, access: 'none',
-        slots: { breakfast: 4, lunch: 10, pre: 6, post: 7, dinner: 10, snack: 3 },
-        prepText: 'Use prepared rotis or cook fresh if a kitchen is available.'
-      },
-      {
-        id: 'vegetables', name: 'Mixed vegetables', category: 'produce', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 300, perIncrement: { kcal: 30, protein: 1.3, carbs: 5.3, fat: 0.7, fiber: 2 },
-        maxPerMeal: 5, prep: 12, access: 'basic',
-        slots: { breakfast: 3, lunch: 10, pre: 2, post: 4, dinner: 10, snack: 3 },
-        prepText: 'Steam or sauté with limited oil; use a prepared vegetable curry when available.'
-      },
-      {
-        id: 'soy', name: 'Soya chunks, dry weight', category: 'protein', diet: 'vegetarian', unit: 'g dry',
-        increment: 25, defaultQty: 100, perIncrement: { kcal: 87, protein: 13, carbs: 8, fat: 0.2, fiber: 3.3 },
-        maxPerMeal: 3, prep: 15, access: 'basic',
-        slots: { breakfast: 2, lunch: 9, pre: 1, post: 10, dinner: 9, snack: 3 },
-        prepText: 'Soak, squeeze, and cook with spices; measure the dry amount before cooking.'
-      },
-      {
-        id: 'bread', name: 'Whole-wheat bread', category: 'carb', diet: 'vegetarian', unit: 'slices',
-        increment: 1, defaultQty: 8, perIncrement: { kcal: 80, protein: 3, carbs: 15, fat: 1, fiber: 2 },
-        maxPerMeal: 4, prep: 1, access: 'none',
-        slots: { breakfast: 8, lunch: 4, pre: 9, post: 7, dinner: 3, snack: 8 },
-        prepText: 'Toast or serve as-is; pair with a protein source.'
-      },
-      {
-        id: 'peanut-butter', name: 'Peanut butter', category: 'fat-protein', diet: 'vegetarian', unit: 'tbsp',
-        increment: 1, defaultQty: 4, perIncrement: { kcal: 95, protein: 4, carbs: 3.5, fat: 8, fiber: 1 },
-        maxPerMeal: 2, prep: 0, access: 'none',
-        slots: { breakfast: 7, lunch: 2, pre: 2, post: 3, dinner: 2, snack: 8 },
-        prepText: 'Measure with a tablespoon; easy to over-serve.'
-      },
-      {
-        id: 'potato', name: 'Boiled potato', category: 'carb', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 300, perIncrement: { kcal: 44, protein: 1, carbs: 10, fat: 0.1, fiber: 0.9 },
-        maxPerMeal: 5, prep: 5, access: 'basic',
-        slots: { breakfast: 4, lunch: 8, pre: 9, post: 9, dinner: 7, snack: 4 },
-        prepText: 'Use boiled potato; season without excessive added fat.'
-      },
-      {
-        id: 'tofu', name: 'Tofu', category: 'protein', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 250, perIncrement: { kcal: 72, protein: 8.5, carbs: 1.5, fat: 4.5, fiber: 1 },
-        maxPerMeal: 4, prep: 10, access: 'basic',
-        slots: { breakfast: 5, lunch: 9, pre: 2, post: 9, dinner: 10, snack: 5 },
-        prepText: 'Cube and pan-sear or add to a quick vegetable stir-fry.'
-      }
-    ];
-
-    const foodById = Object.fromEntries(FOOD_DATA.map((food) => [food.id, food]));
+    let FOOD_DATA = [];
+    const foodById = {};
     const selectedState = new Map();
+
+    function csvFields(line) {
+      const fields = [];
+      let current = '';
+      let quoted = false;
+      for (let i = 0; i < line.length; i += 1) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (quoted && line[i + 1] === '"') { current += '"'; i += 1; }
+          else { quoted = !quoted; }
+        } else if (ch === ',' && !quoted) { fields.push(current); current = ''; }
+        else { current += ch; }
+      }
+      fields.push(current);
+      return fields;
+    }
+
+    function normalizedCategory(category, name) {
+      const text = \`\${category} \${name}\`.toLowerCase();
+      if (/marine|fish|shellfish|meat|poultry|egg/.test(text)) return 'protein';
+      if (/milk|dairy|cheese|curd/.test(text)) return 'dairy';
+      if (/nuts|oil|seed/.test(text)) return 'fat-protein';
+      if (/fruit/.test(text)) return 'fruit-carb';
+      if (/vegetable|leaf/.test(text)) return 'produce';
+      if (/legume|bean|dal/.test(text)) return 'protein-carb';
+      return 'carb';
+    }
+
+    function dietaryType(category, name) {
+      const text = \`\${category} \${name}\`.toLowerCase();
+      if (/fish|shellfish|meat|poultry/.test(text)) return 'nonveg';
+      if (/egg/.test(text)) return 'egg';
+      return 'vegetarian';
+    }
+
+    function slotFitFor(category) {
+      switch (category) {
+        case 'protein': return { breakfast: 4, lunch: 10, pre: 1, post: 10, dinner: 10, snack: 4 };
+        case 'dairy': return { breakfast: 9, lunch: 6, pre: 7, post: 8, dinner: 6, snack: 9 };
+        case 'fruit-carb': return { breakfast: 9, lunch: 4, pre: 10, post: 8, dinner: 3, snack: 10 };
+        case 'produce': return { breakfast: 3, lunch: 10, pre: 2, post: 5, dinner: 10, snack: 4 };
+        case 'fat-protein': return { breakfast: 7, lunch: 4, pre: 2, post: 3, dinner: 4, snack: 8 };
+        default: return { breakfast: 9, lunch: 10, pre: 9, post: 8, dinner: 8, snack: 7 };
+      }
+    }
+
+    function realFoodFromRow(row) {
+      const [sourceId, name, , category, energy, protein, fat, carbs, fiber, calcium, iron, vitaminC, source] = row;
+      const nums = [energy, protein, fat, carbs, fiber, calcium, iron, vitaminC].map(Number);
+      if (!sourceId || !name || nums.some((v) => !Number.isFinite(v))) return null;
+
+      const categoryCode = normalizedCategory(category, name);
+      const unit = /\begg\b/i.test(name) ? 'items' : 'g';
+      const increment = unit === 'items' ? 1 : 50;
+      const factor = increment / 100;
+      return {
+        id: \`food-\${sourceId}\`,
+        name: name.trim(),
+        category: categoryCode,
+        diet: dietaryType(category, name),
+        unit,
+        increment,
+        defaultQty: unit === 'items' ? 4 : 250,
+        perIncrement: {
+          kcal: nums[0] * factor,
+          protein: nums[1] * factor,
+          carbs: nums[3] * factor,
+          fat: nums[2] * factor,
+          fiber: nums[4] * factor
+        },
+        micronutrientsPerIncrement: {
+          calcium: nums[5] * factor,
+          iron: nums[6] * factor,
+          vitaminC: nums[7] * factor
+        },
+        maxPerMeal: unit === 'items' ? 4 : 6,
+        prep: /oil|flour|dry|raw/i.test(name) ? 10 : 5,
+        access: 'basic',
+        slots: slotFitFor(categoryCode),
+        source: String(source || 'Unknown'),
+        sourceRecordId: String(sourceId),
+        prepText: 'Use the preparation state named in the food record. Nutrient values shown are source-derived.'
+      };
+    }
+
+    async function loadFoodCatalog() {
+      const response = await fetch('data/indian-foods.csv', { cache: 'no-store' });
+      if (!response.ok) throw new Error(\`The real food catalog could not be loaded (HTTP \${response.status}).\`);
+      const text = await response.text();
+      const lines = text.split(/\\r?\\n/).filter(Boolean);
+      if (lines.length < 601) throw new Error('The real food catalog is incomplete.');
+      const rows = lines.slice(1).map(csvFields);
+      const mapped = rows.map(realFoodFromRow).filter(Boolean);
+      const seen = new Set();
+      FOOD_DATA = mapped.filter((food) => {
+        if (seen.has(food.id)) return false;
+        seen.add(food.id);
+        return true;
+      });
+      if (FOOD_DATA.length < 500) throw new Error(\`Only \${FOOD_DATA.length} usable real food records loaded; production requires the verified catalog.\`);
+      Object.keys(foodById).forEach((key) => delete foodById[key]);
+      FOOD_DATA.forEach((food) => { foodById[food.id] = food; });
+      return FOOD_DATA.length;
+    }
+
     let lastPlan = null;
 
     const goalAdjustments = {
-      'fat-loss': -0.15,
-      'muscle-gain': 0.08,
-      'recomposition': -0.05,
+      'fat-loss': -0.10,
+      'muscle-gain': 0.05,
+      'recomposition': 0,
       'maintenance': 0,
       'general-health': 0
     };
@@ -1260,31 +1216,48 @@
     }
 
     function applyPreset(name) {
-      const presets = {
-        example: ['eggs', 'paneer', 'oats'],
-        vegetarian: ['paneer', 'oats', 'milk', 'curd', 'peas', 'rice', 'dal', 'vegetables'],
-        nonveg: ['eggs', 'chicken', 'fish', 'rice', 'dal', 'curd', 'vegetables', 'banana'],
-        clear: []
-      };
-      const selectedIds = new Set(presets[name] ?? []);
+      const selectedIds = new Set();
+      if (name === 'vegetarian') {
+        FOOD_DATA.filter((food) => food.diet === 'vegetarian').slice(0, 20).forEach((food) => selectedIds.add(food.id));
+      } else if (name === 'nonveg') {
+        FOOD_DATA.filter((food) => food.diet !== 'vegetarian').slice(0, 20).forEach((food) => selectedIds.add(food.id));
+      }
       FOOD_DATA.forEach((food) => {
-        const state = selectedState.get(food.id);
+        const state = selectedState.get(food.id) ?? { selected: false, quantity: food.defaultQty };
         state.selected = selectedIds.has(food.id);
+        selectedState.set(food.id, state);
         state.quantity = food.defaultQty;
       });
       renderFoodGrid();
     }
 
     function estimateTargets() {
-      const age = parseNumber('age', 'Age', { min: 18, max: 100 });
-      const weight = parseNumber('weight', 'Weight', { min: 35, max: 300 });
-      const height = parseNumber('height', 'Height', { min: 120, max: 230 });
-      const coefficient = document.getElementById('equation-sex').value === 'male' ? 5 : -161;
-      const activity = parseNumber('activity', 'Activity multiplier', { min: 1.1, max: 2 });
+      const age = parseNumber('age', 'Age', { min: 19, max: 120 });
+      const weight = parseNumber('weight', 'Weight', { min: 20, max: 300 });
+      const height = parseNumber('height', 'Height', { min: 100, max: 250 });
+      const sex = document.getElementById('equation-sex').value;
+      const activity = document.getElementById('activity').value;
       const goal = document.getElementById('goal').value;
-      const bmr = 10 * weight + 6.25 * height - 5 * age + coefficient;
-      const estimatedEnergy = Math.round((bmr * activity * (1 + goalAdjustments[goal])) / 10) * 10;
-      const estimatedProtein = Math.round(weight * proteinFactors[goal]);
+      const coefficients = {
+        male: {
+          inactive: [753.07, -10.83, 6.50, 14.10],
+          low: [581.47, -10.83, 8.30, 14.94],
+          active: [1004.82, -10.83, 6.52, 15.91],
+          very: [-517.88, -10.83, 15.61, 19.11]
+        },
+        female: {
+          inactive: [584.90, -7.01, 5.72, 11.71],
+          low: [575.77, -7.01, 6.60, 12.14],
+          active: [710.25, -7.01, 6.54, 12.34],
+          very: [511.83, -7.01, 9.07, 12.56]
+        }
+      };
+      const [c, a, h, w] = coefficients[sex][activity];
+      const maintenance = c + a * age + h * height + w * weight;
+      const goalFactor = { 'fat-loss': 0.90, 'muscle-gain': 1.05, 'recomposition': 1, maintenance: 1, 'general-health': 1 }[goal];
+      const estimatedEnergy = Math.max(1000, Math.round((maintenance * goalFactor) / 10) * 10);
+      const proteinFactor = ['fat-loss', 'muscle-gain', 'recomposition'].includes(goal) || document.getElementById('training-today').checked ? 1.6 : 0.8;
+      const estimatedProtein = Math.round(weight * proteinFactor);
       document.getElementById('calorie-target').value = String(estimatedEnergy);
       document.getElementById('protein-target').value = String(estimatedProtein);
       return { estimatedEnergy, estimatedProtein, weight };
@@ -1397,6 +1370,9 @@
         totals.carbs += count * food.perIncrement.carbs;
         totals.fat += count * food.perIncrement.fat;
         totals.fiber += count * food.perIncrement.fiber;
+        totals.calciumMg += count * (food.micronutrientsPerIncrement?.calcium ?? 0);
+        totals.ironMg += count * (food.micronutrientsPerIncrement?.iron ?? 0);
+        totals.vitaminCMg += count * (food.micronutrientsPerIncrement?.vitaminC ?? 0);
         totals.count += count > 0 ? 1 : 0;
         if (count > 0) totals.foodIds.push(food.id);
         if (count > 0 && ['protein', 'protein-carb'].includes(food.category)) totals.hasProtein = true;
@@ -1404,7 +1380,7 @@
         if (count > 0 && food.category === 'produce') totals.hasProduce = true;
         return totals;
       }, {
-        kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, count: 0,
+        kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, calciumMg: 0, ironMg: 0, vitaminCMg: 0, count: 0,
         foodIds: [], hasProtein: false, hasCarb: false, hasProduce: false
       });
     }
@@ -1561,8 +1537,11 @@
         totals.carbs += meal.macros.carbs;
         totals.fat += meal.macros.fat;
         totals.fiber += meal.macros.fiber;
+        totals.calciumMg += meal.macros.calciumMg || 0;
+        totals.ironMg += meal.macros.ironMg || 0;
+        totals.vitaminCMg += meal.macros.vitaminCMg || 0;
         return totals;
-      }, { kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 });
+      }, { kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, calciumMg: 0, ironMg: 0, vitaminCMg: 0 });
     }
 
     function aggregateAvailable(foods) {
@@ -1593,11 +1572,7 @@
 
       try {
         const { estimatedEnergy, estimatedProtein } = getTargets();
-        const consumed = {
-          kcal: parseNumber('consumed-calories', 'Consumed energy', { min: 0, max: 6000 }),
-          protein: parseNumber('consumed-protein', 'Consumed protein', { min: 0, max: 350 }),
-          fiber: parseNumber('consumed-fiber', 'Consumed fiber', { min: 0, max: 100 })
-        };
+        const consumed = { kcal: 0, protein: 0, fiber: 0 };
         const training = document.getElementById('training-today').checked;
         const dietPattern = document.getElementById('diet-pattern').value;
         const cookingAccess = document.getElementById('cooking-access').value;
@@ -1608,7 +1583,7 @@
         const remainingTarget = {
           kcal: Math.max(0, estimatedEnergy - consumed.kcal),
           protein: Math.max(0, estimatedProtein - consumed.protein),
-          fiber: Math.max(0, 25 - consumed.fiber)
+          fiber: Math.max(0, (estimatedEnergy * 0.014) - consumed.fiber)
         };
 
         const slots = buildSlots(training);
@@ -1652,12 +1627,15 @@
         const allDay = {
           kcal: consumed.kcal + totals.kcal,
           protein: consumed.protein + totals.protein,
-          fiber: consumed.fiber + totals.fiber
+          fiber: consumed.fiber + totals.fiber,
+          calciumMg: totals.calciumMg,
+          ironMg: totals.ironMg,
+          vitaminCMg: totals.vitaminCMg
         };
 
         lastPlan = {
           goal,
-          targets: { kcal: estimatedEnergy, protein: estimatedProtein, fiber: 25 },
+          targets: { kcal: estimatedEnergy, protein: estimatedProtein, fiber: Math.round(estimatedEnergy * 0.014 * 10) / 10 },
           consumed,
           remainingTarget,
           meals,
@@ -1665,6 +1643,7 @@
           allDay,
           ignored,
           remainingInventory: inventoryRemaining(foods),
+          allDayMicronutrients: { calciumMg: totals.calciumMg, ironMg: totals.ironMg, vitaminCMg: totals.vitaminCMg },
           targetMethod: document.getElementById('target-method').value
         };
 
@@ -1707,19 +1686,19 @@
 
       list.innerHTML = rows.map(([label, value, target, unit]) => {
         const percent = Math.min(130, target > 0 ? (value / target) * 100 : 0);
-        return `
+        return \`
           <div class="progress-row">
-            <label>${label}</label>
-            <div class="progress-track" aria-label="${label} progress">
-              <div class="progress-fill" style="width:${Math.min(100, percent)}%"></div>
+            <label>\${label}</label>
+            <div class="progress-track" aria-label="\${label} progress">
+              <div class="progress-fill" style="width:\${Math.min(100, percent)}%"></div>
             </div>
-            <output>${formatNumber(value, 1)} / ${formatNumber(target, 1)} ${unit}</output>
+            <output>\${formatNumber(value, 1)} / \${formatNumber(target, 1)} \${unit}</output>
           </div>
-        `;
+        \`;
       }).join('');
     }
 
-    function renderAlerts(plan) {
+function renderAlerts(plan) {
       const container = document.getElementById('plan-alerts');
       const alerts = [];
 
@@ -1737,6 +1716,9 @@
       const fiberGap = plan.targets.fiber - plan.allDay.fiber;
 
       const gapItems = [];
+      if (plan.targets.fiber - plan.allDay.fiber > 5) {
+        gapItems.push(`about ${formatNumber(plan.targets.fiber - plan.allDay.fiber)} g below the fiber reference`);
+      }
       if (energyGap > Math.max(200, plan.targets.kcal * 0.1)) {
         gapItems.push(`about ${formatNumber(energyGap)} kcal below the selected energy target`);
       }
@@ -1744,7 +1726,7 @@
         gapItems.push(`about ${formatNumber(proteinGap)} g below the selected protein target`);
       }
       if (fiberGap > 5) {
-        gapItems.push(`about ${formatNumber(fiberGap)} g below the demonstration fiber guide`);
+        gapItems.push(`about ${formatNumber(fiberGap)} g below the fiber reference`);
       }
 
       if (gapItems.length > 0) {
@@ -1758,7 +1740,7 @@
         alerts.push(`
           <div class="alert alert-success">
             <strong>Feasible plan found.</strong>
-            The selected food quantities cover the main energy and protein targets within the demo planner's tolerance.
+            The selected food quantities cover the main energy and protein targets within the deterministic planner's tolerance.
           </div>
         `);
       }
@@ -1767,7 +1749,7 @@
         alerts.push(`
           <div class="alert alert-info">
             <strong>Target estimate:</strong>
-            Energy and protein targets were generated from profile inputs and a product heuristic. Review and edit them when actual experience, professional guidance, or a validated method indicates a different target.
+            Energy and protein targets were generated from profile inputs and a documented NutriCoach target method. The calculation method is shown in the evidence notes.
           </div>
         `);
       }
@@ -1784,6 +1766,61 @@
       }
 
       container.innerHTML = alerts.join('');
+    }
+
+    function renderGapRepair(plan) {
+      const container = document.getElementById('gap-repair');
+      if (!container) return;
+      const fiberGap = Math.max(0, plan.targets.fiber - plan.allDay.fiber);
+      const selectedIds = new Set(plan.meals.flatMap((meal) => meal.items.map((item) => item.id)));
+      const candidates = FOOD_DATA
+        .filter((food) => !selectedIds.has(food.id))
+        .map((food) => {
+          const state = selectedState.get(food.id);
+          const available = Number(state?.quantity || 0);
+          if (!Number.isFinite(available) || available < food.increment) return null;
+          const fiber = food.perIncrement.fiber;
+          if (fiber <= 0) return null;
+          const score = fiber / Math.max(food.perIncrement.kcal, 1);
+          return { food, available, score };
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 4);
+
+      if (fiberGap <= 5 || candidates.length === 0) {
+        container.innerHTML = '<strong>Nutrient gap repair</strong><p class="hint">No material fiber gap is detected from the known source nutrients, or no suitable unplanned food is available. Unknown nutrients remain unknown.</p>';
+        return;
+      }
+
+      const suggestions = candidates.map(({ food }) => {
+        const state = selectedState.get(food.id);
+        const nextQty = (Number(state?.quantity || 0) + food.increment);
+        return \`
+          <button type="button" class="secondary-button" data-gap-food="\${food.id}" style="margin:0.3rem 0.3rem 0 0;">
+            Add \${food.name} (+\${formatNumber(food.perIncrement.fiber,1)} g fiber / \${food.increment} \${food.unit})
+          </button>
+        \`;
+      }).join('');
+
+      container.innerHTML = \`
+        <strong>Fiber gap repair</strong>
+        <p class="hint">The current plan is about \${formatNumber(fiberGap,1)} g below the fiber reference. These are real foods already present in today's catalog. Add one and rebuild; NutriCoach will recalculate the full plan.</p>
+        <div>\${suggestions}</div>
+      \`;
+
+      container.querySelectorAll('[data-gap-food]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const food = foodById[button.dataset.gapFood];
+          if (!food) return;
+          const state = selectedState.get(food.id) ?? { selected: false, quantity: 0 };
+          state.selected = true;
+          state.quantity = Math.max(food.increment, Number(state.quantity || 0));
+          selectedState.set(food.id, state);
+          renderFoodGrid();
+          document.getElementById('generate-plan').focus();
+        });
+      });
     }
 
     function renderTimeline(plan) {
@@ -1861,7 +1898,9 @@
       document.getElementById('plan-status').className = 'badge badge-success';
       renderSummary(plan);
       renderProgress(plan);
+      renderMicronutrients(plan);
       renderAlerts(plan);
+      renderGapRepair(plan);
       renderTimeline(plan);
       document.getElementById('plan-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -1871,7 +1910,7 @@
         const formIds = [
           'goal', 'target-method', 'calorie-target', 'protein-target', 'age', 'weight', 'height',
           'equation-sex', 'activity', 'breakfast-time', 'lunch-time', 'dinner-time', 'training-today',
-          'workout-time', 'plan-from', 'consumed-calories', 'consumed-protein', 'consumed-fiber',
+          'workout-time', 'plan-from',
           'diet-pattern', 'cooking-access', 'prep-limit', 'appetite'
         ];
         const values = Object.fromEntries(formIds.map((id) => {
@@ -1916,7 +1955,7 @@
       localStorage.removeItem('nutricoach-planner-demo');
       selectedState.clear();
       document.getElementById('goal').value = 'muscle-gain';
-      document.getElementById('target-method').value = 'manual';
+      document.getElementById('target-method').value = 'estimate';
       document.getElementById('calorie-target').value = '2300';
       document.getElementById('protein-target').value = '130';
       document.getElementById('age').value = '28';
@@ -1930,16 +1969,13 @@
       document.getElementById('training-today').checked = true;
       document.getElementById('workout-time').value = '18:30';
       document.getElementById('plan-from').value = 'all';
-      document.getElementById('consumed-calories').value = '0';
-      document.getElementById('consumed-protein').value = '0';
-      document.getElementById('consumed-fiber').value = '0';
       document.getElementById('diet-pattern').value = 'egg-vegetarian';
       document.getElementById('cooking-access').value = 'basic';
       document.getElementById('prep-limit').value = '15';
       document.getElementById('appetite').value = '1';
       document.getElementById('estimate-fields').classList.add('hidden');
       document.getElementById('workout-time').disabled = false;
-      applyPreset('example');
+      applyPreset('clear');
       document.getElementById('empty-plan').classList.remove('hidden');
       document.getElementById('plan-content').classList.add('hidden');
       document.getElementById('plan-status').textContent = 'Waiting for inputs';
@@ -1970,6 +2006,14 @@
       document.getElementById('workout-time').disabled = !event.target.checked;
     });
 
+    document.getElementById('food-search').addEventListener('input', (event) => {
+      const query = event.target.value.trim().toLowerCase();
+      document.querySelectorAll('#food-grid .food-card').forEach((card) => {
+        const food = foodById[card.dataset.foodId];
+        card.hidden = Boolean(query) && !food.name.toLowerCase().includes(query);
+      });
+    });
+
     document.querySelectorAll('[data-preset]').forEach((button) => {
       button.addEventListener('click', () => applyPreset(button.dataset.preset));
     });
@@ -1978,7 +2022,20 @@
     document.getElementById('reset-demo').addEventListener('click', resetDemo);
 
     loadSettings();
-    renderFoodGrid();
+    document.getElementById('generate-plan').disabled = true;
+    loadFoodCatalog()
+      .then(() => {
+        renderFoodGrid();
+        document.getElementById('generate-plan').disabled = false;
+        document.getElementById('selected-count').textContent = '0 selected';
+      })
+      .catch((error) => {
+        document.getElementById('food-grid').innerHTML =
+          '<div class="alert alert-error"><strong>Real food data unavailable.</strong> NutriCoach will not fall back to fabricated values. ' +
+          (error instanceof Error ? error.message : 'Catalog load failed.') + '</div>';
+        document.getElementById('form-error').textContent = 'The planner is disabled until the verified food catalog loads.';
+        document.getElementById('form-error').classList.remove('hidden');
+      });
 
     const estimating = document.getElementById('target-method').value === 'estimate';
     document.getElementById('estimate-fields').classList.toggle('hidden', !estimating);
@@ -1986,9 +2043,6 @@
     document.getElementById('protein-target').readOnly = estimating;
     document.getElementById('workout-time').disabled = !document.getElementById('training-today').checked;
 
-    if (![...selectedState.values()].some((state) => state.selected)) {
-      applyPreset('example');
-    }
   </script>
 </body>
 </html>

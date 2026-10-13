@@ -1,0 +1,10 @@
+{
+  "sourceCode": "indian-nutrition-data",
+  "upstreamRepository": "https://github.com/prabhubng/indian-nutrition-data",
+  "upstreamCommit": "81b8a9368876603a242be28a0f5b023d7e8181d6",
+  "license": "CC0-1.0",
+  "sourceClaim": "Third-party repository declares its compiled dataset CC0-1.0 and attributes records to IFCT 2017 and Gopalan 2004.",
+  "displayPolicy": "English names only",
+  "nutritionPolicy": "Source-derived values only; missing values are not treated as zero.",
+  "productionStatus": "SOURCE_SNAPSHOT_REVIEWED_LICENSE"
+}
