@@ -693,9 +693,7 @@
         <aside class="hero-note">
           <strong>This is the feature you described.</strong>
           <p>
-            The earlier page only demonstrated nutrient arithmetic. This release candidate demonstrates
-            the actual availability-to-meal-plan workflow. It still uses approximate demo food
-            records and is not medical advice.
+            This release candidate uses source-backed food composition data and a deterministic availability-to-meal-plan workflow. It is designed for generally healthy adults and is not a diagnosis or medical prescription.
           </p>
         </aside>
       </section>
@@ -731,12 +729,12 @@
           </label>
 
           <label>
-            Daily energy target (kcal)
+            Calculated daily energy target (kcal)
             <input id="calorie-target" type="number" min="800" max="6000" step="10" value="">
           </label>
 
           <label>
-            Daily protein target (g)
+            Calculated daily protein target (g)
             <input id="protein-target" type="number" min="20" max="350" step="1" value="">
           </label>
         </div>
@@ -912,6 +910,7 @@
           <div id="summary-grid" class="summary-grid"></div>
           <div id="progress-list" class="progress-list"></div>
           <div id="plan-alerts"></div>
+          <div id="gap-repair" class="panel" style="margin-top:1rem; padding:1rem 1.15rem; box-shadow:none; background:#fbfefb; border-style:dashed;"></div>
           <div id="timeline" class="timeline"></div>
 
           <details>
@@ -1769,6 +1768,61 @@ function renderAlerts(plan) {
       container.innerHTML = alerts.join('');
     }
 
+    function renderGapRepair(plan) {
+      const container = document.getElementById('gap-repair');
+      if (!container) return;
+      const fiberGap = Math.max(0, plan.targets.fiber - plan.allDay.fiber);
+      const selectedIds = new Set(plan.meals.flatMap((meal) => meal.items.map((item) => item.id)));
+      const candidates = FOOD_DATA
+        .filter((food) => !selectedIds.has(food.id))
+        .map((food) => {
+          const state = selectedState.get(food.id);
+          const available = Number(state?.quantity || 0);
+          if (!Number.isFinite(available) || available < food.increment) return null;
+          const fiber = food.perIncrement.fiber;
+          if (fiber <= 0) return null;
+          const score = fiber / Math.max(food.perIncrement.kcal, 1);
+          return { food, available, score };
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 4);
+
+      if (fiberGap <= 5 || candidates.length === 0) {
+        container.innerHTML = '<strong>Nutrient gap repair</strong><p class="hint">No material fiber gap is detected from the known source nutrients, or no suitable unplanned food is available. Unknown nutrients remain unknown.</p>';
+        return;
+      }
+
+      const suggestions = candidates.map(({ food }) => {
+        const state = selectedState.get(food.id);
+        const nextQty = (Number(state?.quantity || 0) + food.increment);
+        return \`
+          <button type="button" class="secondary-button" data-gap-food="\${food.id}" style="margin:0.3rem 0.3rem 0 0;">
+            Add \${food.name} (+\${formatNumber(food.perIncrement.fiber,1)} g fiber / \${food.increment} \${food.unit})
+          </button>
+        \`;
+      }).join('');
+
+      container.innerHTML = \`
+        <strong>Fiber gap repair</strong>
+        <p class="hint">The current plan is about \${formatNumber(fiberGap,1)} g below the fiber reference. These are real foods already present in today's catalog. Add one and rebuild; NutriCoach will recalculate the full plan.</p>
+        <div>\${suggestions}</div>
+      \`;
+
+      container.querySelectorAll('[data-gap-food]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const food = foodById[button.dataset.gapFood];
+          if (!food) return;
+          const state = selectedState.get(food.id) ?? { selected: false, quantity: 0 };
+          state.selected = true;
+          state.quantity = Math.max(food.increment, Number(state.quantity || 0));
+          selectedState.set(food.id, state);
+          renderFoodGrid();
+          document.getElementById('generate-plan').focus();
+        });
+      });
+    }
+
     function renderTimeline(plan) {
       const timeline = document.getElementById('timeline');
       timeline.innerHTML = '';
@@ -1846,6 +1900,7 @@ function renderAlerts(plan) {
       renderProgress(plan);
       renderMicronutrients(plan);
       renderAlerts(plan);
+      renderGapRepair(plan);
       renderTimeline(plan);
       document.getElementById('plan-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
