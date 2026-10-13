@@ -31,8 +31,11 @@ jobs:
           test -s public-demo/index.html
           test -s public-demo/README.md
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Prepare Pages artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp public-demo/README.md public-demo/README.md
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
