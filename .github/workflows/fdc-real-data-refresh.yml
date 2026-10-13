@@ -1,6 +1,12 @@
 name: Refresh USDA real food catalog
 
 on:
+  push:
+    branches: [feature/real-food-catalog, main]
+    paths:
+      - ".github/workflows/fdc-real-data-refresh.yml"
+      - "scripts/build_fdc_catalog.py"
+      - "scripts/tests/test_build_fdc_catalog.py"
   workflow_dispatch:
   schedule:
     - cron: "17 4 1,15 * *"
@@ -19,18 +25,13 @@ jobs:
       - name: Download official USDA datasets
         run: |
           set -euo pipefail
-          curl --fail --location --retry 4 --retry-all-errors \
-            -o foundation.zip \
-            https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_json_2026-04-30.zip
-          curl --fail --location --retry 4 --retry-all-errors \
-            -o sr_legacy.zip \
-            https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_json_2018-04.zip
-      - name: Build compact catalog
+          curl --fail --location --retry 4 --retry-all-errors             -o foundation.zip             https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_json_2026-04-30.zip
+          curl --fail --location --retry 4 --retry-all-errors             -o sr_legacy.zip             https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_json_2018-04.zip
+      - name: Run builder tests
+        run: python -m unittest scripts.tests.test_build_fdc_catalog -v
+      - name: Build catalog
         run: |
-          python scripts/build_fdc_catalog.py \
-            --foundation-zip foundation.zip \
-            --sr-legacy-zip sr_legacy.zip \
-            --output public-demo/data/usda-food-catalog.json
+          python scripts/build_fdc_catalog.py             --foundation-zip foundation.zip             --sr-legacy-zip sr_legacy.zip             --output public-demo/data/usda-food-catalog.json
       - name: Validate catalog
         run: |
           python - <<'PY'
