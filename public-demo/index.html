@@ -703,7 +703,7 @@
           <div>
             <p class="step">Step 1</p>
             <h2 id="profile-heading">Set the day's goal and schedule</h2>
-            <p>NutriCoach calculates the daily planning target from your profile using a documented adult DRI energy method and evidence-reviewed protein guidance.</p>
+            <p>NutriCoach calculates daily energy from age, sex, height, weight, activity and goal. Protein remains your choice; the evidence-based range is shown as guidance.</p>
           </div>
           <span class="badge badge-info">Editable</span>
         </div>
@@ -721,48 +721,44 @@
           </label>
 
           <label>
-            Target method
-            <select id="target-method">
-              <option value="estimate" selected>Calculate from my profile</option>
-              <option value="manual">Enter my own targets</option>
-            </select>
+            Daily energy target (kcal)
+            <input id="calorie-target" type="number" min="800" max="6000" step="10" readonly placeholder="Calculated automatically">
           </label>
-
           <label>
-            Calculated daily energy target (kcal)
-            <input id="calorie-target" type="number" min="800" max="6000" step="10" value="">
-          </label>
-
-          <label>
-            Calculated daily protein target (g)
-            <input id="protein-target" type="number" min="20" max="350" step="1" value="">
+            My protein target (g)
+            <input id="protein-target" type="number" min="20" max="350" step="1" placeholder="Choose your target">
+            <span class="hint" style="margin:0">For exercising adults, use the evidence-reviewed 1.4-2.0 g/kg/day range as guidance. You choose the target.</span>
           </label>
         </div>
 
-        <fieldset id="estimate-fields" class="hidden">
-          <legend>Inputs used only for the target estimate</legend>
+        <fieldset id="estimate-fields">
+          <legend>Your profile - used to calculate daily energy</legend>
           <p class="hint">
             The calculation uses the published adult Estimated Energy Requirement equations by activity category. Energy is an estimate, not a measurement of metabolism; observed weight trend remains an important real-world check.
           </p>
           <div class="form-grid">
             <label>
               Age
-              <input id="age" type="number" min="18" max="100" step="1" value="">
+              <input id="age" type="number" min="19" max="120" step="1" placeholder="e.g. 30">
+            </label>
+            <label>
+              Sex
+              <select id="equation-sex">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
             </label>
             <label>
               Weight (kg)
-              <input id="weight" type="number" min="35" max="300" step="0.1" value="">
+              <input id="weight" type="number" min="20" max="300" step="0.1" placeholder="e.g. 60">
             </label>
             <label>
-              Height (cm)
-              <input id="height" type="number" min="120" max="230" step="0.1" value="">
+              Height (feet)
+              <input id="height-feet" type="number" min="3" max="8" step="1" placeholder="e.g. 5">
             </label>
             <label>
-              Energy equation reference
-              <select id="equation-sex">
-                <option value="male" selected>Male equation</option>
-                <option value="female">Female equation</option>
-              </select>
+              Height (inches)
+              <input id="height-inches" type="number" min="0" max="11" step="1" placeholder="e.g. 4">
             </label>
             <label>
               Activity level
@@ -772,6 +768,10 @@
                 <option value="active" selected>Active</option>
                 <option value="very">Very active</option>
               </select>
+            </label>
+            <label>
+              Calculated height (cm)
+              <input id="height" type="number" readonly placeholder="Calculated">
             </label>
           </div>
         </fieldset>
@@ -829,6 +829,7 @@
           <label style="flex:1; min-width:240px">
             Search foods
             <input id="food-search" type="search" placeholder="Search eggs, paneer, oats, rice, lentils..." autocomplete="off">
+            <span id="food-search-count" class="hint" style="margin:0">0 foods</span>
           </label>
           <button type="button" data-preset="vegetarian">Select vegetarian</button>
           <button type="button" data-preset="nonveg">Select non-vegetarian</button>
@@ -1984,7 +1985,8 @@ function renderAlerts(plan) {
       lastPlan = null;
     }
 
-    document.getElementById('target-method').addEventListener('change', (event) => {
+    /* target-method removed: energy is always profile-calculated */
+    if (document.getElementById('target-method')) document.getElementById('target-method').addEventListener('change', (event) => {
       const estimating = event.target.value === 'estimate';
       document.getElementById('estimate-fields').classList.toggle('hidden', !estimating);
       document.getElementById('calorie-target').readOnly = estimating;
@@ -1994,13 +1996,26 @@ function renderAlerts(plan) {
       }
     });
 
-    ['age', 'weight', 'height', 'equation-sex', 'activity', 'goal'].forEach((id) => {
-      document.getElementById(id).addEventListener('change', () => {
-        if (document.getElementById('target-method').value === 'estimate') {
-          try { estimateTargets(); } catch { /* wait for valid fields */ }
-        }
+    ['age', 'weight', 'height-feet', 'height-inches', 'equation-sex', 'activity', 'goal'].forEach((id) => {
+      const field = document.getElementById(id);
+      field.addEventListener('input', () => {
+        if (id === 'height-feet' || id === 'height-inches') updateHeightFromImperial();
+        try { estimateTargets(); } catch { /* wait for complete profile */ }
+      });
+      field.addEventListener('change', () => {
+        if (id === 'height-feet' || id === 'height-inches') updateHeightFromImperial();
+        try { estimateTargets(); } catch { /* wait for complete profile */ }
       });
     });
+
+    function updateHeightFromImperial() {
+      const feet = Number(document.getElementById('height-feet').value);
+      const inches = Number(document.getElementById('height-inches').value);
+      if (!Number.isFinite(feet) || !Number.isFinite(inches)) return;
+      const totalInches = feet * 12 + inches;
+      if (totalInches < 36 || totalInches > 96) return;
+      document.getElementById('height').value = (totalInches * 2.54).toFixed(1);
+    }
 
     document.getElementById('training-today').addEventListener('change', (event) => {
       document.getElementById('workout-time').disabled = !event.target.checked;
@@ -2008,10 +2023,14 @@ function renderAlerts(plan) {
 
     document.getElementById('food-search').addEventListener('input', (event) => {
       const query = event.target.value.trim().toLowerCase();
+      let matches = 0;
       document.querySelectorAll('#food-grid .food-card').forEach((card) => {
         const food = foodById[card.dataset.foodId];
-        card.hidden = Boolean(query) && !food.name.toLowerCase().includes(query);
+        const visible = !query || food.name.toLowerCase().includes(query);
+        card.hidden = !visible;
+        if (visible) matches += 1;
       });
+      document.getElementById('food-search-count').textContent = query ? matches + ' matches' : FOOD_DATA.length + ' foods';
     });
 
     document.querySelectorAll('[data-preset]').forEach((button) => {
@@ -2022,12 +2041,16 @@ function renderAlerts(plan) {
     document.getElementById('reset-demo').addEventListener('click', resetDemo);
 
     loadSettings();
+    document.getElementById('estimate-fields').classList.remove('hidden');
+    document.getElementById('calorie-target').value = '';
+    document.getElementById('protein-target').value = '';
     document.getElementById('generate-plan').disabled = true;
     loadFoodCatalog()
       .then(() => {
         renderFoodGrid();
         document.getElementById('generate-plan').disabled = false;
         document.getElementById('selected-count').textContent = '0 selected';
+        document.getElementById('food-search-count').textContent = count + ' foods';
       })
       .catch((error) => {
         document.getElementById('food-grid').innerHTML =
