@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="NutriCoach availability-aware daily meal planner demonstration.">
   <meta name="color-scheme" content="light">
-  <title>NutriCoach — Availability-Aware Daily Planner</title>
+  <title>NutriCoach — Evidence-Based Daily Meal Planner</title>
   <style>
     :root {
       --ink: #142019;
@@ -849,9 +849,8 @@
         </div>
 
         <div class="food-toolbar">
-          <button type="button" data-preset="example">Select your example</button>
-          <button type="button" data-preset="vegetarian">Vegetarian basics</button>
-          <button type="button" data-preset="nonveg">Non-veg basics</button>
+          <button type="button" data-preset="vegetarian">Vegetarian foods</button>
+          <button type="button" data-preset="nonveg">Non-vegetarian foods</button>
           <button type="button" data-preset="clear">Clear all</button>
         </div>
 
@@ -968,137 +967,131 @@
   <script>
     'use strict';
 
-    const FOOD_DATA = [
-      {
-        id: 'eggs', name: 'Eggs', category: 'protein', diet: 'egg', unit: 'eggs',
-        increment: 1, defaultQty: 6, perIncrement: { kcal: 72, protein: 6.3, carbs: 0.4, fat: 4.8, fiber: 0 },
-        maxPerMeal: 4, prep: 8, access: 'basic',
-        slots: { breakfast: 10, lunch: 7, pre: 3, post: 9, dinner: 8, snack: 7 },
-        prepText: 'Boil, poach, or scramble with minimal added oil.'
-      },
-      {
-        id: 'paneer', name: 'Paneer', category: 'protein', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 250, perIncrement: { kcal: 133, protein: 9.2, carbs: 1.7, fat: 10.4, fiber: 0 },
-        maxPerMeal: 4, prep: 10, access: 'basic',
-        slots: { breakfast: 6, lunch: 10, pre: 1, post: 6, dinner: 10, snack: 5 },
-        prepText: 'Cube and pan-sear with spices; avoid extra oil when the meal is already high in fat.'
-      },
-      {
-        id: 'oats', name: 'Oats', category: 'carb', diet: 'vegetarian', unit: 'g',
-        increment: 20, defaultQty: 160, perIncrement: { kcal: 76, protein: 2.6, carbs: 13.6, fat: 1.4, fiber: 2 },
-        maxPerMeal: 4, prep: 7, access: 'basic',
-        slots: { breakfast: 10, lunch: 3, pre: 10, post: 7, dinner: 4, snack: 8 },
-        prepText: 'Cook with water or milk; use a thinner texture before training if preferred.'
-      },
-      {
-        id: 'milk', name: 'Milk', category: 'dairy', diet: 'vegetarian', unit: 'ml',
-        increment: 100, defaultQty: 500, perIncrement: { kcal: 60, protein: 3.2, carbs: 4.8, fat: 3.2, fiber: 0 },
-        maxPerMeal: 4, prep: 1, access: 'none',
-        slots: { breakfast: 8, lunch: 3, pre: 7, post: 8, dinner: 4, snack: 9 },
-        prepText: 'Serve chilled or warm; combine with oats when convenient.'
-      },
-      {
-        id: 'curd', name: 'Curd / yogurt', category: 'dairy', diet: 'vegetarian', unit: 'g',
-        increment: 100, defaultQty: 400, perIncrement: { kcal: 60, protein: 3.5, carbs: 4.5, fat: 3, fiber: 0 },
-        maxPerMeal: 3, prep: 1, access: 'none',
-        slots: { breakfast: 6, lunch: 8, pre: 6, post: 7, dinner: 8, snack: 9 },
-        prepText: 'Serve plain; use as a quick side or combine with oats.'
-      },
-      {
-        id: 'peas', name: 'Green peas', category: 'produce', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 250, perIncrement: { kcal: 42, protein: 2.7, carbs: 7.5, fat: 0.2, fiber: 2.8 },
-        maxPerMeal: 4, prep: 10, access: 'basic',
-        slots: { breakfast: 3, lunch: 9, pre: 3, post: 5, dinner: 9, snack: 3 },
-        prepText: 'Steam or sauté briefly with spices.'
-      },
-      {
-        id: 'chicken', name: 'Chicken breast, cooked', category: 'protein', diet: 'nonveg', unit: 'g',
-        increment: 50, defaultQty: 300, perIncrement: { kcal: 83, protein: 15.5, carbs: 0, fat: 1.8, fiber: 0 },
-        maxPerMeal: 4, prep: 15, access: 'basic',
-        slots: { breakfast: 2, lunch: 10, pre: 1, post: 10, dinner: 10, snack: 3 },
-        prepText: 'Use cooked or grilled chicken; reheat safely and avoid excessive added oil.'
-      },
-      {
-        id: 'fish', name: 'Fish, cooked', category: 'protein', diet: 'nonveg', unit: 'g',
-        increment: 50, defaultQty: 250, perIncrement: { kcal: 75, protein: 13, carbs: 0, fat: 2.5, fiber: 0 },
-        maxPerMeal: 4, prep: 15, access: 'basic',
-        slots: { breakfast: 2, lunch: 10, pre: 1, post: 9, dinner: 10, snack: 2 },
-        prepText: 'Use cooked, grilled, or lightly curried fish; recipe oil changes the estimate.'
-      },
-      {
-        id: 'rice', name: 'Cooked rice', category: 'carb', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 450, perIncrement: { kcal: 65, protein: 1.3, carbs: 14, fat: 0.2, fiber: 0.2 },
-        maxPerMeal: 6, prep: 2, access: 'none',
-        slots: { breakfast: 3, lunch: 10, pre: 8, post: 10, dinner: 8, snack: 2 },
-        prepText: 'Use already cooked rice or prepare a batch; pair with a protein source.'
-      },
-      {
-        id: 'dal', name: 'Cooked dal', category: 'protein-carb', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 300, perIncrement: { kcal: 60, protein: 3.3, carbs: 10, fat: 0.7, fiber: 2.7 },
-        maxPerMeal: 5, prep: 3, access: 'none',
-        slots: { breakfast: 3, lunch: 10, pre: 3, post: 7, dinner: 9, snack: 3 },
-        prepText: 'Use prepared dal; the actual oil and consistency affect nutrition.'
-      },
-      {
-        id: 'banana', name: 'Banana', category: 'fruit-carb', diet: 'vegetarian', unit: 'bananas',
-        increment: 1, defaultQty: 4, perIncrement: { kcal: 105, protein: 1.3, carbs: 27, fat: 0.4, fiber: 3.1 },
-        maxPerMeal: 2, prep: 0, access: 'none',
-        slots: { breakfast: 8, lunch: 3, pre: 10, post: 8, dinner: 2, snack: 10 },
-        prepText: 'Eat as-is; especially practical around training.'
-      },
-      {
-        id: 'roti', name: 'Roti / chapati', category: 'carb', diet: 'vegetarian', unit: 'rotis',
-        increment: 1, defaultQty: 6, perIncrement: { kcal: 120, protein: 3.5, carbs: 22, fat: 2.5, fiber: 3 },
-        maxPerMeal: 3, prep: 2, access: 'none',
-        slots: { breakfast: 4, lunch: 10, pre: 6, post: 7, dinner: 10, snack: 3 },
-        prepText: 'Use prepared rotis or cook fresh if a kitchen is available.'
-      },
-      {
-        id: 'vegetables', name: 'Mixed vegetables', category: 'produce', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 300, perIncrement: { kcal: 30, protein: 1.3, carbs: 5.3, fat: 0.7, fiber: 2 },
-        maxPerMeal: 5, prep: 12, access: 'basic',
-        slots: { breakfast: 3, lunch: 10, pre: 2, post: 4, dinner: 10, snack: 3 },
-        prepText: 'Steam or sauté with limited oil; use a prepared vegetable curry when available.'
-      },
-      {
-        id: 'soy', name: 'Soya chunks, dry weight', category: 'protein', diet: 'vegetarian', unit: 'g dry',
-        increment: 25, defaultQty: 100, perIncrement: { kcal: 87, protein: 13, carbs: 8, fat: 0.2, fiber: 3.3 },
-        maxPerMeal: 3, prep: 15, access: 'basic',
-        slots: { breakfast: 2, lunch: 9, pre: 1, post: 10, dinner: 9, snack: 3 },
-        prepText: 'Soak, squeeze, and cook with spices; measure the dry amount before cooking.'
-      },
-      {
-        id: 'bread', name: 'Whole-wheat bread', category: 'carb', diet: 'vegetarian', unit: 'slices',
-        increment: 1, defaultQty: 8, perIncrement: { kcal: 80, protein: 3, carbs: 15, fat: 1, fiber: 2 },
-        maxPerMeal: 4, prep: 1, access: 'none',
-        slots: { breakfast: 8, lunch: 4, pre: 9, post: 7, dinner: 3, snack: 8 },
-        prepText: 'Toast or serve as-is; pair with a protein source.'
-      },
-      {
-        id: 'peanut-butter', name: 'Peanut butter', category: 'fat-protein', diet: 'vegetarian', unit: 'tbsp',
-        increment: 1, defaultQty: 4, perIncrement: { kcal: 95, protein: 4, carbs: 3.5, fat: 8, fiber: 1 },
-        maxPerMeal: 2, prep: 0, access: 'none',
-        slots: { breakfast: 7, lunch: 2, pre: 2, post: 3, dinner: 2, snack: 8 },
-        prepText: 'Measure with a tablespoon; easy to over-serve.'
-      },
-      {
-        id: 'potato', name: 'Boiled potato', category: 'carb', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 300, perIncrement: { kcal: 44, protein: 1, carbs: 10, fat: 0.1, fiber: 0.9 },
-        maxPerMeal: 5, prep: 5, access: 'basic',
-        slots: { breakfast: 4, lunch: 8, pre: 9, post: 9, dinner: 7, snack: 4 },
-        prepText: 'Use boiled potato; season without excessive added fat.'
-      },
-      {
-        id: 'tofu', name: 'Tofu', category: 'protein', diet: 'vegetarian', unit: 'g',
-        increment: 50, defaultQty: 250, perIncrement: { kcal: 72, protein: 8.5, carbs: 1.5, fat: 4.5, fiber: 1 },
-        maxPerMeal: 4, prep: 10, access: 'basic',
-        slots: { breakfast: 5, lunch: 9, pre: 2, post: 9, dinner: 10, snack: 5 },
-        prepText: 'Cube and pan-sear or add to a quick vegetable stir-fry.'
-      }
-    ];
-
-    const foodById = Object.fromEntries(FOOD_DATA.map((food) => [food.id, food]));
+    let FOOD_DATA = [];
+    const foodById = {};
     const selectedState = new Map();
+
+    function csvFields(line) {
+      const fields = [];
+      let current = '';
+      let quoted = false;
+      for (let i = 0; i < line.length; i += 1) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (quoted && line[i + 1] === '"') {
+            current += '"';
+            i += 1;
+          } else {
+            quoted = !quoted;
+          }
+        } else if (ch === ',' && !quoted) {
+          fields.push(current);
+          current = '';
+        } else {
+          current += ch;
+        }
+      }
+      fields.push(current);
+      return fields;
+    }
+
+    function planningCategory(category, name) {
+      const text = \`\${category} \${name}\`.toLowerCase();
+      if (/fish|shellfish|meat|poultry|egg/.test(text)) return 'protein';
+      if (/milk|dairy|cheese|curd/.test(text)) return 'dairy';
+      if (/nuts|oil|seed/.test(text)) return 'fat-protein';
+      if (/fruit/.test(category.toLowerCase())) return 'fruit-carb';
+      if (/vegetable|leaf/.test(category.toLowerCase())) return 'produce';
+      if (/legume|bean|dal/.test(text)) return 'protein-carb';
+      if (/grain|cereal|millet|rice|wheat|flour|sugar/.test(text)) return 'carb';
+      return 'produce';
+    }
+
+    function dietType(name, category) {
+      const text = \`\${name} \${category}\`.toLowerCase();
+      if (/fish|shellfish|meat|poultry/.test(text)) return 'nonveg';
+      if (/egg/.test(text)) return 'egg';
+      return 'vegetarian';
+    }
+
+    function mealSlots(category, name, planningCategoryValue) {
+      if (planningCategoryValue === 'protein') return { breakfast: 4, lunch: 10, pre: 1, post: 10, dinner: 10, snack: 4 };
+      if (planningCategoryValue === 'dairy') return { breakfast: 9, lunch: 5, pre: 7, post: 8, dinner: 6, snack: 9 };
+      if (planningCategoryValue === 'fruit-carb') return { breakfast: 9, lunch: 4, pre: 10, post: 8, dinner: 3, snack: 10 };
+      if (planningCategoryValue === 'produce') return { breakfast: 3, lunch: 10, pre: 2, post: 5, dinner: 10, snack: 4 };
+      if (planningCategoryValue === 'fat-protein') return { breakfast: 7, lunch: 4, pre: 2, post: 3, dinner: 4, snack: 8 };
+      return { breakfast: 9, lunch: 10, pre: 9, post: 8, dinner: 8, snack: 7 };
+    }
+
+    function buildFoodId(id, name) {
+      return \`fdc-indian-\${id}-\${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}\`;
+    }
+
+    function mapRealFoodRow(row, index) {
+      const [sourceId, name, , category, energy, protein, fat, carbs, fiber, calcium, iron, vitaminC, source] = row;
+      const kcal = Number(energy);
+      const proteinG = Number(protein);
+      const fatG = Number(fat);
+      const carbsG = Number(carbs);
+      const fiberG = Number(fiber);
+      if (!name || !sourceId || ![kcal, proteinG, fatG, carbsG, fiberG, Number(calcium), Number(iron), Number(vitaminC)].every(Number.isFinite)) return null;
+
+      const planning = planningCategory(category, name);
+      const unit = /egg/i.test(name) ? 'items' : 'g';
+      const increment = unit === 'items' ? 1 : 50;
+      const referenceFactor = increment / 100;
+      const diet = dietType(name, category);
+      const prep = /raw|dry|seed|flour|oil/i.test(name) ? 10 : 5;
+
+      return {
+        id: buildFoodId(sourceId, name),
+        name: name.trim(),
+        category: planning,
+        sourceCategory: category || 'Uncategorized',
+        diet,
+        unit,
+        increment,
+        defaultQty: unit === 'items' ? 4 : 250,
+        perIncrement: {
+          kcal: kcal * referenceFactor,
+          protein: proteinG * referenceFactor,
+          carbs: carbsG * referenceFactor,
+          fat: fatG * referenceFactor,
+          fiber: fiberG * referenceFactor
+        },
+        micronutrientsPerIncrement: {
+          calciumMg: Number(calcium) * referenceFactor,
+          ironMg: Number(iron) * referenceFactor,
+          vitaminCMg: Number(vitaminC) * referenceFactor
+        },
+        maxPerMeal: unit === 'items' ? 4 : 6,
+        prep,
+        access: 'basic',
+        slots: mealSlots(category, name, planning),
+        prepText: 'Prepare according to the ingredient form shown in the source record. Nutrient values are source-derived per 100 g.'
+      };
+    }
+
+    async function loadFoodCatalog() {
+      const response = await fetch('data/indian-foods.csv', { cache: 'no-store' });
+      if (!response.ok) throw new Error(\`Real food catalog could not be loaded (HTTP \${response.status}).\`);
+      const text = await response.text();
+      const lines = text.split(/\\r?\\n/).filter(Boolean);
+      if (lines.length < 2) throw new Error('Real food catalog is empty.');
+      const rows = lines.slice(1).map(csvFields);
+      const mapped = rows.map(mapRealFoodRow).filter(Boolean);
+      const seen = new Set();
+      FOOD_DATA = mapped.filter((food) => {
+        if (seen.has(food.id)) return false;
+        seen.add(food.id);
+        return true;
+      });
+      if (FOOD_DATA.length < 500) throw new Error(\`Real food catalog is unexpectedly small (\${FOOD_DATA.length} records).\`);
+      Object.keys(foodById).forEach((key) => delete foodById[key]);
+      FOOD_DATA.forEach((food) => { foodById[food.id] = food; });
+      return FOOD_DATA.length;
+    }
+
     let lastPlan = null;
 
     const goalAdjustments = {
@@ -1260,17 +1253,24 @@
     }
 
     function applyPreset(name) {
-      const presets = {
-        example: ['eggs', 'paneer', 'oats'],
-        vegetarian: ['paneer', 'oats', 'milk', 'curd', 'peas', 'rice', 'dal', 'vegetables'],
-        nonveg: ['eggs', 'chicken', 'fish', 'rice', 'dal', 'curd', 'vegetables', 'banana'],
-        clear: []
-      };
-      const selectedIds = new Set(presets[name] ?? []);
+      if (name === 'clear') {
+        FOOD_DATA.forEach((food) => {
+          const state = selectedState.get(food.id) ?? { selected: false, quantity: food.defaultQty };
+          state.selected = false;
+          state.quantity = food.defaultQty;
+          selectedState.set(food.id, state);
+        });
+        renderFoodGrid();
+        return;
+      }
+      const category = name === 'vegetarian' ? 'vegetarian' : 'nonveg';
       FOOD_DATA.forEach((food) => {
-        const state = selectedState.get(food.id);
-        state.selected = selectedIds.has(food.id);
+        const state = selectedState.get(food.id) ?? { selected: false, quantity: food.defaultQty };
+        state.selected = name === 'vegetarian'
+          ? food.diet !== 'nonveg'
+          : food.diet === 'nonveg' || food.diet === 'egg';
         state.quantity = food.defaultQty;
+        selectedState.set(food.id, state);
       });
       renderFoodGrid();
     }
@@ -1744,7 +1744,7 @@
         gapItems.push(`about ${formatNumber(proteinGap)} g below the selected protein target`);
       }
       if (fiberGap > 5) {
-        gapItems.push(`about ${formatNumber(fiberGap)} g below the demonstration fiber guide`);
+        gapItems.push(`about ${formatNumber(fiberGap)} g below the fiber guidance`);
       }
 
       if (gapItems.length > 0) {
@@ -1767,7 +1767,7 @@
         alerts.push(`
           <div class="alert alert-info">
             <strong>Target estimate:</strong>
-            Energy and protein targets were generated from profile inputs and a product heuristic. Review and edit them when actual experience, professional guidance, or a validated method indicates a different target.
+            Energy and protein targets were generated from profile inputs and the current NutriCoach target method. The calculation method and evidence version are shown in the target panel.
           </div>
         `);
       }
@@ -1916,14 +1916,14 @@
       localStorage.removeItem('nutricoach-planner-demo');
       selectedState.clear();
       document.getElementById('goal').value = 'muscle-gain';
-      document.getElementById('target-method').value = 'manual';
-      document.getElementById('calorie-target').value = '2300';
-      document.getElementById('protein-target').value = '130';
-      document.getElementById('age').value = '28';
-      document.getElementById('weight').value = '70';
-      document.getElementById('height').value = '175';
+      document.getElementById('target-method').value = 'estimate';
+      document.getElementById('calorie-target').value = '';
+      document.getElementById('protein-target').value = '';
+      document.getElementById('age').value = '';
+      document.getElementById('weight').value = '';
+      document.getElementById('height').value = '';
       document.getElementById('equation-sex').value = 'male';
-      document.getElementById('activity').value = '1.55';
+      document.getElementById('activity').value = '';
       document.getElementById('breakfast-time').value = '08:00';
       document.getElementById('lunch-time').value = '13:00';
       document.getElementById('dinner-time').value = '21:00';
@@ -1939,7 +1939,7 @@
       document.getElementById('appetite').value = '1';
       document.getElementById('estimate-fields').classList.add('hidden');
       document.getElementById('workout-time').disabled = false;
-      applyPreset('example');
+      applyPreset('clear');
       document.getElementById('empty-plan').classList.remove('hidden');
       document.getElementById('plan-content').classList.add('hidden');
       document.getElementById('plan-status').textContent = 'Waiting for inputs';
@@ -1978,7 +1978,19 @@
     document.getElementById('reset-demo').addEventListener('click', resetDemo);
 
     loadSettings();
-    renderFoodGrid();
+    loadFoodCatalog()
+      .then((count) => {
+        renderFoodGrid();
+        if (count > 0) {
+          document.getElementById('selected-count').textContent = '0 selected';
+        }
+      })
+      .catch((error) => {
+        document.getElementById('food-grid').innerHTML = '<div class="alert alert-warning"><strong>Food catalog unavailable.</strong> The planner is intentionally disabled until the verified real-food catalog can be loaded. No fallback or invented values are used.</div>';
+        document.getElementById('form-error').textContent = error.message;
+        document.getElementById('form-error').classList.remove('hidden');
+        document.getElementById('generate-plan').disabled = true;
+      });
 
     const estimating = document.getElementById('target-method').value === 'estimate';
     document.getElementById('estimate-fields').classList.toggle('hidden', !estimating);
@@ -1986,9 +1998,6 @@
     document.getElementById('protein-target').readOnly = estimating;
     document.getElementById('workout-time').disabled = !document.getElementById('training-today').checked;
 
-    if (![...selectedState.values()].some((state) => state.selected)) {
-      applyPreset('example');
-    }
   </script>
 </body>
 </html>
