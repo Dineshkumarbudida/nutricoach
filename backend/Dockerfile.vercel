@@ -1,0 +1,15 @@
+# syntax=docker/dockerfile:1
+FROM maven:3.9.11-eclipse-temurin-21 AS build
+WORKDIR /workspace
+COPY pom.xml ./
+RUN --mount=type=cache,target=/root/.m2 mvn -B -q dependency:go-offline
+COPY src ./src
+RUN --mount=type=cache,target=/root/.m2 mvn -B -q clean package -DskipTests
+
+FROM eclipse-temurin:21-jre
+RUN groupadd --system nutricoach && useradd --system --gid nutricoach --home /app nutricoach
+WORKDIR /app
+COPY --from=build --chown=nutricoach:nutricoach /workspace/target/nutricoach-api-*.jar /app/nutricoach-api.jar
+USER nutricoach
+EXPOSE 8080
+CMD ["sh", "-c", "exec java -Dserver.port=${PORT:-8080} -jar /app/nutricoach-api.jar"]
