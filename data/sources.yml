@@ -1,0 +1,53 @@
+schemaVersion: 1
+policy:
+  productionDataOnly: true
+  prohibitSyntheticNutrients: true
+  prohibitUnlicensedRedistribution: true
+  requireSourceRecordId: true
+  requireSourceVersion: true
+  requireUnitNormalization: true
+  preserveMissingAsUnknown: true
+
+sources:
+  - id: usda-fdc
+    name: USDA FoodData Central
+    type: food-composition
+    license: CC0-1.0
+    authority: U.S. Department of Agriculture, Agricultural Research Service
+    access: api-and-download
+    roles:
+      - generic-food-composition
+      - branded-food-composition
+    notes:
+      - Public-domain data; preserve FDC IDs, release metadata, and citations.
+      - Use source-derived values only; never invent missing nutrients.
+
+  - id: open-food-facts
+    name: Open Food Facts
+    type: packaged-food
+    license: ODbL-1.0
+    access: api-and-download
+    roles:
+      - barcode-search
+      - packaged-food-labels
+    notes:
+      - Keep source attribution and comply with ODbL requirements.
+      - Treat volunteer-contributed values as source data with explicit completeness and quality status.
+      - Use a custom User-Agent and respect published API limits.
+      - Do not use the public search API for search-as-you-type; cache results.
+
+  - id: indian-nutrition-data
+    name: Indian Nutrition Data third-party compiled dataset
+    type: indian-food-composition
+    licenseClaim: CC0-1.0
+    role: discovery-seed
+    status: REVIEW-REQUIRED
+    notes:
+      - The repository declares CC0, but the underlying IFCT/Gopalan source chain must be independently verified before redistribution.
+      - Never describe this dataset as an official ICMR/NIN dataset.
+
+exclusions:
+  - id: unlicensed-third-party-datasets
+    reason: No production ingestion without a clear license and provenance chain.
+  - id: scraped-proprietary-pages
+    reason: No scraping where reuse rights are unclear or restricted.
