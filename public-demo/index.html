@@ -998,7 +998,7 @@
     }
 
     function realFoodFromRow(row) {
-      const [sourceId, name, , category, energy, protein, fat, carbs, fiber, calcium, iron, vitaminC, source] = row;
+      const [sourceId, name, rowAlias, category, energy, protein, fat, carbs, fiber, calcium, iron, vitaminC, source] = row;
       const nums = [energy, protein, fat, carbs, fiber, calcium, iron, vitaminC].map(Number);
       if (!sourceId || !name || nums.some((v) => !Number.isFinite(v))) return null;
 
@@ -1032,25 +1032,29 @@
         slots: slotFitFor(categoryCode),
         source: String(source || 'Unknown'),
         sourceRecordId: String(sourceId),
+        searchAlias: String(rowAlias || ''),
         prepText: 'Use the preparation state named in the food record. Nutrient values shown are source-derived.'
       };
     }
 
     async function loadFoodCatalog() {
-      const response = await fetch('data/indian-foods.csv', { cache: 'no-store' });
-      if (!response.ok) throw new Error(\`The real food catalog could not be loaded (HTTP \${response.status}).\`);
-      const text = await response.text();
-      const lines = text.split(/\\r?\\n/).filter(Boolean);
-      if (lines.length < 601) throw new Error('The real food catalog is incomplete.');
-      const rows = lines.slice(1).map(csvFields);
-      const mapped = rows.map(realFoodFromRow).filter(Boolean);
+      const response = await fetch('data/indian-foods.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error(`The real food catalog could not be loaded (HTTP ${response.status}).`);
+      const payload = await response.json();
+      if (!payload || !Array.isArray(payload.records) || payload.records.length < 500) {
+        throw new Error('The real food catalog is incomplete.');
+      }
+      const mapped = payload.records.map((row) => realFoodFromRow([
+        row.id, row.name, row.name_hindi, row.category, row.energy_kcal, row.protein_g,
+        row.fat_g, row.carbs_g, row.fiber_g, row.calcium_mg, row.iron_mg, row.vitamin_c_mg, row.source
+      ])).filter(Boolean);
       const seen = new Set();
       FOOD_DATA = mapped.filter((food) => {
         if (seen.has(food.id)) return false;
         seen.add(food.id);
         return true;
       });
-      if (FOOD_DATA.length < 500) throw new Error(\`Only \${FOOD_DATA.length} usable real food records loaded; production requires the verified catalog.\`);
+      if (FOOD_DATA.length < 500) throw new Error(`Only ${FOOD_DATA.length} usable real food records loaded; production requires the verified catalog.`);
       Object.keys(foodById).forEach((key) => delete foodById[key]);
       FOOD_DATA.forEach((food) => { foodById[food.id] = food; });
       return FOOD_DATA.length;
@@ -1149,7 +1153,7 @@
       const grid = document.getElementById('food-grid');
       const normalized = query.trim().toLowerCase();
       const matches = normalized
-        ? FOOD_DATA.filter((food) => (food.name + ' ' + (food.source || '') + ' ' + (food.category || '')).toLowerCase().includes(normalized))
+        ? FOOD_DATA.filter((food) => (food.name + ' ' + (food.source || '') + ' ' + (food.category || '') + ' ' + (food.searchAlias || '')).toLowerCase().includes(normalized))
         : FOOD_DATA.slice(0, 40);
 
       grid.innerHTML = '';
@@ -1213,14 +1217,24 @@
         const unit = document.createElement('span');
         unit.textContent = food.unit;
         quantityRow.append(quantityLabel, unit);
-        card.addEventListener('click', (event) => {
-          if (event.target instanceof HTMLInputElement) return;
+        card.tabIndex = 0;
+        const toggleSelection = () => {
           state.selected = !state.selected;
           selectedState.set(food.id, state);
           checkbox.checked = state.selected;
           card.classList.toggle('selected', state.selected);
           updateSelectedCount();
           saveSettings();
+        };
+        card.addEventListener('click', (event) => {
+          if (event.target instanceof HTMLInputElement) return;
+          toggleSelection();
+        });
+        card.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleSelection();
+          }
         });
         card.append(top, role, quantityRow);
         fragment.append(card);
