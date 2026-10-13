@@ -727,7 +727,7 @@
           <label>
             My protein target (g)
             <input id="protein-target" type="number" min="20" max="350" step="1" placeholder="Choose your target">
-            <span class="hint" style="margin:0">For exercising adults, use the evidence-reviewed 1.4-2.0 g/kg/day range as guidance. You choose the target.</span>
+            <span id="protein-range-hint" class="hint" style="margin:0">Enter your protein target. NutriCoach will show an evidence-guided range after your profile is complete.</span>
           </label>
         </div>
 
@@ -1258,7 +1258,11 @@
       const goalFactor = { 'fat-loss': 0.90, 'muscle-gain': 1.05, 'recomposition': 1, maintenance: 1, 'general-health': 1 }[goal];
       const estimatedEnergy = Math.max(1000, Math.round((maintenance * goalFactor) / 10) * 10);
       document.getElementById('calorie-target').value = String(estimatedEnergy);
-      return { estimatedEnergy, weight };
+      const lower = weight * (['fat-loss','muscle-gain','recomposition'].includes(goal) ? 1.4 : 0.8);
+      const upper = weight * (['fat-loss','muscle-gain','recomposition'].includes(goal) ? 2.0 : 0.8);
+      const hint = document.getElementById('protein-range-hint');
+      if (hint) hint.textContent = `Evidence-guided protein range for this profile: ${Math.round(lower)}-${Math.round(upper)} g/day. You choose the final target.`;
+      return { estimatedEnergy, weight, proteinLower: lower, proteinUpper: upper };
     }
 
     function getTargets() {
@@ -1987,7 +1991,8 @@ function renderAlerts(plan) {
       let matches = 0;
       document.querySelectorAll('#food-grid .food-card').forEach((card) => {
         const food = foodById[card.dataset.foodId];
-        const visible = !query || food.name.toLowerCase().includes(query);
+        const haystack = `${food.name} ${food.source || ''}`.toLowerCase();
+        const visible = !query || haystack.includes(query);
         card.hidden = !visible;
         if (visible) matches += 1;
       });
@@ -2011,7 +2016,7 @@ function renderAlerts(plan) {
         renderFoodGrid();
         document.getElementById('generate-plan').disabled = false;
         document.getElementById('selected-count').textContent = '0 selected';
-        document.getElementById('food-search-count').textContent = count + ' foods';
+        document.getElementById('food-search-count').textContent = FOOD_DATA.length + ' foods';
       })
       .catch((error) => {
         document.getElementById('food-grid').innerHTML =
@@ -2024,7 +2029,7 @@ function renderAlerts(plan) {
     const estimating = true;
     document.getElementById('estimate-fields').classList.toggle('hidden', !estimating);
     document.getElementById('calorie-target').readOnly = estimating;
-    document.getElementById('protein-target').readOnly = estimating;
+    document.getElementById('protein-target').readOnly = false;
     document.getElementById('workout-time').disabled = !document.getElementById('training-today').checked;
 
   </script>
