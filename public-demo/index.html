@@ -1017,7 +1017,7 @@
       Object.entries(COMMON_FOOD_ALIASES).forEach(([key, values]) => {
         const k = normalizeSearch(key);
         const vals = values.map(normalizeSearch);
-        if (base === k || base.includes(k) || vals.includes(base)) {
+        if (base === k || base.includes(k) || vals.includes(base) || vals.some((v) => base.includes(v) || v.includes(base))) {
           terms.add(k);
           vals.forEach((v) => terms.add(v));
         }
