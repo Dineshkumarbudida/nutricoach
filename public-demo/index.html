@@ -693,7 +693,7 @@
         <aside class="hero-note">
           <strong>This is the feature you described.</strong>
           <p>
-            The earlier page only demonstrated nutrient arithmetic. This prototype demonstrates
+            The earlier page only demonstrated nutrient arithmetic. This release candidate demonstrates
             the actual availability-to-meal-plan workflow. It still uses approximate demo food
             records and is not medical advice.
           </p>
@@ -732,12 +732,12 @@
 
           <label>
             Daily energy target (kcal)
-            <input id="calorie-target" type="number" min="800" max="6000" step="10" value="2300">
+            <input id="calorie-target" type="number" min="800" max="6000" step="10" value="">
           </label>
 
           <label>
             Daily protein target (g)
-            <input id="protein-target" type="number" min="20" max="350" step="1" value="130">
+            <input id="protein-target" type="number" min="20" max="350" step="1" value="">
           </label>
         </div>
 
@@ -749,15 +749,15 @@
           <div class="form-grid">
             <label>
               Age
-              <input id="age" type="number" min="18" max="100" step="1" value="28">
+              <input id="age" type="number" min="18" max="100" step="1" value="">
             </label>
             <label>
               Weight (kg)
-              <input id="weight" type="number" min="35" max="300" step="0.1" value="70">
+              <input id="weight" type="number" min="35" max="300" step="0.1" value="">
             </label>
             <label>
               Height (cm)
-              <input id="height" type="number" min="120" max="230" step="0.1" value="175">
+              <input id="height" type="number" min="120" max="230" step="0.1" value="">
             </label>
             <label>
               Energy equation reference
@@ -905,8 +905,7 @@
         </div>
 
         <div id="empty-plan" class="empty-state">
-          Choose today's foods and build a plan. Try the “Select your example” preset for eggs,
-          paneer, and oats.
+          Search the real food catalog, select what is available today, and build your plan.
         </div>
 
         <div id="plan-content" class="hidden">
@@ -930,8 +929,7 @@
           <details>
             <summary>Data and safety limitations</summary>
             <p>
-              Food values in this public prototype are approximate demonstration records. Paneer,
-              curd, fish, cooked dishes, and household portions can vary substantially. A production
+              Food values shown here come from the bundled source snapshot. Preparation state, household portions, and missing nutrients remain explicit.A production
               release must use versioned, rights-cleared food records and disclose recipe and portion
               uncertainty. This is a general-wellness planning demonstration, not a therapeutic diet,
               diagnosis, or medical prescription.
@@ -942,7 +940,7 @@
     </main>
 
     <footer>
-      NutriCoach public prototype · Open-source project · No account, analytics, cookies, paid API,
+      NutriCoach release candidate · Open-source project · No account, analytics, cookies, paid API,
       or external AI call. Settings may be saved only in this browser's local storage.
     </footer>
   </div>
@@ -1058,7 +1056,6 @@
       return FOOD_DATA.length;
     }
 
-const selectedState = new Map();
     let lastPlan = null;
 
     const goalAdjustments = {
@@ -1227,8 +1224,9 @@ const selectedState = new Map();
         FOOD_DATA.filter((food) => food.diet !== 'vegetarian').slice(0, 20).forEach((food) => selectedIds.add(food.id));
       }
       FOOD_DATA.forEach((food) => {
-        const state = selectedState.get(food.id);
+        const state = selectedState.get(food.id) ?? { selected: false, quantity: food.defaultQty };
         state.selected = selectedIds.has(food.id);
+        selectedState.set(food.id, state);
         state.quantity = food.defaultQty;
       });
       renderFoodGrid();
@@ -1888,7 +1886,7 @@ const selectedState = new Map();
       localStorage.removeItem('nutricoach-planner-demo');
       selectedState.clear();
       document.getElementById('goal').value = 'muscle-gain';
-      document.getElementById('target-method').value = 'manual';
+      document.getElementById('target-method').value = 'estimate';
       document.getElementById('calorie-target').value = '2300';
       document.getElementById('protein-target').value = '130';
       document.getElementById('age').value = '28';
@@ -1908,7 +1906,7 @@ const selectedState = new Map();
       document.getElementById('appetite').value = '1';
       document.getElementById('estimate-fields').classList.add('hidden');
       document.getElementById('workout-time').disabled = false;
-      applyPreset('example');
+      applyPreset('clear');
       document.getElementById('empty-plan').classList.remove('hidden');
       document.getElementById('plan-content').classList.add('hidden');
       document.getElementById('plan-status').textContent = 'Waiting for inputs';
@@ -1976,9 +1974,6 @@ const selectedState = new Map();
     document.getElementById('protein-target').readOnly = estimating;
     document.getElementById('workout-time').disabled = !document.getElementById('training-today').checked;
 
-    if (![...selectedState.values()].some((state) => state.selected)) {
-      applyPreset('example');
-    }
   </script>
 </body>
 </html>
