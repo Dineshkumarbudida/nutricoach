@@ -845,7 +845,7 @@
           <div>
             <p class="step">Step 3</p>
             <h2 id="constraints-heading">Apply practical constraints</h2>
-            <p>The planner filters incompatible foods before it scores meal combinations.</p>
+            <p>The planner applies hard dietary and availability filters before ranking feasible meal combinations.</p>
           </div>
           <span class="badge badge-success">Hard constraints first</span>
         </div>
@@ -1741,7 +1741,7 @@ function renderAlerts(plan) {
         alerts.push(`
           <div class="alert alert-success">
             <strong>Feasible plan found.</strong>
-            The selected food quantities cover the main energy and protein targets within the demo planner's tolerance.
+            The selected food quantities cover the main energy and protein targets within the deterministic planner's tolerance.
           </div>
         `);
       }
