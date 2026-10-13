@@ -1059,9 +1059,9 @@
     let lastPlan = null;
 
     const goalAdjustments = {
-      'fat-loss': -0.15,
-      'muscle-gain': 0.08,
-      'recomposition': -0.05,
+      'fat-loss': -0.10,
+      'muscle-gain': 0.05,
+      'recomposition': 0,
       'maintenance': 0,
       'general-health': 0
     };
@@ -1371,6 +1371,9 @@
         totals.carbs += count * food.perIncrement.carbs;
         totals.fat += count * food.perIncrement.fat;
         totals.fiber += count * food.perIncrement.fiber;
+        totals.calciumMg += count * (food.micronutrientsPerIncrement?.calcium ?? 0);
+        totals.ironMg += count * (food.micronutrientsPerIncrement?.iron ?? 0);
+        totals.vitaminCMg += count * (food.micronutrientsPerIncrement?.vitaminC ?? 0);
         totals.count += count > 0 ? 1 : 0;
         if (count > 0) totals.foodIds.push(food.id);
         if (count > 0 && ['protein', 'protein-carb'].includes(food.category)) totals.hasProtein = true;
@@ -1378,7 +1381,7 @@
         if (count > 0 && food.category === 'produce') totals.hasProduce = true;
         return totals;
       }, {
-        kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, count: 0,
+        kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, calciumMg: 0, ironMg: 0, vitaminCMg: 0, count: 0,
         foodIds: [], hasProtein: false, hasCarb: false, hasProduce: false
       });
     }
@@ -1535,8 +1538,11 @@
         totals.carbs += meal.macros.carbs;
         totals.fat += meal.macros.fat;
         totals.fiber += meal.macros.fiber;
+        totals.calciumMg += meal.macros.calciumMg || 0;
+        totals.ironMg += meal.macros.ironMg || 0;
+        totals.vitaminCMg += meal.macros.vitaminCMg || 0;
         return totals;
-      }, { kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 });
+      }, { kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, calciumMg: 0, ironMg: 0, vitaminCMg: 0 });
     }
 
     function aggregateAvailable(foods) {
@@ -1622,7 +1628,10 @@
         const allDay = {
           kcal: consumed.kcal + totals.kcal,
           protein: consumed.protein + totals.protein,
-          fiber: consumed.fiber + totals.fiber
+          fiber: consumed.fiber + totals.fiber,
+          calciumMg: totals.calciumMg,
+          ironMg: totals.ironMg,
+          vitaminCMg: totals.vitaminCMg
         };
 
         lastPlan = {
@@ -1635,6 +1644,7 @@
           allDay,
           ignored,
           remainingInventory: inventoryRemaining(foods),
+          allDayMicronutrients: { calciumMg: totals.calciumMg, ironMg: totals.ironMg, vitaminCMg: totals.vitaminCMg },
           targetMethod: document.getElementById('target-method').value
         };
 
@@ -1677,19 +1687,19 @@
 
       list.innerHTML = rows.map(([label, value, target, unit]) => {
         const percent = Math.min(130, target > 0 ? (value / target) * 100 : 0);
-        return `
+        return \`
           <div class="progress-row">
-            <label>${label}</label>
-            <div class="progress-track" aria-label="${label} progress">
-              <div class="progress-fill" style="width:${Math.min(100, percent)}%"></div>
+            <label>\${label}</label>
+            <div class="progress-track" aria-label="\${label} progress">
+              <div class="progress-fill" style="width:\${Math.min(100, percent)}%"></div>
             </div>
-            <output>${formatNumber(value, 1)} / ${formatNumber(target, 1)} ${unit}</output>
+            <output>\${formatNumber(value, 1)} / \${formatNumber(target, 1)} \${unit}</output>
           </div>
-        `;
+        \`;
       }).join('');
     }
 
-    function renderAlerts(plan) {
+function renderAlerts(plan) {
       const container = document.getElementById('plan-alerts');
       const alerts = [];
 
@@ -1707,6 +1717,9 @@
       const fiberGap = plan.targets.fiber - plan.allDay.fiber;
 
       const gapItems = [];
+      if (plan.targets.fiber - plan.allDay.fiber > 5) {
+        gapItems.push(`about ${formatNumber(plan.targets.fiber - plan.allDay.fiber)} g below the fiber reference`);
+      }
       if (energyGap > Math.max(200, plan.targets.kcal * 0.1)) {
         gapItems.push(`about ${formatNumber(energyGap)} kcal below the selected energy target`);
       }
@@ -1714,7 +1727,7 @@
         gapItems.push(`about ${formatNumber(proteinGap)} g below the selected protein target`);
       }
       if (fiberGap > 5) {
-        gapItems.push(`about ${formatNumber(fiberGap)} g below the demonstration fiber guide`);
+        gapItems.push(`about ${formatNumber(fiberGap)} g below the fiber reference`);
       }
 
       if (gapItems.length > 0) {
@@ -1737,7 +1750,7 @@
         alerts.push(`
           <div class="alert alert-info">
             <strong>Target estimate:</strong>
-            Energy and protein targets were generated from profile inputs and a product heuristic. Review and edit them when actual experience, professional guidance, or a validated method indicates a different target.
+            Energy and protein targets were generated from profile inputs and a documented NutriCoach target method. The calculation method is shown in the evidence notes.
           </div>
         `);
       }
@@ -1831,6 +1844,7 @@
       document.getElementById('plan-status').className = 'badge badge-success';
       renderSummary(plan);
       renderProgress(plan);
+      renderMicronutrients(plan);
       renderAlerts(plan);
       renderTimeline(plan);
       document.getElementById('plan-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
