@@ -713,7 +713,7 @@
             Goal
             <select id="goal">
               <option value="fat-loss">Fat loss</option>
-              <option value="muscle-gain" selected>Muscle gain</option>
+              <option value="muscle-gain">Muscle gain</option>
               <option value="recomposition">Body recomposition</option>
               <option value="maintenance">Weight maintenance</option>
               <option value="general-health">General health</option>
@@ -1257,20 +1257,14 @@
       const maintenance = c + a * age + h * height + w * weight;
       const goalFactor = { 'fat-loss': 0.90, 'muscle-gain': 1.05, 'recomposition': 1, maintenance: 1, 'general-health': 1 }[goal];
       const estimatedEnergy = Math.max(1000, Math.round((maintenance * goalFactor) / 10) * 10);
-      const proteinFactor = ['fat-loss', 'muscle-gain', 'recomposition'].includes(goal) || document.getElementById('training-today').checked ? 1.6 : 0.8;
-      const estimatedProtein = Math.round(weight * proteinFactor);
       document.getElementById('calorie-target').value = String(estimatedEnergy);
-      document.getElementById('protein-target').value = String(estimatedProtein);
-      return { estimatedEnergy, estimatedProtein, weight };
+      return { estimatedEnergy, weight };
     }
 
     function getTargets() {
-      if (document.getElementById('target-method').value === 'estimate') {
-        return estimateTargets();
-      }
-      const estimatedEnergy = parseNumber('calorie-target', 'Daily energy target', { min: 800, max: 6000 });
-      const estimatedProtein = parseNumber('protein-target', 'Daily protein target', { min: 20, max: 350 });
-      const weight = Number(document.getElementById('weight').value) || 70;
+      const estimatedEnergy = parseNumber('calorie-target', 'Calculated daily energy target', { min: 800, max: 6000 });
+      const estimatedProtein = parseNumber('protein-target', 'My protein target', { min: 20, max: 350 });
+      const weight = parseNumber('weight', 'Weight', { min: 20, max: 300 });
       return { estimatedEnergy, estimatedProtein, weight };
     }
 
@@ -1956,14 +1950,13 @@ function renderAlerts(plan) {
       localStorage.removeItem('nutricoach-planner-demo');
       selectedState.clear();
       document.getElementById('goal').value = 'muscle-gain';
-      document.getElementById('target-method').value = 'estimate';
-      document.getElementById('calorie-target').value = '2300';
-      document.getElementById('protein-target').value = '130';
-      document.getElementById('age').value = '28';
-      document.getElementById('weight').value = '70';
-      document.getElementById('height').value = '175';
+      document.getElementById('calorie-target').value = '';
+      document.getElementById('protein-target').value = '';
+      document.getElementById('age').value = '';
+      document.getElementById('weight').value = '';
+      document.getElementById('height').value = '';
       document.getElementById('equation-sex').value = 'male';
-      document.getElementById('activity').value = '1.55';
+      document.getElementById('activity').value = 'active';
       document.getElementById('breakfast-time').value = '08:00';
       document.getElementById('lunch-time').value = '13:00';
       document.getElementById('dinner-time').value = '21:00';
@@ -1974,7 +1967,7 @@ function renderAlerts(plan) {
       document.getElementById('cooking-access').value = 'basic';
       document.getElementById('prep-limit').value = '15';
       document.getElementById('appetite').value = '1';
-      document.getElementById('estimate-fields').classList.add('hidden');
+      document.getElementById('estimate-fields').classList.remove('hidden');
       document.getElementById('workout-time').disabled = false;
       applyPreset('clear');
       document.getElementById('empty-plan').classList.remove('hidden');
@@ -1983,38 +1976,6 @@ function renderAlerts(plan) {
       document.getElementById('plan-status').className = 'badge badge-info';
       document.getElementById('form-error').classList.add('hidden');
       lastPlan = null;
-    }
-
-    /* target-method removed: energy is always profile-calculated */
-    if (document.getElementById('target-method')) document.getElementById('target-method').addEventListener('change', (event) => {
-      const estimating = event.target.value === 'estimate';
-      document.getElementById('estimate-fields').classList.toggle('hidden', !estimating);
-      document.getElementById('calorie-target').readOnly = estimating;
-      document.getElementById('protein-target').readOnly = estimating;
-      if (estimating) {
-        try { estimateTargets(); } catch { /* wait for valid fields */ }
-      }
-    });
-
-    ['age', 'weight', 'height-feet', 'height-inches', 'equation-sex', 'activity', 'goal'].forEach((id) => {
-      const field = document.getElementById(id);
-      field.addEventListener('input', () => {
-        if (id === 'height-feet' || id === 'height-inches') updateHeightFromImperial();
-        try { estimateTargets(); } catch { /* wait for complete profile */ }
-      });
-      field.addEventListener('change', () => {
-        if (id === 'height-feet' || id === 'height-inches') updateHeightFromImperial();
-        try { estimateTargets(); } catch { /* wait for complete profile */ }
-      });
-    });
-
-    function updateHeightFromImperial() {
-      const feet = Number(document.getElementById('height-feet').value);
-      const inches = Number(document.getElementById('height-inches').value);
-      if (!Number.isFinite(feet) || !Number.isFinite(inches)) return;
-      const totalInches = feet * 12 + inches;
-      if (totalInches < 36 || totalInches > 96) return;
-      document.getElementById('height').value = (totalInches * 2.54).toFixed(1);
     }
 
     document.getElementById('training-today').addEventListener('change', (event) => {
@@ -2060,7 +2021,7 @@ function renderAlerts(plan) {
         document.getElementById('form-error').classList.remove('hidden');
       });
 
-    const estimating = document.getElementById('target-method').value === 'estimate';
+    const estimating = true;
     document.getElementById('estimate-fields').classList.toggle('hidden', !estimating);
     document.getElementById('calorie-target').readOnly = estimating;
     document.getElementById('protein-target').readOnly = estimating;
