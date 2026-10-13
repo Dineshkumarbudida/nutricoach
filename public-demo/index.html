@@ -997,69 +997,97 @@
       }
     }
 
+    const COMMON_FOOD_ALIASES = {"dal":["lentils","dhal","daal","pulses"],"masoor":["masoor dal","red lentils"],"toor":["toor dal","tuvar dal","arhar dal","tur dal","pigeon pea"],"moong":["moong dal","mung dal","green gram"],"urad":["urad dal","black gram"],"chana":["chickpea","chickpeas","garbanzo"],"rajma":["kidney beans","red kidney beans"],"lobia":["black eyed peas","cowpea"],"peas":["green peas","matar"],"atta":["wheat flour","whole wheat flour"],"roti":["chapati","indian flatbread"],"paratha":["parantha"],"idli":["idly"],"dosa":["dosai"],"curd":["dahi","yogurt"],"paneer":["cottage cheese","indian cottage cheese"],"bhindi":["okra","lady finger"],"baingan":["eggplant","brinjal","aubergine"],"lauki":["bottle gourd"],"karela":["bitter gourd","bitter melon"],"palak":["spinach"],"methi":["fenugreek leaves"],"gobi":["cauliflower"],"patta gobi":["cabbage"],"shimla mirch":["bell pepper","capsicum"],"nimbu":["lemon","lime"],"imli":["tamarind"],"adrak":["ginger"],"lehsun":["garlic"],"haldi":["turmeric"],"jeera":["cumin"],"dhania":["coriander","cilantro"],"anda":["egg","eggs"],"doodh":["milk"],"chawal":["rice"],"gehu":["wheat"],"jowar":["sorghum"],"bajra":["pearl millet"],"ragi":["finger millet","nachni"],"moongfali":["peanut","groundnut"],"badam":["almond"],"kaju":["cashew"],"akhrot":["walnut"],"oats":["oatmeal","rolled oats"],"banana":["plantain"]};
+
+    function normalizeSearch(text) {
+      return String(text || '').toLowerCase().normalize('NFKD').replace(/[\\u0300-\\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim().replace(/\\s+/g, ' ');
+    }
+
+    function singularize(text) {
+      if (text.endsWith('ies')) return text.slice(0, -3) + 'y';
+      if (/(ses|xes|zes|ches|shes)$/.test(text)) return text.slice(0, -2);
+      return text.endsWith('s') ? text.slice(0, -1) : text;
+    }
+
+    function buildFoodSearchTerms(name, alias) {
+      const base = normalizeSearch(name);
+      const terms = new Set([base, singularize(base)]);
+      const regional = normalizeSearch(alias);
+      if (regional) terms.add(regional);
+      Object.entries(COMMON_FOOD_ALIASES).forEach(([key, values]) => {
+        const k = normalizeSearch(key);
+        const vals = values.map(normalizeSearch);
+        if (base === k || base.includes(k) || vals.includes(base) || vals.some((v) => base.includes(v) || v.includes(base))) {
+          terms.add(k);
+          vals.forEach((v) => terms.add(v));
+        }
+      });
+      return [...terms].filter(Boolean);
+    }
+
+    function editDistance(a, b) {
+      const prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+      for (let i = 0; i < a.length; i += 1) {
+        const cur = [i + 1];
+        for (let j = 0; j < b.length; j += 1) cur.push(Math.min(cur[j] + 1, prev[j + 1] + 1, prev[j] + (a[i] === b[j] ? 0 : 1)));
+        for (let j = 0; j < cur.length; j += 1) prev[j] = cur[j];
+      }
+      return prev[b.length];
+    }
+
+    function foodSearchScore(food, query) {
+      const q = normalizeSearch(query);
+      if (!q) return 0;
+      const terms = food.searchTerms;
+      if (terms.includes(q)) return 100;
+      if (terms.some((t) => t.startsWith(q))) return 85;
+      if (terms.some((t) => t.includes(q))) return 70;
+      const qs = singularize(q);
+      if (terms.some((t) => t === qs || t.startsWith(qs))) return 65;
+      if (q.length >= 4) {
+        const d = Math.min(...terms.map((t) => editDistance(q, t.slice(0, Math.max(q.length, 1)))));
+        if (d <= 2) return 40 - d * 5;
+      }
+      return 0;
+    }
+
+    function searchFoods(query) {
+      const q = normalizeSearch(query);
+      if (!q) return FOOD_DATA.slice(0, 40);
+      return FOOD_DATA.map((food) => ({ food, score: foodSearchScore(food, q) }))
+        .filter((x) => x.score > 0).sort((a,b) => b.score - a.score || a.food.name.localeCompare(b.food.name)).map((x) => x.food);
+    }
+
     function realFoodFromRow(row) {
       const [sourceId, name, rowAlias, category, energy, protein, fat, carbs, fiber, calcium, iron, vitaminC, source] = row;
       const nums = [energy, protein, fat, carbs, fiber, calcium, iron, vitaminC].map(Number);
       if (!sourceId || !name || nums.some((v) => !Number.isFinite(v))) return null;
-
       const categoryCode = normalizedCategory(category, name);
-      const unit = /\begg\b/i.test(name) ? 'items' : 'g';
+      const unit = /\\begg\\b/i.test(name) ? 'items' : 'g';
       const increment = unit === 'items' ? 1 : 50;
       const factor = increment / 100;
       return {
-        id: `food-${sourceId}`,
-        name: name.trim(),
-        category: categoryCode,
-        diet: dietaryType(category, name),
-        unit,
-        increment,
+        id: 'food-' + sourceId, name: name.trim(), category: categoryCode, diet: dietaryType(category, name), unit, increment,
         defaultQty: unit === 'items' ? 4 : 250,
-        perIncrement: {
-          kcal: nums[0] * factor,
-          protein: nums[1] * factor,
-          carbs: nums[3] * factor,
-          fat: nums[2] * factor,
-          fiber: nums[4] * factor
-        },
-        micronutrientsPerIncrement: {
-          calcium: nums[5] * factor,
-          iron: nums[6] * factor,
-          vitaminC: nums[7] * factor
-        },
-        maxPerMeal: unit === 'items' ? 4 : 6,
-        prep: /oil|flour|dry|raw/i.test(name) ? 10 : 5,
-        access: 'basic',
-        slots: slotFitFor(categoryCode),
-        source: String(source || 'Unknown'),
-        sourceRecordId: String(sourceId),
-        searchAlias: String(rowAlias || ''),
-        prepText: 'Use the preparation state named in the food record. Nutrient values shown are source-derived.'
+        perIncrement: { kcal: nums[0] * factor, protein: nums[1] * factor, carbs: nums[3] * factor, fat: nums[2] * factor, fiber: nums[4] * factor },
+        micronutrientsPerIncrement: { calcium: nums[5] * factor, iron: nums[6] * factor, vitaminC: nums[7] * factor },
+        maxPerMeal: unit === 'items' ? 4 : 6, prep: /oil|flour|dry|raw/i.test(name) ? 10 : 5, access: 'basic', slots: slotFitFor(categoryCode),
+        source: String(source || 'Unknown'), sourceRecordId: String(sourceId), searchAlias: String(rowAlias || ''),
+        searchTerms: buildFoodSearchTerms(name, rowAlias), prepText: 'Use the preparation state named in the food record. Nutrient values shown are source-derived.'
       };
     }
-
     async function loadFoodCatalog() {
       const response = await fetch('data/indian-foods.json', { cache: 'no-store' });
-      if (!response.ok) throw new Error(`The real food catalog could not be loaded (HTTP ${response.status}).`);
+      if (!response.ok) throw new Error('The real food catalog could not be loaded.');
       const payload = await response.json();
-      if (!payload || !Array.isArray(payload.records) || payload.records.length < 500) {
-        throw new Error('The real food catalog is incomplete.');
-      }
-      const mapped = payload.records.map((row) => realFoodFromRow([
-        row.id, row.name, row.name_hindi, row.category, row.energy_kcal, row.protein_g,
-        row.fat_g, row.carbs_g, row.fiber_g, row.calcium_mg, row.iron_mg, row.vitamin_c_mg, row.source
-      ])).filter(Boolean);
-      const seen = new Set();
-      FOOD_DATA = mapped.filter((food) => {
-        if (seen.has(food.id)) return false;
-        seen.add(food.id);
-        return true;
-      });
-      if (FOOD_DATA.length < 500) throw new Error(`Only ${FOOD_DATA.length} usable real food records loaded; production requires the verified catalog.`);
+      if (!payload || !Array.isArray(payload.records) || payload.records.length < 500) throw new Error('The real food catalog is incomplete.');
+      const mapped = payload.records.map((row) => realFoodFromRow([row.id, row.name, row.name_hindi, row.category, row.energy_kcal, row.protein_g, row.fat_g, row.carbs_g, row.fiber_g, row.calcium_mg, row.iron_mg, row.vitamin_c_mg, row.source])).filter(Boolean);
+      FOOD_DATA = [...new Map(mapped.map((food) => [food.id, food])).values()];
+      if (FOOD_DATA.length < 500) throw new Error('Too few usable real food records loaded.');
       Object.keys(foodById).forEach((key) => delete foodById[key]);
       FOOD_DATA.forEach((food) => { foodById[food.id] = food; });
       return FOOD_DATA.length;
     }
-
     let lastPlan = null;
 
     const goalAdjustments = {
@@ -1152,9 +1180,7 @@
     function renderFoodGrid(query = '') {
       const grid = document.getElementById('food-grid');
       const normalized = query.trim().toLowerCase();
-      const matches = normalized
-        ? FOOD_DATA.filter((food) => (food.name + ' ' + (food.source || '') + ' ' + (food.category || '') + ' ' + (food.searchAlias || '')).toLowerCase().includes(normalized))
-        : FOOD_DATA.slice(0, 40);
+      const matches = searchFoods(query);
 
       grid.innerHTML = '';
       if (!matches.length) {
@@ -2019,15 +2045,11 @@ function renderAlerts(plan) {
     });
 
     document.getElementById('food-search').addEventListener('input', (event) => {
-      const query = event.target.value.trim();
+      const query = event.target.value;
+      const matches = searchFoods(query);
       renderFoodGrid(query);
-      const normalized = query.toLowerCase();
-      const matches = normalized
-        ? FOOD_DATA.filter((food) => (food.name + ' ' + (food.source || '') + ' ' + (food.category || '')).toLowerCase().includes(normalized)).length
-        : FOOD_DATA.length;
-      document.getElementById('food-search-count').textContent = query ? matches + ' matches' : matches + ' foods';
+      document.getElementById('food-search-count').textContent = query.trim() ? matches.length + ' matches' : FOOD_DATA.length + ' foods';
     });
-
     document.querySelectorAll('[data-preset]').forEach((button) => {
       button.addEventListener('click', () => applyPreset(button.dataset.preset));
     });
