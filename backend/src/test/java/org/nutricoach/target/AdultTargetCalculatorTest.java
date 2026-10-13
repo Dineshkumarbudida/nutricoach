@@ -21,8 +21,8 @@ class AdultTargetCalculatorTest {
 
         var result = new AdultTargetCalculator().estimate(profile);
 
-        assertEquals(new BigDecimal("2740"), result.estimatedEnergyKcal());
-        assertEquals(new BigDecimal("980"), result.fiberTargetGrams());
+        assertEquals(new BigDecimal("2930"), result.estimatedEnergyKcal());
+        assertEquals(new BigDecimal("41.0"), result.fiberTargetGrams());
     }
 
     @Test
