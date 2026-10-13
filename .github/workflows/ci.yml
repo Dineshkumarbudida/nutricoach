@@ -35,6 +35,16 @@ jobs:
         working-directory: backend
         run: mvn -B verify
 
+  public-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+      - name: Validate public demo JS and real data
+        run: ./scripts/check-public-demo.sh
+
   web:
     runs-on: ubuntu-latest
     steps:
