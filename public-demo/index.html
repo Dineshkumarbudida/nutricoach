@@ -293,6 +293,55 @@
       font-weight: 800;
     }
 
+    .food-entry-panel {
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      background: #fbfefb;
+      margin-bottom: 1rem;
+    }
+    .food-entry-panel textarea {
+      display: block;
+      width: 100%;
+      min-height: 78px;
+      margin-top: 0.45rem;
+      resize: vertical;
+    }
+    .resolver-results {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 0.9rem;
+    }
+    .resolver-group {
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 0.8rem;
+      background: #fff;
+    }
+    .resolver-group strong { display:block; margin-bottom:0.35rem; }
+    .resolver-options {
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.45rem;
+    }
+    .resolver-option {
+      padding:0.55rem 0.7rem;
+      border:1px solid #b8c8b9;
+      border-radius:0.7rem;
+      background:#fff;
+      color:var(--brand-dark);
+      font-weight:800;
+      cursor:pointer;
+    }
+    .resolver-option.selected {
+      background:var(--brand-soft);
+      border-color:#4e9867;
+    }
+    .resolver-missing {
+      color:var(--warning-ink);
+      background:var(--warning-bg);
+    }
+
     .food-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -825,15 +874,29 @@
           <span id="selected-count" class="badge">0 selected</span>
         </div>
 
-        <div class="food-toolbar">
-          <label style="flex:1; min-width:240px">
-            Search foods
-            <input id="food-search" type="search" placeholder="Search eggs, paneer, oats, rice, lentils..." autocomplete="off">
-            <span id="food-search-count" class="hint" style="margin:0">0 foods</span>
+        <div class="food-entry-panel">
+          <label style="display:block">
+            Tell us what you have today
+            <textarea id="food-entry" rows="3" placeholder="Example: eggs, paneer, oats, rice, dal, curd, banana"></textarea>
+            <span class="hint" style="margin:0.35rem 0 0">Use the names you normally use. Separate foods with commas, or write a sentence such as "I have eggs and paneer for today."</span>
           </label>
-          <button type="button" data-preset="vegetarian">Select vegetarian</button>
-          <button type="button" data-preset="nonveg">Select non-vegetarian</button>
-          <button type="button" data-preset="clear">Clear all</button>
+          <div class="actions" style="margin-top:0.7rem">
+            <button id="resolve-foods" class="primary-button" type="button">Find my foods</button>
+            <button type="button" data-preset="vegetarian">Add common vegetarian foods</button>
+            <button type="button" data-preset="nonveg">Add common non-vegetarian foods</button>
+            <button type="button" data-preset="clear">Clear all</button>
+          </div>
+          <div id="food-resolver-results" class="resolver-results" aria-live="polite"></div>
+          <div class="food-advanced" style="margin-top:1rem">
+            <details>
+              <summary>Browse the food catalog</summary>
+              <label style="display:block; margin-top:0.7rem">
+                Search by name
+                <input id="food-search" type="search" placeholder="Eggs, paneer, oats, rice..." autocomplete="off">
+                <span id="food-search-count" class="hint" style="margin:0">0 foods</span>
+              </label>
+            </details>
+          </div>
         </div>
 
         <div id="food-grid" class="food-grid" aria-live="polite"></div>
@@ -904,7 +967,7 @@
         </div>
 
         <div id="empty-plan" class="empty-state">
-          Search the real food catalog, select what is available today, and build your plan.
+          Tell NutriCoach what foods you have today, confirm the matches, and build your plan.
         </div>
 
         <div id="plan-content" class="hidden">
@@ -1175,6 +1238,111 @@
       const suffix = hourRaw >= 12 ? 'PM' : 'AM';
       const hour = hourRaw % 12 || 12;
       return `${hour}:${String(minute).padStart(2, '0')} ${suffix}`;
+    }
+
+    function tokenizeFoodEntry(text) {
+      return normalizeSearch(text)
+        .replace(/\\b(i|have|got|some|today|for|the|and|with|plus|also|available|available today)\\b/g, ' ')
+        .split(/,|\\s+and\\s+|\\s+/)
+        .map((part) => part.trim())
+        .filter((part) => part.length >= 2);
+    }
+
+    function groupFoodEntryTokens(text) {
+      const normalized = String(text || '').trim();
+      if (!normalized) return [];
+      const chunks = normalized
+        .replace(/[.!?]+/g, ',')
+        .split(/,|\\n|\\s+and\\s+/i)
+        .map((part) => part.trim())
+        .filter(Boolean);
+      return chunks.length ? chunks : tokenizeFoodEntry(normalized);
+    }
+
+    function resolverCandidates(query) {
+      return searchFoods(query).slice(0, 6);
+    }
+
+    function renderResolverResults(groups) {
+      const container = document.getElementById('food-resolver-results');
+      if (!container) return;
+      container.innerHTML = '';
+      if (!groups.length) {
+        container.innerHTML = '<div class="resolver-group resolver-missing"><strong>Nothing to resolve yet.</strong><p class="hint" style="margin:0">Tell NutriCoach what you have, such as "eggs, paneer, oats, rice and dal".</p></div>';
+        return;
+      }
+
+      groups.forEach((group) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'resolver-group' + (group.status === 'missing' ? ' resolver-missing' : '');
+        const title = document.createElement('strong');
+        title.textContent = group.query;
+        wrapper.append(title);
+
+        if (group.status === 'missing') {
+          const note = document.createElement('p');
+          note.className = 'hint';
+          note.style.margin = '0';
+          note.textContent = 'No source-backed food record matched this term. NutriCoach will not invent nutrient values. Try another common name or use Browse the food catalog.';
+          wrapper.append(note);
+        } else {
+          const options = document.createElement('div');
+          options.className = 'resolver-options';
+          group.candidates.forEach((food, index) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'resolver-option' + (index === 0 ? ' selected' : '');
+            button.textContent = food.name;
+            button.title = food.searchAlias ? ('Also known as ' + food.searchAlias) : 'Source-backed food';
+            button.addEventListener('click', () => {
+              group.selectedId = food.id;
+              options.querySelectorAll('button').forEach((other) => other.classList.remove('selected'));
+              button.classList.add('selected');
+              const state = selectedState.get(food.id) ?? { selected: false, quantity: food.defaultQty };
+              state.selected = true;
+              selectedState.set(food.id, state);
+              updateSelectedCount();
+              renderFoodGrid();
+              saveSettings();
+            });
+            options.append(button);
+          });
+          wrapper.append(options);
+          const meta = document.createElement('p');
+          meta.className = 'hint';
+          meta.style.margin = '0.45rem 0 0';
+          meta.textContent = 'Select the exact food you mean. Values come from the stored source record shown on the food card.';
+          wrapper.append(meta);
+        }
+        container.append(wrapper);
+      });
+    }
+
+    function resolveNaturalFoodEntry() {
+      const text = document.getElementById('food-entry').value;
+      const groups = groupFoodEntryTokens(text).map((query) => {
+        const candidates = resolverCandidates(query);
+        return {
+          query,
+          candidates,
+          status: candidates.length ? 'matched' : 'missing',
+          selectedId: candidates[0]?.id || null
+        };
+      });
+
+      groups.forEach((group) => {
+        if (group.status !== 'matched') return;
+        const food = foodById[group.selectedId];
+        if (!food) return;
+        const state = selectedState.get(food.id) ?? { selected: false, quantity: food.defaultQty };
+        state.selected = true;
+        selectedState.set(food.id, state);
+      });
+
+      renderResolverResults(groups);
+      renderFoodGrid();
+      updateSelectedCount();
+      saveSettings();
     }
 
     function renderFoodGrid(query = '') {
@@ -2044,6 +2212,8 @@ function renderAlerts(plan) {
       document.getElementById('workout-time').disabled = !event.target.checked;
     });
 
+    document.getElementById('resolve-foods').addEventListener('click', resolveNaturalFoodEntry);
+
     document.getElementById('food-search').addEventListener('input', (event) => {
       const query = event.target.value;
       const matches = searchFoods(query);
@@ -2068,6 +2238,7 @@ function renderAlerts(plan) {
         document.getElementById('generate-plan').disabled = false;
         document.getElementById('selected-count').textContent = '0 selected';
         document.getElementById('food-search-count').textContent = FOOD_DATA.length + ' foods';
+        renderResolverResults([]);
       })
       .catch((error) => {
         document.getElementById('food-grid').innerHTML =
