@@ -1254,7 +1254,7 @@
       const chunks = normalized
         .replace(/[.!?]+/g, ',')
         .split(/,|\\n|\\s+and\\s+/i)
-        .map((part) => part.trim())
+        .map((part) => part.trim().replace(/^\\s*(i|we)\\s+(have|got)\\s+/i, '').replace(/\\s+(today|for today|available today)$/i, '').trim())
         .filter(Boolean);
       return chunks.length ? chunks : tokenizeFoodEntry(normalized);
     }
