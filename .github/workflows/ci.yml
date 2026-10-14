@@ -46,6 +46,8 @@ jobs:
         run: ./scripts/check-public-demo.sh
       - name: Validate food resolver aliases
         run: node scripts/test-food-resolver.js
+      - name: Validate natural food entry
+        run: node scripts/test-natural-food-entry.js
 
   web:
     runs-on: ubuntu-latest
